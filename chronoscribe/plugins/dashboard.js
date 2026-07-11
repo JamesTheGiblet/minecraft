@@ -27,7 +27,13 @@ module.exports = (bot, sharedState) => {
     });
   });
 
-  // Monkey-patch the sharedState.say function to also emit to the dashboard
+  // This is a "monkey-patch". It's a pragmatic architectural choice.
+  // Instead of modifying every single plugin that calls `sharedState.say()` to also
+  // emit a websocket event, we intercept the `say` function itself. We store the
+  // original function, then replace it with a new one that *first* calls the original,
+  // and *then* does the extra work of emitting the message to the dashboard.
+  // This allows us to add dashboard functionality to the entire application
+  // by changing code in only one place, which is clean and efficient.
   const originalSay = sharedState.say;
   sharedState.say = (message) => {
     originalSay(message);

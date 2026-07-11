@@ -1,6 +1,7 @@
 /**
- * @file ChronoScribe - An AI-powered Minecraft architectural assistant.
- * This is the main entry point for the bot. It handles loading configuration,
+ * @file BlockSmith - An AI-powered Minecraft architectural assistant.
+ * This is the main entry point for the bot. It's designed as a "thin" loader.
+ * Its only jobs are to load configuration, create the bot instance, and
  * knowledge bases, and all plugins from the /plugins directory.
  */
 
@@ -14,6 +15,9 @@ const say = require('say');
  * @description Central configuration object for the bot.
  */
 let CONFIG;
+// We wrap all file loading in try...catch blocks.
+// This is a core principle of "graceful failure" from the INTENT.md.
+// If a single data file is missing, the bot should warn the user but not crash.
 try {
   CONFIG = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
 } catch (e) {
@@ -450,6 +454,10 @@ Now, inspire me:`;
 
 /**
  * @description Shared state and functions to be passed to all plugins.
+ * This object acts as a form of Dependency Injection. Instead of plugins
+ * needing to `require` modules from all over the project, the core `architect.js`
+ * provides them with a consistent API and state. This keeps plugins decoupled
+ * and makes the overall architecture much cleaner and easier to test or extend.
  */
 const sharedState = {
   CONFIG,
@@ -475,6 +483,10 @@ const sharedState = {
 
 /**
  * @description Loads all plugins from the /plugins directory.
+ * This function is the heart of the extensible architecture. It dynamically
+ * reads the contents of the `/plugins` directory and `require`s each file.
+ * This means adding a new feature is as simple as dropping a new file into
+ * the directory, with no changes needed to the core bot code.
  */
 function loadPlugins() {
   const pluginsDir = path.join(__dirname, 'plugins');
@@ -499,7 +511,7 @@ function loadPlugins() {
 }
 
 // --- START ---
-console.log('\n🏛️  ChronoScribe is analyzing the terrain...');
+console.log('\n🏛️  BlockSmith is analyzing the terrain...');
 console.log('📐 Say "build" in chat for instant advice!');
 console.log('📦 Say "materials" to check your inventory');
 console.log('🔄 Make sure your world is open to LAN (Esc → Open to LAN)\n');

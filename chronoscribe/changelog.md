@@ -1,4 +1,41 @@
-# ChronoScribe Changelog
+# BlockSmith Changelog
+
+## Version 1.1.0 - "The Autonomous Assistant"
+
+---
+
+### 🎯 Major New Features
+
+#### Autonomous Resource Gathering
+- **New Plugin (`auto-gather.js`):** BlockSmith can now physically interact with the world to gather resources.
+- **`/gather <item> [amount]` Command:** Players can now command the bot to find and collect a specified number of basic resources like `oak_log` or `cobblestone`.
+- **Pathfinding Integration:** Utilizes `mineflayer-pathfinder` to intelligently navigate the world to reach target blocks.
+
+#### Enhanced World Interactivity
+- **New Plugin (`player-events.js`):** The bot now feels more alive by reacting to in-game events.
+  - **Welcomes new players** who join the server.
+  - **Offers condolences** when a player dies.
+  - **Celebrates** with a player when they find a rare item like a diamond.
+
+#### Utility Commands
+- **New Plugin (`weather.js`):** Adds a convenient `/weather` command.
+  - Players can check the current weather.
+  - Players can ask the bot to run `/weather clear` to stop rain.
+
+---
+
+### 📦 Dependencies Added
+
+| Dependency | Version | Purpose |
+| --- | --- | --- |
+| `mineflayer-pathfinder` | ^2.4.5 | Enables autonomous navigation for the `/gather` command. |
+| `prismarine-block` | ^1.16.4 | A dependency of pathfinder for block data. |
+
+---
+
+<br/>
+
+---
 
 ## Version 1.0.0 - Feature-Complete Beta Release
 
@@ -185,7 +222,7 @@
 
 ### 🎯 Summary
 
-ChronoScribe has evolved from a single-purpose advice bot into a **full-featured AI Minecraft companion** with:
+BlockSmith has evolved from a single-purpose advice bot into a **full-featured AI Minecraft companion** with:
 
 - ✅ **Multiplayer support** with per-player state
 - ✅ **Self-learning** via Leighton Weight critique loop

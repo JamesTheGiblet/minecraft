@@ -1,5 +1,5 @@
 {
-  "BOT_NAME": "ChronoScribe",
+  "BOT_NAME": "BlockSmith",
   "LLM_MODEL": "llama3.2:3b",
   "ADVICE_INTERVAL_MS": 90000,
   "OLLAMA_HOST": "localhost",

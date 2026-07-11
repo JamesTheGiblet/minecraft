@@ -11,6 +11,11 @@ module.exports = (bot, sharedState) => {
    * @returns {Promise<object|null>} A blueprint object or null on failure.
    */
   async function generateBlueprint(structureName) {
+    // This prompt is a key architectural decision. Instead of asking the AI for a natural
+    // language description, we force it to respond in a structured JSON format.
+    // This makes the AI's output predictable and machine-readable, which is far more
+    // reliable than trying to parse unstructured text. It turns the LLM into a predictable
+    // function call that returns a data object.
     const prompt = `
 You are a Minecraft blueprint generator.
 The user wants a blueprint for a "${structureName}".
@@ -53,6 +58,10 @@ Now, generate the JSON for a "${structureName}". Respond with ONLY the JSON obje
   /**
    * @description Checks if the bot has the required materials for a blueprint.
    * @param {object} blueprint - The blueprint object.
+   * @returns {boolean} True if all materials are available, false otherwise.
+   * This is a crucial user experience (UX) improvement. Instead of starting to build
+   * and failing midway, we perform a pre-flight check. This provides immediate,
+   * clear feedback to the user about what's missing.
    * @returns {boolean} True if all materials are available, false otherwise.
    */
   function checkMaterials(blueprint) {

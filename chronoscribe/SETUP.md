@@ -1,10 +1,10 @@
-# ChronoScribe Setup Guide
+# BlockSmith Setup Guide
 
 Follow these steps to get your AI architect companion running in your Minecraft world.
 
 ## One-Click Installer (for Non-Developers)
 
-If you have the `chronoscribe.exe` file, the setup is much simpler.
+If you have the `blocksmith.exe` file, the setup is much simpler.
 
 1.  **Install Ollama:** Download and install Ollama from ollama.com.
 2.  **Download AI Models:** Open a terminal or command prompt and run the following commands:
@@ -12,8 +12,8 @@ If you have the `chronoscribe.exe` file, the setup is much simpler.
     ollama pull llama3.2:3b
     ollama pull llava
     ```
-3.  **Run ChronoScribe:** Simply double-click the `chronoscribe.exe` file to start the bot. Make sure Ollama is running in the background.
-4.  **Start Minecraft:** Launch Minecraft and open a world to LAN or join a server. ChronoScribe will connect automatically.
+3.  **Run BlockSmith:** Simply double-click the `blocksmith.exe` file to start the bot. Make sure Ollama is running in the background.
+4.  **Start Minecraft:** Launch Minecraft and open a world to LAN or join a server. BlockSmith will connect automatically.
 
 ---
 
@@ -48,13 +48,13 @@ Before you begin, ensure you have the following software installed:
 
 3. Leave the Ollama application running in the background.
 
-### Step 2: Set Up the ChronoScribe Project
+### Step 2: Set Up the BlockSmith Project
 
 1. Create a new folder for the project and navigate into it in your terminal.
 
     ```bash
-    mkdir chronoscribe
-    cd chronoscribe
+    mkdir blocksmith
+    cd blocksmith
     ```
 
 2. Initialize a new Node.js project and install the `mineflayer` library.
@@ -76,7 +76,7 @@ Before you begin, ensure you have the following software installed:
     
 4. Create a file named `architect.js` in this folder and copy the entire source code into it.
 
-### Step 3: Run ChronoScribe
+### Step 3: Run BlockSmith
 
 This guide focuses on the most stable method: running a dedicated server on your machine.
 
@@ -93,9 +93,9 @@ This guide focuses on the most stable method: running a dedicated server on your
 #### 2. Start the Server and the Bot
 1.  **Start the Server:** In a terminal, navigate to your `MinecraftServer` directory and run `.\start.bat`. Wait for it to say `Done!`.
 2.  **Join the Game:** Launch Minecraft 1.21.1, go to **Multiplayer**, and connect to `localhost`.
-3.  **Start the Bot:** Once you are in the game, open a **new, separate terminal**, navigate to your `chronoscribe` directory, and run `node architect.js`.
+3.  **Start the Bot:** Once you are in the game, open a **new, separate terminal**, navigate to your `blocksmith` directory, and run `node architect.js`.
 
-You should see log messages in your terminal indicating that ChronoScribe is connecting. Within a few seconds, you will see its welcome message in the Minecraft chat.
+You should see log messages in your terminal indicating that BlockSmith is connecting. Within a few seconds, you will see its welcome message in the Minecraft chat.
 
 ## Becoming a Server Operator (for Dedicated Servers)
 

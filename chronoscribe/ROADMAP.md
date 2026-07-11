@@ -1,6 +1,6 @@
-# ChronoScribe Project Roadmap
+# BlockSmith Project Roadmap
 
-This document outlines the current state and future development plans for ChronoScribe.
+This document outlines the current state and future development plans for BlockSmith.
 
 ## Current State: Alpha
 
