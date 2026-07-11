@@ -4,138 +4,963 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlockSmith – Your AI Minecraft Architect</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>" />
+    <style>
+        /* ────────────────────────────────────────────────
+           RESET & BASE
+           ──────────────────────────────────────────────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --dirt: #8B6B4D;
+            --grass: #7CB342;
+            --stone: #8A8A8A;
+            --wood: #A67B5B;
+            --planks: #DEB887;
+            --iron: #C0C0C0;
+            --gold: #FFD700;
+            --diamond: #4FC3F7;
+            --obsidian: #1A1A2E;
+            --bedrock: #2D2D2D;
+            --sky: #4A90D9;
+            --cloud: #F5F5F5;
+            --text: #E8E8E8;
+            --text-dark: #2D2D2D;
+            --shadow: rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--obsidian);
+            color: var(--text);
+            line-height: 1.7;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(74, 144, 217, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(74, 144, 217, 0.05) 0%, transparent 60%);
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--diamond);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        /* ────────────────────────────────────────────────
+           SCROLLBAR (Minecraft style)
+           ──────────────────────────────────────────────── */
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: var(--bedrock);
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bedrock);
+            border-left: 2px solid var(--stone);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--stone);
+            border: 2px solid var(--bedrock);
+            border-radius: 0;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--iron);
+        }
+
+        /* ────────────────────────────────────────────────
+           UTILITY
+           ──────────────────────────────────────────────── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 3px solid var(--text);
+            background: var(--bedrock);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.15s;
+            image-rendering: pixelated;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+        .btn:hover {
+            top: -2px;
+            left: -2px;
+            box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+            background: var(--stone);
+            color: var(--text-dark);
+            border-color: var(--stone);
+        }
+        .btn:active {
+            top: 4px;
+            left: 4px;
+            box-shadow: 0px 0px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-primary {
+            background: var(--diamond);
+            border-color: var(--diamond);
+            color: var(--obsidian);
+        }
+        .btn-primary:hover {
+            background: #81D4FA;
+            border-color: #81D4FA;
+            color: var(--obsidian);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border-color: var(--stone);
+            color: var(--text);
+        }
+        .btn-secondary:hover {
+            background: var(--stone);
+            border-color: var(--stone);
+            color: var(--text-dark);
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--bedrock);
+            border: 2px solid var(--diamond);
+            color: var(--diamond);
+            padding: 4px 16px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            image-rendering: pixelated;
+        }
+
+        /* ────────────────────────────────────────────────
+           BLOCK DIVIDER (pixel art line)
+           ──────────────────────────────────────────────── */
+        .block-divider {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 20px 0;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--stone);
+            user-select: none;
+            opacity: 0.4;
+        }
+
+        /* ────────────────────────────────────────────────
+           HEADER / NAV
+           ──────────────────────────────────────────────── */
+        .header {
+            padding: 20px 0;
+            border-bottom: 4px solid var(--bedrock);
+            background: rgba(26, 26, 46, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo .pixel-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 8px rgba(79, 195, 247, 0.3));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: var(--stone);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--diamond);
+            text-decoration: none;
+        }
+
+        /* ────────────────────────────────────────────────
+           HERO
+           ──────────────────────────────────────────────── */
+        .hero {
+            padding: 60px 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            min-height: 70vh;
+        }
+
+        .hero-content {
+            flex: 1 1 500px;
+        }
+
+        .hero-content .badge {
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            color: var(--text);
+            text-shadow: 4px 4px 0 var(--bedrock);
+        }
+        .hero h1 .highlight {
+            color: var(--diamond);
+            text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--stone);
+            margin: 16px 0 24px;
+            max-width: 500px;
+        }
+
+        .hero .subtitle em {
+            color: var(--gold);
+            font-style: normal;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding-top: 16px;
+            border-top: 2px solid var(--bedrock);
+        }
+        .hero-stats span {
+            font-size: 0.85rem;
+            color: var(--stone);
+        }
+        .hero-stats strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .hero-visual {
+            flex: 1 1 280px;
+            text-align: center;
+            background: radial-gradient(ellipse at center, rgba(79, 195, 247, 0.08) 0%, transparent 70%);
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid var(--bedrock);
+        }
+        .hero-visual .pixel-art {
+            font-size: 10rem;
+            line-height: 1;
+            filter: drop-shadow(0 8px 32px rgba(79, 195, 247, 0.2));
+            display: block;
+        }
+        .hero-visual .pixel-art-sub {
+            color: var(--stone);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        /* ────────────────────────────────────────────────
+           SECTION HEADERS
+           ──────────────────────────────────────────────── */
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .section-title .pixel-icon {
+            font-size: 2rem;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--stone);
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+
+        /* ────────────────────────────────────────────────
+           FEATURES (Minecraft Block Grid)
+           ──────────────────────────────────────────────── */
+        .features {
+            padding: 60px 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bedrock);
+            padding: 28px 22px;
+            border: 3px solid var(--bedrock);
+            border-top: 3px solid var(--stone);
+            border-left: 3px solid var(--stone);
+            transition: all 0.2s;
+            image-rendering: pixelated;
+            position: relative;
+        }
+        .feature-card:hover {
+            border-color: var(--diamond);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(79, 195, 247, 0.15);
+        }
+
+        .feature-card .icon {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .feature-card h3 {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .feature-card p {
+            color: var(--stone);
+            font-size: 0.92rem;
+        }
+        .feature-card .cmd-hint {
+            display: inline-block;
+            background: rgba(79, 195, 247, 0.1);
+            color: var(--diamond);
+            padding: 2px 12px;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            margin-top: 10px;
+        }
+
+        /* ────────────────────────────────────────────────
+           COMMANDS (Chest/Inventory Style)
+           ──────────────────────────────────────────────── */
+        .commands-section {
+            padding: 60px 0;
+            background: var(--bedrock);
+            border-top: 4px solid var(--stone);
+            border-bottom: 4px solid var(--stone);
+        }
+
+        .commands-section .container {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px 24px;
+            border: 3px solid var(--stone);
+            border-top-color: var(--dirt);
+            border-left-color: var(--dirt);
+            image-rendering: pixelated;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px 20px;
+        }
+
+        .command-item {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(138, 138, 138, 0.15);
+            font-size: 0.92rem;
+        }
+        .command-item code {
+            background: var(--obsidian);
+            padding: 2px 12px;
+            color: var(--diamond);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid var(--bedrock);
+            border-top-color: var(--stone);
+            border-left-color: var(--stone);
+            white-space: nowrap;
+        }
+        .command-item .desc {
+            color: var(--stone);
+            font-size: 0.85rem;
+        }
+
+        /* ────────────────────────────────────────────────
+           DOWNLOAD
+           ──────────────────────────────────────────────── */
+        .download {
+            padding: 60px 0;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .download-card {
+            background: var(--bedrock);
+            padding: 30px 24px;
+            text-align: center;
+            border: 3px solid var(--bedrock);
+            border-top: 3px solid var(--stone);
+            border-left: 3px solid var(--stone);
+            image-rendering: pixelated;
+            transition: border-color 0.2s;
+        }
+        .download-card:hover {
+            border-color: var(--diamond);
+        }
+
+        .download-card .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .download-card h3 {
+            color: var(--text);
+            font-size: 1.3rem;
+        }
+        .download-card p {
+            color: var(--stone);
+            font-size: 0.9rem;
+            margin: 8px 0 16px;
+        }
+        .download-card small {
+            display: block;
+            color: #555;
+            font-size: 0.75rem;
+            margin-top: 10px;
+        }
+
+        .download-note {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--stone);
+            font-size: 0.9rem;
+            padding: 20px;
+            border: 2px solid var(--bedrock);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .download-note strong {
+            color: var(--text);
+        }
+
+        /* ────────────────────────────────────────────────
+           TESTIMONIALS
+           ──────────────────────────────────────────────── */
+        .testimonials {
+            padding: 60px 0;
+            background: var(--bedrock);
+            border-top: 4px solid var(--stone);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .testimonial-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 24px;
+            border-left: 4px solid var(--diamond);
+            border-bottom: 2px solid var(--bedrock);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--cloud);
+            font-size: 0.95rem;
+        }
+        .testimonial-card .author {
+            color: var(--stone);
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: block;
+        }
+        .testimonial-card .author::before {
+            content: "— ";
+        }
+
+        .testimonial-cta {
+            text-align: center;
+            color: #555;
+            margin-top: 28px;
+            font-size: 0.85rem;
+        }
+
+        /* ────────────────────────────────────────────────
+           FOOTER
+           ──────────────────────────────────────────────── */
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 4px solid var(--bedrock);
+            color: #555;
+            font-size: 0.85rem;
+        }
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin: 16px 0 8px;
+        }
+        footer .footer-links a {
+            color: var(--stone);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        footer .footer-links a:hover {
+            color: var(--diamond);
+            text-decoration: none;
+        }
+        footer .pixel-heart {
+            color: #E74C3C;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* ────────────────────────────────────────────────
+           RESPONSIVE
+           ──────────────────────────────────────────────── */
+        @media (max-width: 700px) {
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            .hero-visual .pixel-art {
+                font-size: 6rem;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .header .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 14px;
+            }
+            .command-item {
+                flex-wrap: wrap;
+            }
+            .command-item code {
+                font-size: 0.75rem;
+            }
+            .hero-stats {
+                gap: 16px;
+            }
+            .download-card {
+                padding: 20px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 0.9rem;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-visual .pixel-art {
+                font-size: 4rem;
+            }
+        }
+
+        /* ────────────────────────────────────────────────
+           MINECRAFT FONT FALLBACK
+           ──────────────────────────────────────────────── */
+        .mc-font {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        /* ────────────────────────────────────────────────
+           TOOLTIP / HOVER GLOW
+           ──────────────────────────────────────────────── */
+        .glow-text {
+            color: var(--diamond);
+            text-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
+        }
+    </style>
 </head>
 <body>
 
-    <!-- ─── HERO ─── -->
-    <section class="hero">
+    <!-- ═══════════════════════════════════════════════════
+         HEADER
+         ═══════════════════════════════════════════════════ -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="pixel-icon">🏛️</span>
+                BlockSmith
+            </div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#commands">Commands</a>
+                <a href="#download">Download</a>
+                <a href="#testimonials">Community</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════
+         HERO
+         ═══════════════════════════════════════════════════ -->
+    <section class="hero container">
         <div class="hero-content">
-            <span class="badge">✨ AI-Powered Minecraft Companion</span>
-            <h1>BlockSmith</h1>
-            <p class="tagline">Your AI architect. Your building buddy. <br />Never build alone again.</p>
+            <span class="badge">⛏️ AI-Powered Minecraft Companion</span>
+            <h1>
+                Never Build<br />
+                <span class="highlight">Alone Again.</span>
+            </h1>
+            <p class="subtitle">
+                Your AI architect. Your building buddy.<br />
+                <em>BlockSmith</em> watches, learns, and helps — right in your game.
+            </p>
             <div class="hero-buttons">
                 <a href="#download" class="btn btn-primary">⬇️ Download Now</a>
                 <a href="#features" class="btn btn-secondary">Explore Features</a>
             </div>
-            <p class="hero-note">Free • Local AI • One-click installer</p>
+            <div class="hero-stats">
+                <span>⚡ Built in <strong>21 hours</strong></span>
+                <span>🧠 Local AI · <strong>Free</strong></span>
+                <span>📦 <strong>One-click</strong> installer</span>
+            </div>
         </div>
         <div class="hero-visual">
-            <div class="block-preview">🏛️</div>
+            <span class="pixel-art">🏛️</span>
+            <span class="pixel-art-sub">✦ BlockSmith ✦</span>
         </div>
     </section>
 
-    <!-- ─── FEATURES ─── -->
-    <section id="features" class="features">
-        <h2>What BlockSmith Can Do</h2>
+    <!-- ═══════════════════════════════════════════════════
+         FEATURES
+         ═══════════════════════════════════════════════════ -->
+    <section id="features" class="features container">
+        <h2 class="section-title">
+            <span class="pixel-icon">⚒️</span> What BlockSmith Can Do
+        </h2>
+        <p class="section-sub">Your AI companion, built block by block.</p>
+
         <div class="feature-grid">
             <div class="feature-card">
                 <span class="icon">🧠</span>
                 <h3>Smart Advice</h3>
                 <p>Analyzes your inventory, biome, and surroundings to suggest the perfect next build.</p>
+                <span class="cmd-hint">/build</span>
             </div>
             <div class="feature-card">
                 <span class="icon">🏗️</span>
                 <h3>Blueprint Builder</h3>
                 <p>Ask for a blueprint and watch BlockSmith build it — block by block.</p>
+                <span class="cmd-hint">/blueprint hut</span>
             </div>
             <div class="feature-card">
                 <span class="icon">🪓</span>
                 <h3>Auto Gather</h3>
                 <p>Send the bot to collect resources while you focus on the fun stuff.</p>
+                <span class="cmd-hint">/gather oak_log 16</span>
             </div>
             <div class="feature-card">
                 <span class="icon">🎨</span>
                 <h3>Vision Critique</h3>
-                <p>Take a screenshot, and BlockSmith will give you constructive aesthetic feedback.</p>
+                <p>Take a screenshot and get constructive aesthetic feedback.</p>
+                <span class="cmd-hint">/critique</span>
             </div>
             <div class="feature-card">
                 <span class="icon">🗣️</span>
-                <h3>Voice & Chat</h3>
-                <p>Talks to you in game chat or out loud with optional text-to-speech.</p>
+                <h3>Voice &amp; Chat</h3>
+                <p>Talks in game chat or out loud with optional text-to-speech.</p>
+                <span class="cmd-hint">/status</span>
             </div>
             <div class="feature-card">
                 <span class="icon">🌍</span>
                 <h3>Multiplayer Ready</h3>
                 <p>Works on servers with per-player advice and tracking.</p>
+                <span class="cmd-hint">/style rustic</span>
             </div>
         </div>
     </section>
 
-    <!-- ─── COMMANDS ─── -->
-    <section class="commands">
-        <h2>Commands at a Glance</h2>
-        <div class="command-grid">
-            <div><code>/build</code> <span>Get building advice</span></div>
-            <div><code>/blueprint hut</code> <span>Build a structure</span></div>
-            <div><code>/gather oak_log 16</code> <span>Gather resources</span></div>
-            <div><code>/critique</code> <span>Get aesthetic feedback</span></div>
-            <div><code>/inspire</code> <span>Random creative prompt</span></div>
-            <div><code>/style rustic</code> <span>Set architectural style</span></div>
-            <div><code>/weather clear</code> <span>Change the weather</span></div>
-            <div><code>/status</code> <span>Check bot health</span></div>
+    <!-- ═══════════════════════════════════════════════════
+         COMMANDS
+         ═══════════════════════════════════════════════════ -->
+    <section id="commands" class="commands-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="pixel-icon">📜</span> Commands at a Glance
+            </h2>
+            <p class="section-sub">Type these in Minecraft chat to command your AI companion.</p>
+
+            <div class="command-grid">
+                <div class="command-item">
+                    <code>/build</code>
+                    <span class="desc">Get building advice</span>
+                </div>
+                <div class="command-item">
+                    <code>/blueprint hut</code>
+                    <span class="desc">Build a structure</span>
+                </div>
+                <div class="command-item">
+                    <code>/gather oak_log 16</code>
+                    <span class="desc">Gather resources</span>
+                </div>
+                <div class="command-item">
+                    <code>/critique</code>
+                    <span class="desc">Get aesthetic feedback</span>
+                </div>
+                <div class="command-item">
+                    <code>/inspire</code>
+                    <span class="desc">Random creative prompt</span>
+                </div>
+                <div class="command-item">
+                    <code>/style rustic</code>
+                    <span class="desc">Set architectural style</span>
+                </div>
+                <div class="command-item">
+                    <code>/weather clear</code>
+                    <span class="desc">Change the weather</span>
+                </div>
+                <div class="command-item">
+                    <code>/status</code>
+                    <span class="desc">Check bot health</span>
+                </div>
+                <div class="command-item">
+                    <code>/materials</code>
+                    <span class="desc">Check inventory</span>
+                </div>
+                <div class="command-item">
+                    <code>/help</code>
+                    <span class="desc">List all commands</span>
+                </div>
+                <div class="command-item">
+                    <code>/roast</code>
+                    <span class="desc">Gentle criticism</span>
+                </div>
+                <div class="command-item">
+                    <code>/inspire</code>
+                    <span class="desc">Random build idea</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- ─── DOWNLOAD ─── -->
-    <section id="download" class="download">
-        <h2>Get BlockSmith</h2>
-        <p class="download-sub">One-click installer. No coding required.</p>
+    <!-- ═══════════════════════════════════════════════════
+         DOWNLOAD
+         ═══════════════════════════════════════════════════ -->
+    <section id="download" class="download container">
+        <h2 class="section-title">
+            <span class="pixel-icon">📦</span> Get BlockSmith
+        </h2>
+        <p class="section-sub">One-click installer. No coding required. Free forever.</p>
+
         <div class="download-grid">
             <div class="download-card">
                 <span class="icon">🪟</span>
                 <h3>Windows</h3>
                 <p>Download the <code>.exe</code> and double-click to run.</p>
-                <a href="#" class="btn btn-primary">Download for Windows</a>
+                <a href="#" class="btn btn-primary">⬇️ Download for Windows</a>
                 <small>Coming soon — check back!</small>
             </div>
             <div class="download-card">
                 <span class="icon">🐧</span>
                 <h3>Linux / macOS</h3>
                 <p>Run from source with Node.js and Ollama.</p>
-                <a href="#" class="btn btn-secondary">View GitHub</a>
+                <a href="https://github.com" class="btn btn-secondary">View on GitHub</a>
                 <small>Full setup guide available</small>
             </div>
         </div>
+
         <div class="download-note">
-            <p>📦 <strong>Requirements:</strong> Ollama + llama3.2:3b + llava (free, local AI)</p>
-            <p>🔗 <a href="#">View on GitHub</a> • <a href="#">Discord Community</a> • <a href="#">Documentation</a></p>
+            <p>
+                📦 <strong>Requirements:</strong> Ollama + llama3.2:3b + llava
+                <span style="color:#555; margin:0 12px;">•</span>
+                🔗 <a href="#">GitHub</a>
+                <span style="color:#555; margin:0 8px;">•</span>
+                <a href="#">Discord</a>
+                <span style="color:#555; margin:0 8px;">•</span>
+                <a href="#">Docs</a>
+            </p>
+            <p style="margin-top:6px; font-size:0.8rem; color:#555;">
+                🏛️ Built with ❤️ in 21 hours — from idea to production.
+            </p>
         </div>
     </section>
 
-    <!-- ─── TESTIMONIALS ─── -->
-    <section class="testimonials">
-        <h2>What Players Are Saying</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <p>"I used to get stuck after building a dirt box. BlockSmith walked me through a whole castle!"</p>
-                <span>— Alex, casual player</span>
+    <!-- ═══════════════════════════════════════════════════
+         TESTIMONIALS
+         ═══════════════════════════════════════════════════ -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="pixel-icon">💬</span> What Players Are Saying
+            </h2>
+            <p class="section-sub">Real feedback from real builders.</p>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"I used to get stuck after building a dirt box. BlockSmith walked me through a whole castle!"</p>
+                    <span class="author">Alex, casual player</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The blueprint feature is insane. I just type <code>/blueprint tower</code> and it builds it for me."</p>
+                    <span class="author">Sam, server owner</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"It's like having a friend in single-player. No more lonely builds."</p>
+                    <span class="author">Jamie, Minecraft enthusiast</span>
+                </div>
             </div>
-            <div class="testimonial-card">
-                <p>"The blueprint feature is insane. I just type /blueprint tower and it builds it for me."</p>
-                <span>— Sam, server owner</span>
-            </div>
-            <div class="testimonial-card">
-                <p>"It's like having a friend in single-player. No more lonely builds."</p>
-                <span>— Jamie, Minecraft enthusiast</span>
-            </div>
+            <p class="testimonial-cta">
+                <em>(These are placeholder testimonials — yours could be here!)</em>
+            </p>
         </div>
-        <p class="testimonial-cta"><em>(These are placeholder testimonials — yours could be here!)</em></p>
     </section>
 
-    <!-- ─── FOOTER ─── -->
+    <!-- ═══════════════════════════════════════════════════
+         FOOTER
+         ═══════════════════════════════════════════════════ -->
     <footer>
-        <p>🏛️ BlockSmith — Built with ❤️ in 21 hours</p>
-        <p><small>Open source • Local AI • For the love of Minecraft</small></p>
-        <div class="footer-links">
-            <a href="#">GitHub</a>
-            <a href="#">Discord</a>
-            <a href="#">Docs</a>
-            <a href="#">Privacy</a>
+        <div class="container">
+            <p>
+                🏛️ <strong>BlockSmith</strong> —
+                Built with <span class="pixel-heart">♥</span> in 21 hours
+            </p>
+            <p style="color:#555; font-size:0.75rem;">
+                Open source • Local AI • For the love of Minecraft
+            </p>
+            <div class="footer-links">
+                <a href="#">GitHub</a>
+                <a href="#">Discord</a>
+                <a href="#">Docs</a>
+                <a href="#">Privacy</a>
+                <a href="#features">Features</a>
+                <a href="#download">Download</a>
+            </div>
+            <p style="color:#444; font-size:0.7rem; margin-top:12px;">
+                © 2026 BlockSmith — Never build alone again.
+            </p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- ═══════════════════════════════════════════════════
+         SCRIPT
+         ═══════════════════════════════════════════════════ -->
+    <script>
+        // ─── SMOOTH SCROLL ───
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ─── CONSOLE EASTER EGG ───
+        console.log('🏛️ BlockSmith — Your AI Minecraft Architect');
+        console.log('📦 Built in 21 hours. Ready for the world.');
+        console.log('❤️ Never build alone again.');
+        console.log('🔗 https://github.com/yourusername/blocksmith');
+
+        // ─── NAV HIGHLIGHT ON SCROLL ───
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.style.color = link.getAttribute('href') === '#' + current ? '#4FC3F7' : '';
+            });
+        });
+    </script>
+
 </body>
 </html>
