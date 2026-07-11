@@ -1,0 +1,19 @@
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+.DS_Store
+
+# Dependencies
+chronoscribe/node_modules/
+
+# Build artifacts
+chronoscribe/*.exe
+
+# Minecraft Server runtime files
+MinecraftServer/world/
+MinecraftServer/logs/

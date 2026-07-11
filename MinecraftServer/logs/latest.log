@@ -1,149 +1,88 @@
-[15:11:42] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[15:11:51] [ServerMain/INFO]: Loaded 1290 recipes
-[15:11:53] [ServerMain/INFO]: Loaded 1399 advancements
-[15:11:55] [Server thread/INFO]: Starting minecraft server version 1.21.1
-[15:11:55] [Server thread/INFO]: Loading properties
-[15:11:55] [Server thread/INFO]: Default game type: SURVIVAL
-[15:11:55] [Server thread/INFO]: Generating keypair
-[15:11:55] [Server thread/INFO]: Starting Minecraft server on *:25565
-[15:11:55] [Server thread/INFO]: Using default channel type
-[15:11:55] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
-[15:11:55] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
-[15:11:55] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
-[15:11:55] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
-[15:11:55] [Server thread/INFO]: Preparing level "world"
-[15:11:59] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
-[15:12:00] [Worker-Main-6/INFO]: Preparing spawn area: 0%
-[15:12:00] [Worker-Main-6/INFO]: Preparing spawn area: 0%
-[15:12:00] [Worker-Main-6/INFO]: Preparing spawn area: 0%
-[15:12:01] [Server thread/INFO]: Time elapsed: 2019 ms
-[15:12:01] [Server thread/INFO]: Done (5.361s)! For help, type "help"
-[15:12:12] [Server thread/INFO]: ChronoScribe[/[0:0:0:0:0:0:0:1]:62233] logged in with entity id 76 at (343.5, 65.0, 602.5)
-[15:12:12] [Server thread/INFO]: ChronoScribe joined the game
-[15:12:14] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ ChronoScribe the Architect has arrived!
-[15:12:14] [Server thread/INFO]: [Not Secure] <ChronoScribe> 📐 "I see potential in every block..."
-[15:12:21] [Server thread/INFO]: DramaticSage[/127.0.0.1:62235] logged in with entity id 211 at (343.0123300845918, 64.0, 637.921238223206)
-[15:12:21] [Server thread/INFO]: DramaticSage joined the game
-[15:12:23] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2034ms or 40 ticks behind
-[15:12:48] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 10141ms or 202 ticks behind
-[15:13:38] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ New player in town! I see you're starting from scratch, and that's totally awesome! Since you don't have any materials or components yet, let's get started with something simple. Here's a 2-step project suggestion:
-[15:13:38] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 1:** Find a safe place to set up your first crafting table. Look for a flat area away from any nearby water or lava. You can use the '/fill' command to clear a small area quickly.
-[15:13:38] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 2:** Craft your first tool, like a pickaxe. This will help you gather resources and get started with building. Since you don't have iron ore yet, let's focus on finding other materials like stone or wood.
-[15:13:38] [Server thread/INFO]: [Not Secure] <ChronoScribe> The goal is to get your basic crafting tools up and running, so you can start exploring and gathering resources!
-[15:13:39] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:13:39] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 36198ms or 723 ticks behind
-[15:14:05] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 10487ms or 209 ticks behind
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ Don't worry about that empty inventory just yet, my friend! We've got this.
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> First, let's address the immediate challenge: that sheep in the south. Since we don't have any logs or planks (yet!), our priority is to get a crafting table up and running. Step 1: Use the '/fill' command to clear a small area in front of you. This will g
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> ive us some space to work with. Then, use the same filled area to create a 5x5 frame for a crafting table – just one block wide! This might take a few attempts, but we can get there.
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> Now that we've got our crafting table, let's focus on gathering essential materials. Step 2: Craft a simple wooden pickaxe using 3 logs and 2 sticks. We don't need anything fancy yet; just something to start digging for those precious logs! With this picka
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> xe, you'll be able to gather more resources in no time.
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of our small project is to build a basic shelter with some essential tools and materials. Who knows what's coming next, but we're ready to adapt and respond to whatever challenges arise.
-[15:14:21] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:14:26] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5712ms or 114 ticks behind
-[15:14:52] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 11813ms or 236 ticks behind
-[15:15:10] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2302ms or 46 ticks behind
-[15:15:37] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 11881ms or 237 ticks behind
-[15:15:55] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3382ms or 67 ticks behind
-[15:16:03] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ New player in town! I see you've got zero materials and no crafting table, but that's okay - we'll get you set up in no time!
-[15:16:03] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 1: Gather some nearby resources by using the '/fill' command to clear a small area of any debris. Then, go find some logs and place them on top of each other to craft a crafting table.
-[15:16:03] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 2: With your new crafting table, use it to create a simple furnace. Place some coal in it, and then smelt that nearby iron ore (you've got 0 iron ore, but we'll get to that soon!) to create some iron ingots. Don't worry if you don't have any yet - we'
-[15:16:03] [Server thread/INFO]: [Not Secure] <ChronoScribe> ll work on finding more.
-[15:16:03] [Server thread/INFO]: [Not Secure] <ChronoScribe> The goal of this project is to get your basic needs met: a furnace for crafting and smelting, and eventually, some iron tools and armor to help you progress in the game!
-[15:16:03] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:16:15] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2299ms or 45 ticks behind
-[15:16:41] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 11219ms or 224 ticks behind
-[15:17:01] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2015ms or 40 ticks behind
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ New player in town! I see you've got no materials or tools, but don't worry, we'll get you started on the right foot.
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 1:** Find a suitable biome and fill the area around you with blocks using '/fill'. This will help you clear a space for your future builds. You can also use this opportunity to collect some resources by placing a few stone or dirt blocks within reac
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> h.
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 2:** Craft a simple crafting table using any available materials (you can even try to find some in the surrounding area). This will be your new best friend, allowing you to craft essential items like tools, armor, and more. Get familiar with the cra
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> fting grid and start experimenting!
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of this project is to get you started on building your first shelter and equipping yourself for survival (or creative mode) adventures!
-[15:17:09] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:17:21] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4943ms or 98 ticks behind
-[15:17:45] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 9125ms or 182 ticks behind
-[15:18:08] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2034ms or 40 ticks behind
-[15:18:37] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 14149ms or 282 ticks behind
-[15:18:50] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ New player in town, I'm excited to help! It looks like you're starting from scratch, which can be both thrilling and intimidating. Don't worry, we'll get you set up for success!
-[15:18:50] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 1: Find a safe spot and gather materials. Since you don't have any tools, let's focus on clearing a small area using the '/fill' command to create a foundation. Fill a 5x5 area with stone blocks, which is readily available in most biomes.
-[15:18:50] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 2: Craft a crafting table! Yes, it might seem like an obvious step, but having a crafting table will open up so many possibilities for your future projects. Use the resources you've gathered to craft a basic crafting table using wood or stone.
-[15:18:50] [Server thread/INFO]: [Not Secure] <ChronoScribe> The goal of this project is to establish a solid foundation and get you started with basic tools and materials. With your new crafting table, you'll be able to gather more resources, craft essential items like swords and armor, and begin planning your next
-[15:18:50] [Server thread/INFO]: [Not Secure] <ChronoScribe>  move in this vast Minecraft world!
-[15:18:51] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:18:56] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3856ms or 77 ticks behind
-[15:19:27] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2710ms or 54 ticks behind
-[15:19:45] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3555ms or 71 ticks behind
-[15:20:05] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4331ms or 86 ticks behind
-[15:20:26] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 6191ms or 123 ticks behind
-[15:20:37] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ 
-[15:20:37] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:21:00] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2026ms or 40 ticks behind
-[15:21:28] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2053ms or 41 ticks behind
-[15:22:07] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 23593ms or 471 ticks behind
-[15:22:40] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2221ms or 44 ticks behind
-[15:22:43] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ Don't worry, my friend! I see that you're starting from scratch with no materials or tools in sight. But that's the beauty of Minecraft - we get to build from the ground up!
-[15:22:43] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 1: Find a safe spot to craft your first essential tool - let's make a simple stone pickaxe using 2-3 stone blocks and some dirt (you can find plenty of dirt nearby). Once you've got your pickaxe, use it to gather those logs we talked about earlier! We
-[15:22:43] [Server thread/INFO]: [Not Secure] <ChronoScribe> 'll need them for our next step.
-[15:22:43] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 2: Create a basic crafting table using 4 wooden planks. Yes, I know, it might take some time to gather all the necessary wood, but trust me, it's worth it. With your new crafting table, you can start crafting more items, like sticks and then planks!
-[15:22:43] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of this project is to get your basic crafting tools up and running, so we can focus on building and exploring our surroundings in no time!
-[15:22:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:22:59] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4556ms or 91 ticks behind
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ Let's get started on your Minecraft adventure!
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> First, I notice that you're starting from scratch, with no essential tools or resources - not even a crafting table! That's okay; we can build from here.
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> To begin, **Step 1:** Find a suitable location to place your first crafting table. Look for a flat area with plenty of space and some natural protection from the elements. If you're near the sheep in the South, consider building near it - they can provide 
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> wool, which is great for crafting a bed! Place your crafting table and start gathering resources by punching that adorable sheep.
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> Now, **Step 2:** Craft a furnace using 8 cobblestone blocks (since we don't have any other materials). This will help us smelt the resources you'll gather later. Congratulations - you've taken your first step towards progress!
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> Your ultimate goal is to become self-sufficient and explore this new world in safety. With these two steps, you'll set yourself up for success, and from there, you can start crafting essential items like a bed, tools, and armor to protect yourself and buil
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> d amazing structures!
-[15:23:16] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:23:21] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 6971ms or 139 ticks behind
-[15:23:46] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 9236ms or 184 ticks behind
-[15:24:13] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2118ms or 42 ticks behind
-[15:24:33] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5618ms or 112 ticks behind
-[15:24:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ New player in town, I see you're off to a blank slate! Don't worry, my friend, we'll get you set up in no time.
-[15:24:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> To start, let's focus on getting some essential blocks. Since you don't have a crafting table or furnace, Step 1: Find some nearby logs and use the '/fill' command to clear a small area (about 3x3) of any debris. This will give us a clean slate to work wit
-[15:24:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> h. Once that's done, we can begin crafting our first essential tools!
-[15:24:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 2: Find some coal and craft a furnace using the cleared-up logs. We'll use this to smelt your resources, like iron ore, for better gear.
-[15:24:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of this project is to get your basic tools in place, ensuring you can survive and thrive in this new world. With these essential blocks under your belt, we can start building up your base and taking on the challenges that come with it!
-[15:24:44] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:25:03] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2037ms or 40 ticks behind
-[15:25:27] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 8764ms or 175 ticks behind
-[15:25:40] [Server thread/INFO]: ChronoScribe was slain by Zombie
-[15:25:40] [Server thread/INFO]: [Not Secure] <ChronoScribe> 💀 Oof! Death is just a respawn... and a chance to rebuild better!
-[15:25:44] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2201ms or 44 ticks behind
-[15:26:02] [Server thread/INFO]: ChronoScribe was slain by Zombie
-[15:26:02] [Server thread/INFO]: [Not Secure] <ChronoScribe> 💀 Oof! Death is just a respawn... and a chance to rebuild better!
-[15:26:09] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 9329ms or 186 ticks behind
-[15:26:15] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ Don't worry, my friend! Given your current situation, I've got just the thing to get you started.
-[15:26:15] [Server thread/INFO]: [Not Secure] <ChronoScribe> First, let's address those missing crafting tools - we need a furnace and some coal to smelt that iron ore!
-[15:26:15] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 1:** Clear an area around yourself using the '/fill' command to create a safe space. Then, find some flint and stone to craft a simple pickaxe and some coal. Once you have these basics, craft your first furnace.
-[15:26:15] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 2:** Use your newly crafted furnace to smelt that iron ore into ingots. This will give you better tools for survival and combat against the zombie nearby!
-[15:26:15] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of this project is to establish a solid foundation for your Minecraft journey - one that includes essential tools, resources, and a safe base to start building from!
-[15:26:15] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:26:18] [Server thread/INFO]: ChronoScribe was slain by Zombie
-[15:26:18] [Server thread/INFO]: [Not Secure] <ChronoScribe> 💀 Oof! Death is just a respawn... and a chance to rebuild better!
-[15:26:29] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5097ms or 101 ticks behind
-[15:26:43] [Server thread/INFO]: ChronoScribe was slain by Zombie
-[15:26:45] [Server thread/INFO]: [Not Secure] <ChronoScribe> 💀 Oof! Death is just a respawn... and a chance to rebuild better!
-[15:26:57] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 13004ms or 260 ticks behind
-[15:27:15] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2737ms or 54 ticks behind
-[15:27:50] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 20236ms or 404 ticks behind
-[15:27:57] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ Don't worry, my friend! I've got just the thing for you - a project that'll get those creative juices flowing and some essential tools in hand. With no crafting table or furnace, we'll start by gathering materials.
-[15:27:57] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 1:** Craft a basic crafting table using 4 wooden planks (which we can create later). This will give us our first step towards more advanced projects.
-[15:27:57] [Server thread/INFO]: [Not Secure] <ChronoScribe> **Step 2:** Clear a small area of 5x5 blocks using the '/fill' command. We'll use this space to build your very first structure - a simple, yet essential shelter!
-[15:27:57] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of this project is to create a safe haven where you can rest, store some essentials, and plan your next move. This will give you a solid foundation for future builds and help you progress in the game. Remember, my friend, every small step
-[15:27:57] [Server thread/INFO]: [Not Secure] <ChronoScribe>  counts!
-[15:27:57] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:28:52] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2266ms or 45 ticks behind
-[15:29:08] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🏛️ Don't worry about the unknown biome just yet - let's focus on getting those essentials covered first! Since you don't have a crafting table or a furnace, we'll get those up and running quickly.
-[15:29:08] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 1: Find some logs (you're in luck if there are trees nearby!) and use them to create a simple frame for a crafting table. You can also use this opportunity to gather stone for later use.
-[15:29:08] [Server thread/INFO]: [Not Secure] <ChronoScribe> Step 2: Clear a small area using the '/fill' command, just enough space to place your new crafting table. Once you have it up and running, we'll start exploring other ways to improve your utility.
-[15:29:08] [Server thread/INFO]: [Not Secure] <ChronoScribe> The ultimate goal of this project is to get you back on track with essential tools and resources, so you can tackle those unknown biome challenges head-on!
-[15:29:08] [Server thread/INFO]: [Not Secure] <ChronoScribe> 🪓 You need resources! Start by punching trees or mining stone.
-[15:29:09] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2155ms or 43 ticks behind
-[15:29:41] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2098ms or 41 ticks behind
-[15:29:46] [Server thread/INFO]: ChronoScribe lost connection: Disconnected
-[15:29:46] [Server thread/INFO]: ChronoScribe left the game
-[15:29:51] [Server thread/INFO]: Stopping server
-[15:29:51] [Server thread/INFO]: Saving players
+[22:40:03] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[22:40:09] [ServerMain/INFO]: Loaded 1290 recipes
+[22:40:10] [ServerMain/INFO]: Loaded 1399 advancements
+[22:40:12] [Server thread/INFO]: Starting minecraft server version 1.21.1
+[22:40:12] [Server thread/INFO]: Loading properties
+[22:40:12] [Server thread/INFO]: Default game type: SURVIVAL
+[22:40:12] [Server thread/INFO]: Generating keypair
+[22:40:12] [Server thread/INFO]: Starting Minecraft server on *:25565
+[22:40:13] [Server thread/INFO]: Using default channel type
+[22:40:13] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[22:40:13] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[22:40:13] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[22:40:13] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[22:40:13] [Server thread/INFO]: Preparing level "world"
+[22:40:17] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[22:40:18] [Worker-Main-5/INFO]: Preparing spawn area: 0%
+[22:40:18] [Worker-Main-5/INFO]: Preparing spawn area: 0%
+[22:40:18] [Server thread/INFO]: Time elapsed: 1142 ms
+[22:40:18] [Server thread/INFO]: Done (5.264s)! For help, type "help"
+[22:40:37] [Server thread/INFO]: BlockSmith[/127.0.0.1:54486] logged in with entity id 68 at (346.5, 62.0, 600.5)
+[22:40:37] [Server thread/INFO]: BlockSmith joined the game
+[22:40:38] [Server thread/INFO]: [Not Secure] <BlockSmith> Dashboard is live at http://localhost:3000
+[22:40:51] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2029ms or 40 ticks behind
+[22:41:02] [Server thread/INFO]: DramaticSage[/127.0.0.1:51005] logged in with entity id 242 at (315.0648320991584, 70.5625, 626.3793401015386)
+[22:41:02] [Server thread/INFO]: DramaticSage joined the game
+[22:41:05] [Server thread/INFO]: [Not Secure] <BlockSmith> Welcome to the server, DramaticSage! Let me know if you need any building advice.
+[22:41:13] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2003ms or 40 ticks behind
+[22:41:17] [Server thread/INFO]: [Not Secure] <DramaticSage> build
+[22:41:32] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4216ms or 84 ticks behind
+[22:41:49] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2268ms or 45 ticks behind
+[22:42:13] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 8976ms or 179 ticks behind
+[22:42:39] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2000ms or 40 ticks behind
+[22:42:45] [Server thread/INFO]: [Not Secure] <DramaticSage> build house
+[22:43:10] [Server thread/INFO]: DramaticSage has made the advancement [Sweet Dreams]
+[22:43:19] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 24752ms or 495 ticks behind
+[22:43:44] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 10336ms or 206 ticks behind
+[22:44:02] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2701ms or 54 ticks behind
+[22:44:21] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3684ms or 73 ticks behind
+[22:44:39] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2006ms or 40 ticks behind
+[22:44:59] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4480ms or 89 ticks behind
+[22:45:16] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2439ms or 48 ticks behind
+[22:45:34] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2002ms or 40 ticks behind
+[22:46:06] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 16485ms or 329 ticks behind
+[22:46:24] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3128ms or 62 ticks behind
+[22:46:28] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:30] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:32] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:34] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:36] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:38] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:40] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:42] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:44] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:44] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5308ms or 106 ticks behind
+[22:46:46] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:48] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:50] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:55] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:46:56] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:00] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:00] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:01] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:02] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:02] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:03] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3575ms or 71 ticks behind
+[22:47:03] [Server thread/INFO]: BlockSmith was blown up by Creeper
+[22:47:03] [Server thread/INFO]: [Not Secure] <BlockSmith> I'm in danger but I don't have a home to run to! Set one with /sethome.
+[22:47:04] [Server thread/INFO]: [Not Secure] <BlockSmith> Oh no, a fallen builder! Don't worry, every great structure is built on the foundations of a few mistakes.
+[22:47:21] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3242ms or 64 ticks behind
+[22:48:09] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2040ms or 40 ticks behind
+[22:48:38] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 14360ms or 287 ticks behind
+[22:49:02] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2020ms or 40 ticks behind
+[22:49:23] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 6354ms or 127 ticks behind
+[22:49:46] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 7878ms or 157 ticks behind
+[22:50:05] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4354ms or 87 ticks behind
+[22:50:29] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 8637ms or 172 ticks behind
+[22:54:52] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2061ms or 41 ticks behind
+[22:55:48] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2021ms or 40 ticks behind
+[22:56:11] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2015ms or 40 ticks behind
+[22:56:43] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2021ms or 40 ticks behind
+[22:57:14] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 15467ms or 309 ticks behind
+[22:57:24] [Server thread/INFO]: BlockSmith lost connection: Disconnected
+[22:57:24] [Server thread/INFO]: BlockSmith left the game
+[22:57:29] [Server thread/INFO]: Stopping server
+[22:57:29] [Server thread/INFO]: Saving players
+[22:57:29] [Server thread/INFO]: DramaticSage lost connection: Server closed
+[22:57:29] [Server thread/INFO]: DramaticSage left the game
+[22:57:29] [Server thread/INFO]: Saving worlds

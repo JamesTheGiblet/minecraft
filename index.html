@@ -56,6 +56,61 @@
         }
 
         /* ────────────────────────────────────────────────
+           LAUNCH PLAN
+           ──────────────────────────────────────────────── */
+        .launch-plan-section {
+            background: var(--bedrock);
+            border-top: 4px solid var(--stone);
+            padding: 60px 0;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 30px;
+            background-color: var(--obsidian);
+            border: 2px solid var(--stone);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%; /* Initial width */
+            background-color: var(--diamond);
+            transition: width 0.5s ease-in-out;
+        }
+        .progress-bar-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text);
+            font-size: 0.8rem;
+            text-shadow: 1px 1px 2px var(--obsidian);
+            white-space: nowrap;
+        }
+
+
+
+        /* ────────────────────────────────────────────────
+           BACK TO TOP BUTTON
+           ──────────────────────────────────────────────── */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--diamond);
+            color: var(--obsidian);
+            border-radius: 50%;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            z-index: 1000;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        /* ────────────────────────────────────────────────
            SCROLLBAR (Minecraft style)
            ──────────────────────────────────────────────── */
         ::-webkit-scrollbar {
@@ -163,6 +218,7 @@
             font-size: 1.2rem;
             letter-spacing: 2px;
             color: var(--stone);
+            -webkit-user-select: none;
             user-select: none;
             opacity: 0.4;
         }
@@ -922,6 +978,217 @@
     </footer>
 
     <!-- ═══════════════════════════════════════════════════
+         LAUNCH PLAN
+         ═══════════════════════════════════════════════════ -->
+    <section id="launch-plan" class="launch-plan-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="pixel-icon">🚀</span> The BlockSmith Launch Plan
+            </h2>
+            <p class="section-sub">Your interactive, 7-day plan to take over the world.</p>
+
+            <div class="progress-bar-container">
+                <div id="launch-progress-bar" class="progress-bar-fill"></div>
+                <span id="launch-progress-text" class="progress-bar-text">0% Complete</span>
+            </div>
+
+            <div class="launch-day">
+                <h3>🔥 Day 1: Foundation</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Create GitHub repository</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day1-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Push code to GitHub</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day1-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Deploy landing page to GitHub Pages</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day1-3"></td>
+                    </tr>
+                    <tr>
+                        <td>Create Discord server</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day1-4"></td>
+                    </tr>
+                    <tr>
+                        <td>Set up Patreon / Ko-fi</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day1-5"></td>
+                    </tr>
+                    <tr>
+                        <td>Create Twitter/X account (@BlockSmithAI)</td>
+                        <td>5 min</td>
+                        <td><input type="checkbox" id="task-day1-6"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="launch-day">
+                <h3>📣 Day 2: Community Setup</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Design Discord server (channels, roles, welcome)</td>
+                        <td>30 min</td>
+                        <td><input type="checkbox" id="task-day2-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Write Discord welcome message</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day2-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Set up Discord bot for announcements</td>
+                        <td>20 min</td>
+                        <td><input type="checkbox" id="task-day2-3"></td>
+                    </tr>
+                    <tr>
+                        <td>Create subreddit r/BlockSmith</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day2-4"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="launch-day">
+                <h3>🎬 Day 3: Content Creation</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Record 2-3 demo videos (BlockSmith in action)</td>
+                        <td>60 min</td>
+                        <td><input type="checkbox" id="task-day3-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Edit videos (fast cuts, captions)</td>
+                        <td>60 min</td>
+                        <td><input type="checkbox" id="task-day3-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Create screenshots (5-10 good ones)</td>
+                        <td>30 min</td>
+                        <td><input type="checkbox" id="task-day3-3"></td>
+                    </tr>
+                    <tr>
+                        <td>Write launch post (Reddit style)</td>
+                        <td>30 min</td>
+                        <td><input type="checkbox" id="task-day3-4"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="launch-day">
+                <h3>🌊 Day 4: Reddit Launch</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Post to r/Minecraft</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day4-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Post to r/admincraft</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day4-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Post to r/MinecraftCommands</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day4-3"></td>
+                    </tr>
+                    <tr>
+                        <td>Respond to comments (ongoing)</td>
+                        <td>30 min</td>
+                        <td><input type="checkbox" id="task-day4-4"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="launch-day">
+                <h3>🐦 Day 5: Social Media Blitz</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Post tweet thread on Twitter/X</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day5-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Post on LinkedIn</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day5-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Post on Hacker News (Show HN)</td>
+                        <td>10 min</td>
+                        <td><input type="checkbox" id="task-day5-3"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="launch-day">
+                <h3>💬 Day 6: Community Engagement</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Reply to every comment on Reddit</td>
+                        <td>30 min</td>
+                        <td><input type="checkbox" id="task-day6-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Welcome new Discord members</td>
+                        <td>20 min</td>
+                        <td><input type="checkbox" id="task-day6-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Ask for feedback and feature requests</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day6-3"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="launch-day">
+                <h3>🚀 Day 7: Launch Day Celebration</h3>
+                <table class="launch-table">
+                    <tr>
+                        <td>Official launch announcement</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day7-1"></td>
+                    </tr>
+                    <tr>
+                        <td>Post "Day 1" update (stats, feedback)</td>
+                        <td>20 min</td>
+                        <td><input type="checkbox" id="task-day7-2"></td>
+                    </tr>
+                    <tr>
+                        <td>Share first user testimonials</td>
+                        <td>15 min</td>
+                        <td><input type="checkbox" id="task-day7-3"></td>
+                    </tr>
+                    <tr>
+                        <td>Plan next steps based on feedback</td>
+                        <td>30 min</td>
+                        <td><input type="checkbox" id="task-day7-4"></td>
+                    </tr>
+                    <tr>
+                        <td>Take a breath. You did it.</td>
+                        <td>∞</td>
+                        <td><input type="checkbox" id="task-day7-5"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════
+         BACK TO TOP BUTTON
+         ═══════════════════════════════════════════════════ -->
+    <a href="#" id="back-to-top" class="back-to-top-btn">⬆️</a>
+
+
+    <!-- ═══════════════════════════════════════════════════
          SCRIPT
          ═══════════════════════════════════════════════════ -->
     <script>
@@ -960,6 +1227,23 @@
                 link.style.color = link.getAttribute('href') === '#' + current ? '#4FC3F7' : '';
             });
         });
+
+        // ─── BACK TO TOP BUTTON LOGIC ───
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Show button after scrolling 300px
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
     </script>
 
 </body>

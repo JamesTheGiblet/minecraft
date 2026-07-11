@@ -1,33 +1,29 @@
-const socket = io();
-const logContainer = document.getElementById('log-container');
-const statusSpan = document.getElementById('status');
+document.addEventListener('DOMContentLoaded', () => {
+    const logContainer = document.getElementById('log-container');
+    const statusSpan = document.getElementById('status');
 
-function addMessageToLog(msg) {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('log-message');
-    
-    const time = new Date(msg.timestamp).toLocaleTimeString();
-    
-    messageElement.innerHTML = `<span class="timestamp">${time}</span>${msg.content}`;
-    logContainer.appendChild(messageElement);
-    logContainer.scrollTop = logContainer.scrollHeight; // Auto-scroll
-}
+    // Connect to the Socket.IO server running in the dashboard.js plugin
+    const socket = io();
 
-socket.on('connect', () => {
-    statusSpan.textContent = 'Connected';
-    statusSpan.style.color = '#4CAF50';
-});
+    const addLogMessage = (msg) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('log-message');
 
-socket.on('disconnect', () => {
-    statusSpan.textContent = 'Disconnected';
-    statusSpan.style.color = '#F44336';
-});
+        const timestampSpan = document.createElement('span');
+        timestampSpan.classList.add('timestamp');
+        timestampSpan.textContent = new Date(msg.timestamp).toLocaleTimeString();
 
-socket.on('initial_log', (logs) => {
-    logContainer.innerHTML = ''; // Clear existing logs
-    logs.forEach(addMessageToLog);
-});
+        messageElement.appendChild(timestampSpan);
+        messageElement.append(msg.content);
+        logContainer.appendChild(messageElement);
+        logContainer.scrollTop = logContainer.scrollHeight; // Auto-scroll
+    };
 
-socket.on('new_message', (msg) => {
-    addMessageToLog(msg);
+    socket.on('connect', () => {
+        statusSpan.textContent = 'Connected';
+    });
+
+    socket.on('initial_log', (logs) => logs.forEach(addLogMessage));
+    socket.on('new_message', addLogMessage);
+    socket.on('disconnect', () => statusSpan.textContent = 'Disconnected');
 });

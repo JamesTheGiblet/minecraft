@@ -93,6 +93,11 @@ Now, generate the JSON for a "${structureName}". Respond with ONLY the JSON obje
    * @param {string} username - The player who requested the build.
    */
   async function executeBlueprint(blueprint, username) {
+    if (sharedState.isFleeing) {
+      sharedState.say("I can't build right now, I'm trying to stay safe!");
+      return;
+    }
+
     const player = bot.players[username];
     if (!player || !player.entity) {
       sharedState.say("I can't see you, so I can't build for you!");

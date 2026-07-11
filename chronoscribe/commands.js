@@ -91,11 +91,14 @@ module.exports = (bot, sharedState) => {
 
     sharedState.updatePlayerActivity(username);
 
-    const args = message.toLowerCase().split(' ');
-    const command = args[0];
+    const messageText = message.toLowerCase().trim();
+    const args = messageText.split(' ');
+    const commandName = args[0];
 
-    if (commands[command]) {
-      commandscommand;
+    // Only execute if the command is a perfect match or if it's a command that takes arguments.
+    if (commands[commandName] && (args.length > 1 || messageText === commandName)) {
+      // Execute the command's handler function, passing the player's name and arguments.
+      commands[commandName](username, args);
     }
   });
 };

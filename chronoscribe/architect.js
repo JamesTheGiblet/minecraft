@@ -9,7 +9,7 @@ const mineflayer = require('mineflayer');
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
-const say = require('say');
+const tts = require('say');
 
 /**
  * @description Central configuration object for the bot.
@@ -104,6 +104,12 @@ let lastAdviceTime = 0; // Timestamp of the last automatic advice.
 let currentStyle = 'any'; // The player's preferred building style.
 let adviceCount = 0; // Counter for the number of tips given.
 
+/**
+ * @description A map to store individual state for each player.
+ * @type {Map<string, object>}
+ */
+const playerStates = new Map();
+
 // --- BOT EVENT HANDLERS ---
 
 /**
@@ -113,8 +119,8 @@ let adviceCount = 0; // Counter for the number of tips given.
 bot.on('login', () => {
   // Use a timeout to ensure the bot can chat after the world loads.
   setTimeout(() => {
-    say('🏛️ ChronoScribe the Architect has arrived!');
-    say('📐 "I see potential in every block..."');
+    tts.speak('ChronoScribe the Architect has arrived!');
+    tts.speak('I see potential in every block...');
   }, 2000);
 
 });
@@ -141,7 +147,7 @@ function say(message) {
 
   if (CONFIG.USE_TTS) {
     const cleanMessage = message.replace(/🏛️|📐|✨|🪓|📦|🏗️|🔥|💀/g, '');
-    say.speak(cleanMessage);
+    tts.speak(cleanMessage);
   }
 }
 
@@ -450,6 +456,59 @@ Now, inspire me:`;
   }
 }
 
+/**
+ * @description Calls the Ollama API with a given prompt.
+ * @param {string} prompt - The text prompt to send to the LLM.
+ * @param {string|null} [imageBase64=null] - Optional base64 encoded image for vision models.
+ * @returns {Promise<string>} The text response from the LLM.
+ */
+async function callOllama(prompt, imageBase64 = null) {
+  return new Promise((resolve, reject) => {
+    const postData = {
+      model: imageBase64 ? CONFIG.VISION_MODEL : CONFIG.LLM_MODEL,
+      prompt: prompt,
+      stream: false,
+    };
+
+    if (imageBase64) {
+      postData.images = [imageBase64];
+    }
+
+    const options = {
+      hostname: CONFIG.OLLAMA_HOST,
+      port: CONFIG.OLLAMA_PORT,
+      path: '/api/generate',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const req = http.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        try {
+          const responseJson = JSON.parse(data);
+          if (responseJson.error) {
+            reject(new Error(responseJson.error));
+          } else {
+            resolve(responseJson.response);
+          }
+        } catch (e) {
+          reject(e);
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(JSON.stringify(postData));
+    req.end();
+  });
+}
+
 // --- PLUGIN LOADER ---
 
 /**
@@ -473,6 +532,7 @@ const sharedState = {
   getArchitectAdvice,
   getInspiration,
   callOllama,
+  isFleeing: false, // Global flag to indicate if the bot is in danger
   getInventorySummary,
   updatePlayerActivity: (username) => {
     if (playerStates.has(username)) {
@@ -489,25 +549,39 @@ const sharedState = {
  * the directory, with no changes needed to the core bot code.
  */
 function loadPlugins() {
-  const pluginsDir = path.join(__dirname, 'plugins');
-  fs.readdir(pluginsDir, (err, files) => {
-    if (err) {
-      console.error('Failed to read plugins directory.', err);
-      return;
+    const pluginsDir = path.join(__dirname, 'plugins');
+    const corePlugin = 'commands.js';
+
+    // --- Phase 1: Load the core command plugin first ---
+    // This is critical to ensure `registerCommand` and the master chat listener are available
+    // before any other plugins try to use them. This prevents race conditions.
+    try {
+        const plugin = require(path.join(pluginsDir, corePlugin));
+        plugin(bot, sharedState);
+        console.log(`[PluginLoader] Loaded core plugin: ${corePlugin}`);
+    } catch (e) {
+        console.error(`[PluginLoader] CRITICAL: Failed to load core plugin ${corePlugin}. Commands will not work.`, e);
     }
 
-    files.forEach(file => {
-      if (file.endsWith('.js')) {
-        try {
-          const plugin = require(path.join(pluginsDir, file));
-          plugin(bot, sharedState);
-          console.log(`[PluginLoader] Loaded plugin: ${file}`);
-        } catch (e) {
-          console.error(`[PluginLoader] Failed to load plugin ${file}:`, e);
+    // --- Phase 2: Load all other standard plugins ---
+    fs.readdir(pluginsDir, (err, files) => {
+        if (err) {
+            console.error('Failed to read plugins directory.', err);
+            return;
         }
-      }
+
+        files.forEach(file => {
+            if (file.endsWith('.js') && file !== corePlugin) { // Ensure we don't load the core plugin twice
+                try {
+                    const plugin = require(path.join(pluginsDir, file));
+                    plugin(bot, sharedState);
+                    console.log(`[PluginLoader] Loaded plugin: ${file}`);
+                } catch (e) {
+                    console.error(`[PluginLoader] Failed to load plugin ${file}:`, e);
+                }
+            }
+        });
     });
-  });
 }
 
 // --- START ---
