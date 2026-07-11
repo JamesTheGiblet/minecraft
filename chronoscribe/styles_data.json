@@ -1,0 +1,14 @@
+{
+  "rustic": {
+    "summary": "A cozy, natural style emphasizing wood and stone. Features simple shapes, exposed beams, and a connection to the outdoors.",
+    "materials": ["oak_log", "spruce_planks", "cobblestone", "stone_bricks", "glass_pane"]
+  },
+  "modern": {
+    "summary": "A clean, minimalist style focused on geometric shapes, open spaces, and smooth textures.",
+    "materials": ["quartz_block", "concrete", "glass", "iron_block", "dark_oak_planks"]
+  },
+  "medieval": {
+    "summary": "A defensive, grand style characterized by stone walls, towers, and decorative wood accents.",
+    "materials": ["stone_bricks", "oak_log", "spruce_planks", "andesite", "cobblestone_wall"]
+  }
+}
