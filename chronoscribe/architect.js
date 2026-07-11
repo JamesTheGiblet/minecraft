@@ -556,7 +556,7 @@ function loadPlugins() {
     // This is critical to ensure `registerCommand` and the master chat listener are available
     // before any other plugins try to use them. This prevents race conditions.
     try {
-        const plugin = require(path.join(pluginsDir, corePlugin));
+      const plugin = require(path.join(__dirname, corePlugin));
         plugin(bot, sharedState);
         console.log(`[PluginLoader] Loaded core plugin: ${corePlugin}`);
     } catch (e) {
@@ -571,7 +571,7 @@ function loadPlugins() {
         }
 
         files.forEach(file => {
-            if (file.endsWith('.js') && file !== corePlugin) { // Ensure we don't load the core plugin twice
+          if (file.endsWith('.js') && file !== corePlugin) {
                 try {
                     const plugin = require(path.join(pluginsDir, file));
                     plugin(bot, sharedState);

@@ -25,7 +25,7 @@ module.exports = (bot, sharedState) => {
     const inv = sharedState.getInventorySummary(username);
     const materialMsg = `Inventory: ${inv.woodLogs} logs, ${inv.planks} planks, ${inv.stone} stone. Total: ${inv.total} blocks.`;
     sharedState.say(materialMsg);
-  });
+  }, ['m']);
 
   registerCommand('roast', (username) => {
     sharedState.say("🔥 Roasting is for furnaces, not builds! Let me help you upgrade it instead.");

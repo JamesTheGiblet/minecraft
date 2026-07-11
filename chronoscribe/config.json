@@ -6,6 +6,5 @@
   "OLLAMA_PORT": 11434,
   "USE_TTS": false,
   "VISION_MODEL": "llava:latest",
-  "SCREENSHOTS_PATH": "C:/Users/gilbe/AppData/Roaming/.minecraft/screenshots",
-  "DASHBOARD_PORT": 3000
+  "SCREENSHOTS_PATH": "C:/Users/gilbe/AppData/Roaming/.minecraft/screenshots"
 }

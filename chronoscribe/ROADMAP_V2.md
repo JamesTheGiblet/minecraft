@@ -35,21 +35,6 @@ This phase focuses on giving BlockSmith the ability to physically interact with 
     -   Create a new plugin that allows the bot to manage a small farm plot.
     -   It will be able to till soil, plant seeds, and harvest crops when they are mature, placing the results in a designated chest.
 
-## Dashboard & User Experience
-
-The goal is to make the web dashboard a true command center for the bot.
-
--   **[ ] Interactive Dashboard:**
-    -   Add buttons to the dashboard to trigger in-game commands like `/inspire`, `/status`, or `/blueprint`.
-    -   Implement a text box to send chat messages directly from the dashboard.
-    -   Display the bot's current inventory in real-time on the dashboard.
-
--   **[ ] Live World Map:**
-    -   Integrate `prismarine-viewer` into the dashboard plugin.
-    -   This will add a new section to the web UI that shows a live, top-down map of the world around the bot, updating in real-time.
-
----
-
 This V2.0 roadmap represents a significant leap in complexity and capability, moving BlockSmith towards the ultimate goal of being an indispensable AI partner for any Minecraft player.
 
 ---
@@ -74,5 +59,4 @@ This V2.0 roadmap represents a significant leap in complexity and capability, mo
     -   Farming plot coordinates
     -   Collaboration preferences
 4.  **Initialize vector database** - first-run migration script
-5.  **Dashboard update** - rebuild UI with interactive elements
-6.  **Training** - allow AI to learn your building style
+5.  **Training** - allow AI to learn your building style

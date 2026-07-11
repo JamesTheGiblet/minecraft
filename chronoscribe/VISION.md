@@ -103,7 +103,7 @@ That's called **innovation**.
 | Approach | Why |
 |----------|-----|
 | **Release BlockSmith** | Let the product speak for itself |
-| **Make it accessible** | One-click installer, web dashboard, clear docs |
+| **Make it accessible** | One-click installer, clear docs |
 | **Build a community** | Discord, GitHub, Reddit |
 | **Listen to users** | Features they actually want |
 | **Ignore the haters** | They don't matter. Users do. |

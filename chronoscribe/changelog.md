@@ -35,21 +35,12 @@
 
 <br/>
 
----
 
 ## Version 1.0.0 - Feature-Complete Beta Release
 
 ---
 
 ### 🎯 Major New Features
-
-#### Web Dashboard (GUI Overlay)
-
-- Added real-time web-based dashboard accessible at `http://localhost:3000`
-- Live chat log display with auto-scroll functionality
-- Connection status indicator
-- No alt-tabbing required - opens in browser on second monitor or as overlay
-- Built with Express.js and Socket.io for real-time communication
 
 #### Blueprint Generation System
 
@@ -63,7 +54,7 @@
 #### One-Click Installer
 
 - **Standalone executable** (`chronoscribe.exe`) - no Node.js required
-- Bundled dependencies and assets (plugins, dashboard, JSON files)
+- Bundled dependencies and assets (plugins and JSON files)
 - Cross-platform packaging via `pkg`
 - Non-developers can run with zero setup (just Ollama + Minecraft)
 - Added `npm run build` script for easy executable generation
@@ -106,7 +97,6 @@
 | --- | --- |
 | `activity-tracker.js` | Monitors player actions (arm swings, inventory) |
 | `commands.js` | Master command handler with plugin registration |
-| `dashboard.js` | Serves web GUI and real-time updates |
 | `leighton-loop.js` | Self-critique and learning logic |
 | `player-tracker.js` | Manages player join/leave and state |
 | `vision.js` | Screenshot watching and critique command |
@@ -180,8 +170,6 @@
 | --- | --- | --- |
 | `say` | ^0.16.0 | Text-to-speech integration |
 | `chokidar` | ^3.6.0 | Screenshot folder watching |
-| `express` | ^4.19.2 | Web dashboard server |
-| `socket.io` | ^4.7.5 | Real-time dashboard updates |
 | `vec3` | ^0.1.8 | 3D vector math for blueprint placement |
 | `pkg` | ^5.8.1 | Executable packaging (dev dependency) |
 
@@ -212,11 +200,9 @@
    - `"USE_TTS": false`
    - `"VISION_MODEL": "llava:latest"`
    - `"SCREENSHOTS_PATH": "C:/Users/YourUser/AppData/Roaming/.minecraft/screenshots"`
-   - `"DASHBOARD_PORT": 3000`
-3. Create `/dashboard` folder with HTML/CSS/JS files
-4. Create `/plugins` folder with all plugin files
-5. Pull `llava` model: `ollama pull llava`
-6. (Optional) Build executable: `npm run build`
+3. Create `/plugins` folder with all plugin files
+4. Pull `llava` model: `ollama pull llava`
+5. (Optional) Build executable: `npm run build`
 
 ---
 
@@ -229,7 +215,6 @@ BlockSmith has evolved from a single-purpose advice bot into a **full-featured A
 - ✅ **Vision capabilities** for aesthetic feedback
 - ✅ **Voice integration** for immersive experience
 - ✅ **Blueprint generation** and building
-- ✅ **Web dashboard** for live monitoring
 - ✅ **One-click installer** for non-developers
 - ✅ **Plugin architecture** for extensibility
 

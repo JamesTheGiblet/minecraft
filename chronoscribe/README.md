@@ -40,7 +40,7 @@ The project is in a feature-complete Beta stage. It is stable, well-documented, 
 
 - **Stability:** Stable for both single-player and multiplayer use on dedicated servers.
 - **Modularity:** A robust plugin architecture makes the codebase clean and highly extensible.
-- **User Experience:** Features like a web dashboard, voice integration, and a one-click installer make the bot accessible and easy to use for everyone.
+- **User Experience:** Voice integration and a one-click installer make the bot accessible and easy to use for everyone.
 - **Advanced Capabilities:** Includes vision (screenshot analysis), blueprint building, and autonomous resource gathering.
 
 See the `ROADMAP_V2.md` file for the future vision of the project.
