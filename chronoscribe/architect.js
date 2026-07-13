@@ -1,5 +1,5 @@
 /**
- * @file BlockSmith - An AI-powered Minecraft architectural assistant.
+ * @file CobbleWright - An AI-powered Minecraft architectural assistant.
  * This is the main entry point for the bot. It's designed as a "thin" loader.
  * Its only jobs are to load configuration, create the bot instance, and
  * knowledge bases, and all plugins from the /plugins directory.
@@ -30,7 +30,7 @@ try {
  */
 let BIOME_DATA;
 try {
-  BIOME_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'biome_data.json'), 'utf8'));
+  BIOME_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'biome_data.json'), 'utf8'));
 } catch (e) {
   console.warn('Warning: biome_data.json not found or invalid. Biome-specific context will be limited.');
   BIOME_DATA = {};
@@ -41,7 +41,7 @@ try {
  */
 let REDSTONE_DATA;
 try {
-  REDSTONE_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'redstone_circuits.json'), 'utf8'));
+  REDSTONE_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'redstone_circuits.json'), 'utf8'));
 } catch (e) {
   console.warn('Warning: redstone_circuits.json not found. Automation advice will be disabled.');
   REDSTONE_DATA = {};
@@ -52,7 +52,7 @@ try {
  */
 let COMMANDS_DATA;
 try {
-  COMMANDS_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'commands_data.json'), 'utf8'));
+  COMMANDS_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'commands_data.json'), 'utf8'));
 } catch (e) {
   console.warn('Warning: commands_data.json not found. Command suggestions will be disabled.');
   COMMANDS_DATA = {};
@@ -63,7 +63,7 @@ try {
  */
 let ENTITY_DATA;
 try {
-  ENTITY_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'entity_data.json'), 'utf8'));
+  ENTITY_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'entity_data.json'), 'utf8'));
 } catch (e) {
   console.warn('Warning: entity_data.json not found. Entity awareness will be disabled.');
   ENTITY_DATA = {};
@@ -74,10 +74,21 @@ try {
  */
 let STYLES_DATA;
 try {
-  STYLES_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'styles_data.json'), 'utf8'));
+  STYLES_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'styles_data.json'), 'utf8'));
 } catch (e) {
   console.warn('Warning: styles_data.json not found. Style-specific advice will be disabled.');
   STYLES_DATA = {};
+}
+
+/**
+ * @description Pre-defined structures knowledge base.
+ */
+let STRUCTURES_DATA;
+try {
+  STRUCTURES_DATA = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'structures.json'), 'utf8'));
+} catch (e) {
+  console.warn('Warning: structures.json not found. Pre-defined blueprints will be disabled.');
+  STRUCTURES_DATA = {};
 }
 
 /**
@@ -110,6 +121,21 @@ let adviceCount = 0; // Counter for the number of tips given.
  */
 const playerStates = new Map();
 
+/**
+ * @description Movement profiles for the pathfinder.
+ */
+let safeMovements;
+let gatherMovements;
+
+bot.once('login', () => {
+  const { Movements } = require('mineflayer-pathfinder');
+  const mcData = require('minecraft-data')(bot.version);
+  safeMovements = new Movements(bot, mcData);
+  // Safe profile: use doors and paths, never break blocks while navigating.
+  safeMovements.canDig = false;
+  safeMovements.canOpenDoors = true;
+});
+
 // --- BOT EVENT HANDLERS ---
 
 /**
@@ -119,8 +145,9 @@ const playerStates = new Map();
 bot.on('login', () => {
   // Use a timeout to ensure the bot can chat after the world loads.
   setTimeout(() => {
-    tts.speak('ChronoScribe the Architect has arrived!');
-    tts.speak('I see potential in every block...');
+    if (CONFIG.USE_TTS) {
+      tts.speak('CobbleWright the Architect has arrived! I see potential in every block...');
+    }
   }, 2000);
 
 });
@@ -348,66 +375,71 @@ async function getArchitectAdvice(username, trigger = 'auto') {
     contextSections.push(`Architectural Style: ${playerStyle.charAt(0).toUpperCase() + playerStyle.slice(1)}\n- Summary: ${styleInfo.summary}\n- Key Materials: ${styleInfo.materials.join(', ')}`);
   }
 
+  // This is the new, more robust JSON-based prompt.
   const prompt = `
-You are ChronoScribe, a warm, witty, encouraging architectural consultant in Minecraft.
-Your goal is to suggest a small project to help the player progress. This can be a building project, an automation project, or a tactical action.
-Your advice must be practical and consider the specific threats (threat_level) and opportunities (utility) presented by nearby entities.
-Your advice must be based on their inventory and be aware of crafting/automation prerequisites.
-If a building style is specified, your architectural advice MUST conform to that style.
+You are CobbleWright, a warm, witty, encouraging architectural consultant in Minecraft.
+Your goal is to suggest a practical, 2-step project to help the player progress.
+You must respond with ONLY a valid JSON object. Do not include any other text or markdown.
+The JSON object must have four string properties: "observation", "step1", "step2", and "goal".
+
+Rules for your response:
+- Base your suggestion on the player's situation, but be mindful that the inventory is just a proxy for available resources.
+- Your advice must be practical and actionable.
+- If a building style is specified, the project must conform to it.
+- Be encouraging and explain the final goal.
+
 IMPORTANT: The inventory listed is the BOT's inventory, not the player's. Use it as a rough guide for available resources in the area, but give general advice that doesn't depend on exact item counts.
 
 Current situation:
 - Biome: ${terrain.biome}
 - Bot's Key Materials (proxy for area resources): ${inv.woodLogs} logs, ${inv.planks} planks, ${inv.stone} stone, ${inv.iron_ore} iron ore, ${inv.redstone_dust} redstone.
 - Bot's Utility Blocks: Bot ${inv.has_crafting_table ? 'HAS' : 'does NOT have'} a crafting table. Bot ${inv.has_furnace ? 'HAS' : 'does NOT have'} a furnace.
-- Holding: ${held}
 - Trigger: ${trigger === 'chat' ? 'Player asked for help directly (they WANT advice!)' : 'Automatic check-in'}
 ${contextSections.join('\n\n')}
- 
-Give a 2-step project suggestion. Be encouraging and explain the final goal.
 
-Rules:
-- Your response must be a short paragraph.
-- Start with an observation about their inventory.
-- Clearly label "Step 1:" and "Step 2:".
-- State the ultimate goal of the project.
+Example of a valid JSON response:
+{
+  "observation": "I see you've got some iron ore, let's put it to use!",
+  "step1": "Use 8 of your cobblestone to craft a furnace.",
+  "step2": "Smelt that iron ore using coal as fuel.",
+  "goal": "The goal is to get iron ingots for better tools and armor!"
+}
 
-Examples of good advice:
-- "I see you've got some iron ore, let's put it to use! Step 1: Use 8 of your cobblestone to craft a furnace. Step 2: Smelt that iron ore using coal as fuel. The goal is to get iron ingots for better tools and armor!"
-- "You have hoppers and chests! Let's build your first automated machine. Step 1: Place a chest with a hopper on top of a furnace. Step 2: Place another hopper on the side of the furnace for fuel. The goal is to create an auto-smelter that processes items for you!"
-- "That cliffside is perfect for a base! Step 1: Plan a 5x5 room. Step 2: Clear the area quickly using the '/fill' command. The goal is to create a large space without manual digging!"
-- "Watch out, there's a Creeper nearby! Step 1: Quickly build a 3-block high wall between you and it. Step 2: Craft a sword to defend yourself. The goal is to survive the encounter and protect your build!"
-- "I see a Villager to the East! Step 1: Go and see what it's trading. Step 2: If it has a good trade, build a simple 3x3 hut around it to keep it safe. The goal is to secure a valuable trading partner!"
-- "You want a rustic build? Perfect. Step 1: Use your oak logs to create a 5x5 frame for a cabin. Step 2: Fill in the walls with cobblestone. The goal is a cozy, rustic shelter."
-- "An Enderman is nearby. Avoid looking directly at it! Step 1: Prepare your weapons. Step 2: Lure it to a 2-block high space where it can't reach you. The goal is to safely acquire Ender Pearls."
-
-Now give your advice:`;
+Now, generate your JSON response.`;
   try {
     const response = await callOllama(prompt);
-    const advice = response.trim();
+    const jsonString = response.substring(response.indexOf('{'), response.lastIndexOf('}') + 1);
+    const adviceJson = JSON.parse(jsonString);
 
-    // Parse the advice to find mentioned materials for a more accurate critique later.
+    // Validate the JSON structure.
+    if (!adviceJson.observation || !adviceJson.step1 || !adviceJson.step2 || !adviceJson.goal) {
+      throw new Error("Invalid JSON structure from LLM.");
+    }
+
+    const formattedAdvice = `${adviceJson.observation} Step 1: ${adviceJson.step1} Step 2: ${adviceJson.step2} ${adviceJson.goal}`;
+
+    // Parse the advice to find mentioned materials for the critique loop.
     const mentionedMaterials = [];
     const allMaterials = ['log', 'plank', 'stone', 'cobblestone', 'iron', 'coal', 'dirt'];
     allMaterials.forEach(mat => {
-      if (advice.toLowerCase().includes(mat)) {
+      if (formattedAdvice.toLowerCase().includes(mat)) {
         mentionedMaterials.push(mat);
       }
     });
 
-    // Create and store a "Semantic Capsule" for this advice.
-    memoryLog.push({
+    // Create and store a "Semantic Capsule".
+    sharedState.addMemory({
       id: `advice_${Date.now()}`,
       timestamp: Date.now(),
       type: 'advice',
-      content: advice,
+      content: formattedAdvice,
       outcome: 'unknown', // To be determined by the critique loop.
       context: { username: username, inventory: inv, mentionedMaterials: mentionedMaterials }
     });
     adviceCount++;
 
     // Print the advice with style
-    say(`🏛️ ${advice}`);
+    say(`🏛️ ${formattedAdvice}`);
 
     // Extra flavor based on materials
     const totalBlocks = inv.woodLogs + inv.planks + inv.stone + inv.dirt;
@@ -422,20 +454,22 @@ Now give your advice:`;
 
     if (flavorText) setTimeout(() => say(flavorText), 500); // Send with a small delay
   } catch (e) {
-    console.log('🤷  Ollama error. Make sure it\'s running:');
-    console.log('   In another terminal: ollama serve');
-    console.log(`   Then pull the model: ollama pull ${CONFIG.LLM_MODEL}`);
-    console.error('Error details:', e.message);
+    console.error('[Brain] Failed to get and parse advice:', e.message);
+    if (e.message.includes("ECONNREFUSED")) {
+      say("I can't seem to connect to my thoughts... Is Ollama running?");
+    } else if (e.message.includes("Invalid JSON")) {
+      say("My thoughts are a bit scrambled right now. Let's try something simpler.");
+      // Fallback Logic: Provide a simple, reliable piece of advice.
+      const inv = getInventorySummary(username);
+      const fallbackAdvice = inv.woodLogs > 5 ? "Let's get organized. Step 1: Craft some planks. Step 2: Build a chest to store your items. The goal is to create a safe place for your resources!" : "I need more to work with. Step 1: Find a tree. Step 2: Gather 5 logs. The goal is to get basic materials to start building!";
+      say(`🏛️ ${fallbackAdvice}`);
+    }
   }
 }
 
-/**
- * @description Gets a purely creative, unconstrained building idea from the LLM.
- * @returns {Promise<void>}
- */
 async function getInspiration() {
   const prompt = `
-You are ChronoScribe, a Minecraft muse of pure creativity.
+You are CobbleWright, a Minecraft muse of pure creativity.
 Give one short, fun, and wonderfully weird building idea.
 It should be imaginative and not constrained by resources.
 Keep it to a single, exciting sentence.
@@ -518,22 +552,46 @@ async function callOllama(prompt, imageBase64 = null) {
  * provides them with a consistent API and state. This keeps plugins decoupled
  * and makes the overall architecture much cleaner and easier to test or extend.
  */
+
+
 const sharedState = {
   CONFIG,
   BIOME_DATA,
   REDSTONE_DATA,
   COMMANDS_DATA,
   ENTITY_DATA,
+  STRUCTURES_DATA,
   STYLES_DATA,
   memoryLog,
   startTime,
   playerStates,
   say,
+  get safeMovements() {
+    // Use a getter to ensure movements are initialized after login.
+    return safeMovements;
+  },
   getArchitectAdvice,
   getInspiration,
   callOllama,
   isFleeing: false, // Global flag to indicate if the bot is in danger
+  isBusy: false, // Global flag for long-running tasks like gather/blueprint
+  isCancelled: false, // Flag to signal task cancellation
+  getHomePosition: () => null, // Will be overridden by survival.js
+  getHomeRadius: () => 0, // Will be overridden by survival.js
   getInventorySummary,
+  applySafeMovements: () => {
+    if (safeMovements) {
+      bot.pathfinder.setMovements(safeMovements);
+    }
+  },
+  runBusyTask: async (task) => {
+    sharedState.isBusy = true;
+    try {
+      return await task();
+    } finally {
+      sharedState.isBusy = false;
+    }
+  },
   updatePlayerActivity: (username) => {
     if (playerStates.has(username)) {
       playerStates.get(username).lastActivityTime = Date.now();
@@ -556,8 +614,9 @@ function loadPlugins() {
     // This is critical to ensure `registerCommand` and the master chat listener are available
     // before any other plugins try to use them. This prevents race conditions.
     try {
-      const plugin = require(path.join(__dirname, corePlugin));
-        plugin(bot, sharedState);
+      const pluginPath = path.join(pluginsDir, corePlugin);
+      const plugin = require(pluginPath);
+      plugin(bot, sharedState);
         console.log(`[PluginLoader] Loaded core plugin: ${corePlugin}`);
     } catch (e) {
         console.error(`[PluginLoader] CRITICAL: Failed to load core plugin ${corePlugin}. Commands will not work.`, e);
@@ -585,7 +644,7 @@ function loadPlugins() {
 }
 
 // --- START ---
-console.log('\n🏛️  BlockSmith is analyzing the terrain...');
+console.log('\n🏛️  CobbleWright is analyzing the terrain...');
 console.log('📐 Say "build" in chat for instant advice!');
 console.log('📦 Say "materials" to check your inventory');
 console.log('🔄 Make sure your world is open to LAN (Esc → Open to LAN)\n');

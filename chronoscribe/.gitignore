@@ -1,12 +1,18 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # Dependencies
-/node_modules
+node_modules/
 
 # Build output
-/chronoscribe.exe
+*.exe
+dashboard/
+
+# Local configuration
+# DO NOT commit your personal config.json. Use the template.
+config.json
 
 # Logs
+logs/
 logs
 *.log
 npm-debug.log*
@@ -26,4 +32,4 @@ Thumbs.db
 .env.local
 
 # pkg cache
-.pkg-cache
+.pkg-cache/

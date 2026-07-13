@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "uuid": "d5910b0f-a218-3fd8-b4eb-2b4fd4bc0c0a",
+    "name": "DramaticSage",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  }
+]

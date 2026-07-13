@@ -1,5 +1,5 @@
 {
-  "name": "blocksmith",
+  "name": "cobblewright",
   "version": "1.0.0",
   "description": "",
   "main": "architect.js",
@@ -7,27 +7,29 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node architect.js",
-    "build": "pkg . --targets node18-win-x64 --output chronoscribe.exe"
+    "build": "pkg . --targets node18-win-x64 --output cobblewright.exe"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "mineflayer": "next",
+    "mineflayer": "4.37.1",
     "say": "^0.16.0",
     "chokidar": "^3.6.0",
     "vec3": "^0.1.8",
     "mineflayer-pathfinder": "^2.4.5",
-    "prismarine-block": "^1.16.4"
+    "prismarine-block": "^1.16.4",
+    "chromadb": "^1.8.1",
+    "prismarine-schematic": "^2.1.0"
   },
   "devDependencies": {
     "pkg": "^5.8.1"
   },
   "pkg": {
     "assets": [
-      "plugins/**/*",
-      "*.json"
+      "plugins/**",
+      "data/**"
     ],
     "scripts": [
       "plugins/**/*.js"
