@@ -1,18 +1,18 @@
 # CobbleWright - Your AI Minecraft Architect
 
-CobbleWright is a program that runs **ChronoScribe**, an AI-powered companion bot for Minecraft that acts as a personal architectural consultant. ChronoScribe observes your in-game situation, analyzes your resources and environment, and provides creative, actionable building advice directly in the game chat.
+CobbleWright is a program that runs **ChronoScribe**, an AI-powered companion bot for Minecraft that acts as a personal architectural consultant. CobbleWright observes your in-game situation, analyzes your resources and environment, and provides creative, actionable building advice directly in the game chat.
 It can even physically gather resources and build simple structures on command.
 It features a modular plugin architecture, making it highly extensible.
 It supports multiple players on a server, offering personalized advice to each one.
 
-Powered by a local Large Language Model (LLM) via Ollama, ChronoScribe is designed to be a lighthearted and encouraging muse, helping players overcome creative blocks and build structures they can be proud of.
+Powered by a local Large Language Model (LLM) via Ollama, CobbleWright is designed to be a lighthearted and encouraging muse, helping players overcome creative blocks and build structures they can be proud of.
 
 ## The Vision
 
 CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe coder" with a clear vision can build powerful, user-centric products that solve real problems. It's a companion designed to make Minecraft more creative and less lonely.
 
-- To understand the philosophy and "why" behind the project, read the **[INTENT.md](INTENT.md)**.
-- To understand the strategic vision and business plan, read the **[PLAYBOOK.md](PLAYBOOK.md)**.
+- To understand the philosophy and "why" behind the project, read the **[INTENT.md](doc/INTENT.md)**.
+- To understand the strategic vision and business plan, read the **[PLAYBOOK.md](doc/PLAYBOOK.md)**.
 - For technical details on extending the bot, see the **[DEVELOPER_GUIDE.md](doc/DEVELOPER_GUIDE.md)**.
 
 ## Features
@@ -20,7 +20,7 @@ CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe 
 - **Real-Time Architectural Advice:** CobbleWright analyzes your inventory and surroundings to give relevant building tips.
 - **Multi-Step Project Guidance:** CobbleWright analyzes your inventory and crafting capabilities to suggest logical, multi-step projects (e.g., "First craft a furnace, then smelt your ore").
 - **In-Game Communication:** All advice and communication happens directly through Minecraft's chat.
-- **Adaptive Learning:** Using a "Leighton Weight" self-correction loop, ChronoScribe reflects on the outcomes of its advice and adapts its future suggestions to be more helpful over time.
+- **Adaptive Learning:** Using a "Leighton Weight" self-correction loop, CobbleWright reflects on the outcomes of its advice and adapts its future suggestions to be more helpful over time.
 - **Advanced Player Activity Detection:** The bot is smart enough to detect when you're paused or AFK, and its critique loop intelligently analyzes changes in specific materials to accurately judge if its advice was followed.
 - **Comprehensive Mob Knowledge:** Utilizes a detailed knowledge base of mob behaviors, threats, and utilities to provide advanced tactical and strategic advice.
 - **Command Integration:** Suggests useful in-game commands (like `/fill` or `/time set day`) to help facilitate large projects.
@@ -44,7 +44,7 @@ CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe 
 
 ## Current State: Version 1.1 - Feature-Complete Beta
 
-The project is in a feature-complete Beta stage. It is stable, well-documented, and includes a rich set of advanced features.
+The project is in a feature-complete Beta stage (v1.1.2). It is stable, well-documented, and includes a rich set of advanced features.
 
 - **Stability:** Stable for both single-player and multiplayer use on dedicated servers.
 - **Modularity:** A robust plugin architecture makes the codebase clean and highly extensible.
@@ -68,6 +68,7 @@ See the `doc/ROADMAP.md` file for the full project history and future vision.
 | `critique` | Aesthetic feedback on latest screenshot |
 | `status` | Diagnostic check (uptime, Ollama status, memory) |
 | `style <name>` | Set architectural style |
+| `sethome` | Save bot safety-home position for flee behavior |
 
 ## Support Behavior
 
@@ -79,6 +80,6 @@ At night, the bot automatically enters patrol mode instead of staying in place. 
 
 - **Blueprint validation:** Generated blueprints are rejected if they exceed safety constraints.
 - **Vision file validation:** Only supported image files in the configured screenshot directory are accepted.
+- **Building protection during gathering:** The bot avoids harvesting blocks that look like they belong to player-built structures.
 - **Memory retention policy:** Configure retention with `MEMORY_RETENTION_ENABLED`, `MEMORY_MAX_ENTRIES`, and `MEMORY_MAX_AGE_DAYS` in `config.json`.
-
-
+- **Building-protection config:** Configure with `PROTECT_BUILDINGS_FOR_GATHERING` and `BUILDING_DETECTOR_RADIUS` in `config.json`.

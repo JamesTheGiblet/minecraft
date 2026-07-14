@@ -75,6 +75,8 @@ Before you begin, ensure you have the following software installed:
 3. Create a file named `config.json` in this folder and paste the configuration content into it.
     - To enable the text-to-speech feature, add `"USE_TTS": true` to this file.
     - To enable vision, you must add `"VISION_MODEL": "llava:latest"` and `"SCREENSHOTS_PATH": "C:/Users/YourUser/AppData/Roaming/.minecraft/screenshots"`.
+    - Memory retention controls are available with `"MEMORY_RETENTION_ENABLED"`, `"MEMORY_MAX_ENTRIES"`, and `"MEMORY_MAX_AGE_DAYS"`.
+    - Gather structure protection controls are available with `"PROTECT_BUILDINGS_FOR_GATHERING"` and `"BUILDING_DETECTOR_RADIUS"`.
     - **IMPORTANT:** You must replace `YourUser` with your actual Windows username.
 4. Create a file named `architect.js` in this folder and copy the entire source code into it.
 
@@ -125,7 +127,4 @@ Remember to adjust the path to your `java.exe` and the `-Xmx` value (for example
 - **Ollama Error:** If you get an "Ollama error," ensure the Ollama application is running and that you have successfully pulled the model.
 - **Bot Doesn't Speak:** If the bot joins but does not speak, wait about 90 seconds for the first automatic tip or type `build` in the chat to trigger it manually.
 - **Chat Not Working:** If you can join the server but cannot send or see chat messages, you may need to adjust your Microsoft/Xbox account privacy settings. Sign in to your Microsoft account on the Xbox website and ensure that "You can communicate outside of Xbox with voice and text" and "Others can communicate with voice, text or invites" are set to "Allow" or "Everyone".
-
-
-
-
+- **Bot Cannot Flee:** If you see warnings that the bot is in danger but has no home, stand where you want it to retreat and run `sethome` in chat.

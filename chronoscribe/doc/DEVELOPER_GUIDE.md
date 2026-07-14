@@ -1,34 +1,62 @@
 # CobbleWright Developer Guide
 
-This document provides technical guidance for developers who wish to contribute to CobbleWright or extend its capabilities.
+This document provides technical guidance for contributors extending CobbleWright.
 
-## Extending ChronoScribe's Knowledge
+## Architecture Overview
 
-ChronoScribe's abilities are defined by its knowledge bases, which are simple JSON files located in the `data/` directory. You can teach ChronoScribe new things without writing any code by editing these files.
+- Entry point: `architect.js`
+- Plugin directory: `plugins/`
+- Core JSON knowledge files: `biome_data.json`, `commands_data.json`, `entity_data.json`, `redstone_circuits.json`, `styles_data.json`
+- User-facing docs: `README.md`, `USER_GUIDE.md`, and `doc/`
 
-### Adding New Pre-defined Structures
+The runtime is intentionally plugin-driven. New capabilities should be added through a plugin when possible, not by growing `architect.js`.
 
-The `blueprint` command can build structures from a pre-defined library located in `data/structures.json`. This is faster and more reliable than generating them with the AI.
+## Command Extension Pattern
 
-While you can write these JSON files by hand, the easiest way to add new buildings is to use the schematic importer utility.
+Use `sharedState.registerCommand(name, handler, aliases)` from your plugin to register chat commands.
 
-#### Using the Schematic Importer
+Example pattern:
 
-The project includes a utility script to convert standard Minecraft `.schem` files into the JSON format ChronoScribe understands.
+```js
+if (sharedState.registerCommand) {
+    sharedState.registerCommand('mycommand', async (username, args) => {
+        // plugin behavior
+    }, ['alias1', 'alias2']);
+}
+```
 
-**Workflow:**
+## Safety Expectations
 
-1. **Find a Schematic:** Download a `.schem` or `.schematic` file for a structure you like from a community site like Planet Minecraft.
+All new features should preserve current guardrails:
 
-2. **Run the Importer:** Place the downloaded file in the project directory and run the following command from your terminal:
+- Blueprint generation must pass validation before build actions.
+- Vision input must only read supported screenshot files from the configured directory.
+- Long-term memory writes should honor retention controls.
+- Gather behavior should avoid likely player-built structures.
 
-    ```bash
-    node utils/schematic-importer.js path/to/your/schematic.schem
-    ```
+## Gather and Survival Notes
 
-3. **Copy the Output:** The script will print a perfectly formatted JSON object to your console.
+- Gather flow supports missing-tool auto-crafting and crafting-table fallback.
+- Gather includes structure-aware filtering so resource collection does not target likely player builds.
+- Survival flee behavior requires a home set by `sethome`.
 
-4. **Update the Database:** Open `data/structures.json`, add a new key for your structure (e.g., `"wizard_tower":`), and paste the copied JSON as its value.
+## Configuration Flags (Important)
 
-The next time you run CobbleWright, you can use the `structures` command to see your new addition and build it with `/blueprint wizard_tower`.
+`config.json` should include the current operational safety settings:
 
+- `MEMORY_RETENTION_ENABLED`
+- `MEMORY_MAX_ENTRIES`
+- `MEMORY_MAX_AGE_DAYS`
+- `PROTECT_BUILDINGS_FOR_GATHERING`
+- `BUILDING_DETECTOR_RADIUS`
+- `VISION_MODEL`
+- `SCREENSHOTS_PATH`
+
+## Documentation Update Rule
+
+When behavior changes, update these files in the same change set:
+
+- `README.md` for feature/safety summary
+- `USER_GUIDE.md` and `doc/USER_GUIDE.md` for player-facing behavior
+- `doc/COMMANDS.md` for command semantics
+- `doc/changelog.md` for release notes

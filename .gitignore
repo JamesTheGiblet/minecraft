@@ -9,10 +9,10 @@ yarn-error.log*
 .DS_Store
 
 # Dependencies
-chronoscribe/node_modules/
+cobblewright/node_modules/
 
 # Build artifacts
-chronoscribe/*.exe
+cobblewright/*.exe
 
 # Minecraft Server runtime files
 MinecraftServer/world/

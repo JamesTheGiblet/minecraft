@@ -11,6 +11,28 @@ module.exports = (bot, sharedState) => {
   bot.loadPlugin(pathfinder);
 
   const getMcData = () => require('minecraft-data')(bot.version);
+  const protectBuildingsForGathering = sharedState.CONFIG.PROTECT_BUILDINGS_FOR_GATHERING !== false;
+  const buildingDetectorRadius = Number.isInteger(sharedState.CONFIG.BUILDING_DETECTOR_RADIUS)
+    ? Math.max(1, sharedState.CONFIG.BUILDING_DETECTOR_RADIUS)
+    : 2;
+
+  const structureMarkerNames = new Set([
+    'crafting_table', 'chest', 'trapped_chest', 'furnace', 'blast_furnace', 'smoker',
+    'anvil', 'chipped_anvil', 'damaged_anvil', 'lantern', 'torch', 'wall_torch',
+    'glass', 'glass_pane', 'oak_door', 'spruce_door', 'birch_door', 'jungle_door',
+    'acacia_door', 'cherry_door', 'dark_oak_door', 'mangrove_door', 'crimson_door',
+    'warped_door', 'iron_door', 'oak_trapdoor', 'spruce_trapdoor', 'birch_trapdoor',
+    'jungle_trapdoor', 'acacia_trapdoor', 'cherry_trapdoor', 'dark_oak_trapdoor',
+    'mangrove_trapdoor', 'crimson_trapdoor', 'warped_trapdoor', 'ladder',
+    'oak_stairs', 'spruce_stairs', 'birch_stairs', 'jungle_stairs', 'acacia_stairs',
+    'cherry_stairs', 'dark_oak_stairs', 'mangrove_stairs', 'crimson_stairs',
+    'warped_stairs', 'stone_brick_stairs', 'cobblestone_stairs', 'brick_stairs',
+    'oak_slab', 'spruce_slab', 'birch_slab', 'jungle_slab', 'acacia_slab',
+    'cherry_slab', 'dark_oak_slab', 'mangrove_slab', 'crimson_slab', 'warped_slab',
+    'stone_brick_slab', 'cobblestone_slab', 'brick_slab', 'oak_fence', 'spruce_fence',
+    'birch_fence', 'jungle_fence', 'acacia_fence', 'cherry_fence', 'dark_oak_fence',
+    'mangrove_fence', 'crimson_fence', 'warped_fence', 'bed', 'bookshelf', 'carpet'
+  ]);
 
   const AUTO_SUPPORT_CHECK_MS = 30000;
   const AUTO_SUPPORT_COOLDOWN_MS = 10 * 60 * 1000;
@@ -60,6 +82,31 @@ module.exports = (bot, sharedState) => {
     return Object.keys(harvestTools)
       .map((id) => Number.parseInt(id, 10))
       .filter((id) => Number.isInteger(id));
+  };
+
+  const isLikelyPlayerBuiltStructure = (block) => {
+    if (!protectBuildingsForGathering || !block) return false;
+
+    if (structureMarkerNames.has(block.name)) {
+      return true;
+    }
+
+    let markerCount = 0;
+    for (let dx = -buildingDetectorRadius; dx <= buildingDetectorRadius; dx++) {
+      for (let dy = -buildingDetectorRadius; dy <= buildingDetectorRadius; dy++) {
+        for (let dz = -buildingDetectorRadius; dz <= buildingDetectorRadius; dz++) {
+          if (dx === 0 && dy === 0 && dz === 0) continue;
+          const nearbyBlock = bot.blockAt(block.position.offset(dx, dy, dz));
+          if (!nearbyBlock) continue;
+          if (structureMarkerNames.has(nearbyBlock.name)) {
+            markerCount += 1;
+            if (markerCount >= 2) return true;
+          }
+        }
+      }
+    }
+
+    return markerCount >= 1;
   };
 
   const findNearbyCraftingTable = (mcData) => bot.findBlock({
@@ -249,6 +296,9 @@ module.exports = (bot, sharedState) => {
               if (block.position.distanceTo(homePos) < homeRadius) {
                 return false; // Don't gather blocks that are part of the base.
               }
+            }
+            if (isLikelyPlayerBuiltStructure(block)) {
+              return false; // Avoid harvesting blocks that look like part of a building.
             }
             return true;
           },

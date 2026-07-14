@@ -1,5 +1,20 @@
 # CobbleWright Changelog
 
+## Version 1.1.2 - "Structure-Aware Gathering"
+
+---
+
+### 🧱 Structure Protection
+
+- **Gather protection (`auto-gather.js`):** Added structure-aware filtering so gather commands avoid harvesting blocks that look like part of player-built structures.
+- **Config additions:**
+  - `PROTECT_BUILDINGS_FOR_GATHERING`
+  - `BUILDING_DETECTOR_RADIUS`
+
+### 📝 Documentation Synchronization
+
+- Updated README, setup guide, user guides, and command reference to reflect safety behavior, `sethome` guidance, and new gather protection controls.
+
 ## Version 1.1.1 - "Safety and Reliability Hardening"
 
 ---
@@ -78,7 +93,7 @@
 
 #### One-Click Installer
 
-- **Standalone executable** (`chronoscribe.exe`) - no Node.js required
+- **Standalone executable** (`CobbleWright.exe`) - no Node.js required
 - Bundled dependencies and assets (plugins and JSON files)
 - Cross-platform packaging via `pkg`
 - Non-developers can run with zero setup (just Ollama + Minecraft)
@@ -244,4 +259,3 @@ CobbleWright has evolved from a single-purpose advice bot into a **full-featured
 - ✅ **Plugin architecture** for extensibility
 
 **Current Status:** Feature-complete Beta ready for distribution and community use.
-

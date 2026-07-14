@@ -1,5 +1,5 @@
 {
-  "BOT_NAME": "ChronoScribe",
+  "BOT_NAME": "CobbleWright",
   "LLM_MODEL": "llama3.2:3b",
   "ADVICE_INTERVAL_MS": 90000,
   "OLLAMA_HOST": "localhost",
@@ -8,6 +8,8 @@
   "MEMORY_RETENTION_ENABLED": true,
   "MEMORY_MAX_ENTRIES": 200,
   "MEMORY_MAX_AGE_DAYS": 30,
+  "PROTECT_BUILDINGS_FOR_GATHERING": true,
+  "BUILDING_DETECTOR_RADIUS": 2,
   "VISION_MODEL": "llava:latest",
   "SCREENSHOTS_PATH": "%APPDATA%/.minecraft/screenshots"
 }
