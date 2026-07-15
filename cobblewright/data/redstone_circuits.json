@@ -1,0 +1,12 @@
+{
+  "hopper_clock": {
+    "summary": "A silent, reliable timer that uses two hoppers and a comparator to create a repeating pulse. Excellent for timing farms or other machines.",
+    "components": ["2x hopper", "1x redstone_comparator", "2x sticky_piston", "1x redstone_block"],
+    "use_case": "Creating timed pulses for automated systems."
+  },
+  "auto_smelter": {
+    "summary": "An automatic furnace system that uses hoppers to feed fuel and items into a furnace, and collect the output. A foundational automation project.",
+    "components": ["1x furnace", "3x hopper", "3x chest"],
+    "use_case": "Automatically smelting ores or cooking food without player intervention."
+  }
+}

@@ -1,6 +1,6 @@
-# BlockSmith Development Server
+# CobbleWright Development Server
 
-This directory contains the dedicated Minecraft server environment used for developing and testing the BlockSmith AI companion.
+This directory contains the dedicated Minecraft server environment for developing and testing the CobbleWright AI companion.
 
 ## Configuration
 

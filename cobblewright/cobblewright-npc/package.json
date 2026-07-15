@@ -1,0 +1,16 @@
+{
+  "name": "cobblewright-npc",
+  "version": "1.0.0",
+  "description": "CobbleWright - Your AI Architect Companion (Standalone NPC)",
+  "main": "npc-bot.js",
+  "scripts": {
+    "start": "node npc-bot.js"
+  },
+  "dependencies": {
+    "mineflayer": "4.37.1",
+    "mineflayer-pathfinder": "^2.4.5",
+    "vec3": "^0.1.8"
+  },
+  "author": "CobbleWright",
+  "license": "MIT"
+}

@@ -1,6 +1,6 @@
 # CobbleWright - Your AI Minecraft Architect
 
-CobbleWright is a program that runs **ChronoScribe**, an AI-powered companion bot for Minecraft that acts as a personal architectural consultant. CobbleWright observes your in-game situation, analyzes your resources and environment, and provides creative, actionable building advice directly in the game chat.
+CobbleWright is an AI-powered companion bot for Minecraft that acts as a personal architectural consultant. It observes your in-game situation, analyzes your resources and environment, and provides creative, actionable building advice directly in the game chat.
 It can even physically gather resources and build simple structures on command.
 It features a modular plugin architecture, making it highly extensible.
 It supports multiple players on a server, offering personalized advice to each one.
