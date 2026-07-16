@@ -8,10 +8,12 @@
   "MEMORY_RETENTION_ENABLED": true,
   "MEMORY_MAX_ENTRIES": 200,
   "MEMORY_MAX_AGE_DAYS": 30,
+  "EMBEDDING_DIMENSIONS": 768,
   "PROTECT_BUILDINGS_FOR_GATHERING": true,
   "BUILDING_DETECTOR_RADIUS": 2,
+  "GHOST_MODE_AT_NIGHT": true,
   "VISION_MODEL": "llava:latest",
   "EMBEDDING_MODEL": "nomic-embed-text",
   "SCREENSHOTS_PATH": "%APPDATA%/.minecraft/screenshots",
-  "POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/chronoscribe"
+  "POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/cobblewright"
 }

@@ -16,10 +16,62 @@ module.exports = (bot, sharedState) => {
     ? new Pool({ connectionString: postgresUrl })
     : null;
 
+  const getDbBootstrapInfo = () => {
+    if (!postgresUrl) return null;
+
+    try {
+      const url = new URL(postgresUrl);
+      const dbName = decodeURIComponent(url.pathname.replace(/^\//, '') || '');
+      if (!dbName || dbName.toLowerCase() === 'postgres') return null;
+
+      url.pathname = '/postgres';
+      url.search = '';
+      return { dbName, adminConnectionString: url.toString() };
+    } catch {
+      return null;
+    }
+  };
+
+  const ensureDatabaseExists = async () => {
+    if (!pool) return;
+
+    try {
+      await pool.query('SELECT 1');
+      return;
+    } catch (error) {
+      if (error?.code !== '3D000') throw error;
+    }
+
+    const bootstrap = getDbBootstrapInfo();
+    if (!bootstrap) throw new Error('Target database is missing and bootstrap info could not be determined.');
+
+    const adminPool = new Pool({ connectionString: bootstrap.adminConnectionString });
+    try {
+      const safeDbName = bootstrap.dbName.replace(/"/g, '""');
+      await adminPool.query(`CREATE DATABASE "${safeDbName}"`);
+      console.log(`[LTM] Created missing PostgreSQL database "${bootstrap.dbName}".`);
+    } catch (error) {
+      if (error?.code === '42P04') {
+        console.log(`[LTM] PostgreSQL database "${bootstrap.dbName}" already exists.`);
+      } else {
+        throw error;
+      }
+    } finally {
+      await adminPool.end().catch(() => {});
+    }
+
+    await pool.query('SELECT 1');
+  };
+
   let dbReady = false;
   let vectorEnabled = false;
 
   const embeddingModel = sharedState?.CONFIG?.EMBEDDING_MODEL || 'nomic-embed-text';
+  const configuredEmbeddingDimensions = Number.parseInt(sharedState?.CONFIG?.EMBEDDING_DIMENSIONS, 10);
+  const defaultEmbeddingDimensions = String(embeddingModel).toLowerCase().includes('nomic-embed-text') ? 768 : null;
+  const embeddingDimensions = Number.isInteger(configuredEmbeddingDimensions) && configuredEmbeddingDimensions > 0
+    ? configuredEmbeddingDimensions
+    : defaultEmbeddingDimensions;
   const ollamaHost = sharedState?.CONFIG?.OLLAMA_HOST || 'localhost';
   const ollamaPort = sharedState?.CONFIG?.OLLAMA_PORT || 11434;
 
@@ -175,6 +227,7 @@ module.exports = (bot, sharedState) => {
 
     try {
       console.log('[LTM] Connecting to PostgreSQL for long-term memory...');
+      await ensureDatabaseExists();
 
       // pgvector extension is optional today, but enabled for future semantic indexing.
       try {
@@ -201,21 +254,35 @@ module.exports = (bot, sharedState) => {
       if (vectorEnabled) {
         await pool.query('ALTER TABLE memory_stream ADD COLUMN IF NOT EXISTS embedding vector');
 
-        // Prefer HNSW for cosine similarity; fall back to IVFFlat when HNSW is unavailable.
-        try {
-          await pool.query(
-            'CREATE INDEX IF NOT EXISTS memory_stream_embedding_hnsw_idx ON memory_stream USING hnsw (embedding vector_cosine_ops)'
-          );
-          console.log('[LTM] Vector index ready: HNSW (cosine).');
-        } catch (hnswError) {
-          console.warn('[LTM] HNSW index unavailable, trying IVFFlat fallback:', hnswError.message);
+        if (embeddingDimensions) {
           try {
             await pool.query(
-              'CREATE INDEX IF NOT EXISTS memory_stream_embedding_ivfflat_idx ON memory_stream USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100)'
+              `ALTER TABLE memory_stream ALTER COLUMN embedding TYPE vector(${embeddingDimensions}) USING CASE WHEN embedding IS NULL THEN NULL ELSE embedding::vector(${embeddingDimensions}) END`
             );
-            console.log('[LTM] Vector index ready: IVFFlat (cosine).');
-          } catch (ivfError) {
-            console.warn('[LTM] IVFFlat index unavailable; vector queries will use sequential scan:', ivfError.message);
+          } catch (dimensionError) {
+            console.warn(`[LTM] Could not set embedding dimension to ${embeddingDimensions}; vector indexing may be disabled:`, dimensionError.message);
+          }
+        }
+
+        if (!embeddingDimensions) {
+          console.warn('[LTM] EMBEDDING_DIMENSIONS is not configured; skipping vector index creation.');
+        } else {
+          // Prefer HNSW for cosine similarity; fall back to IVFFlat when HNSW is unavailable.
+          try {
+            await pool.query(
+              'CREATE INDEX IF NOT EXISTS memory_stream_embedding_hnsw_idx ON memory_stream USING hnsw (embedding vector_cosine_ops)'
+            );
+            console.log('[LTM] Vector index ready: HNSW (cosine).');
+          } catch (hnswError) {
+            console.warn('[LTM] HNSW index unavailable, trying IVFFlat fallback:', hnswError.message);
+            try {
+              await pool.query(
+                'CREATE INDEX IF NOT EXISTS memory_stream_embedding_ivfflat_idx ON memory_stream USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100)'
+              );
+              console.log('[LTM] Vector index ready: IVFFlat (cosine).');
+            } catch (ivfError) {
+              console.warn('[LTM] IVFFlat index unavailable; vector queries will use sequential scan:', ivfError.message);
+            }
           }
         }
       }

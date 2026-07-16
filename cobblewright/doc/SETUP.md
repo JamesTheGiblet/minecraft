@@ -77,8 +77,13 @@ Before you begin, ensure you have the following software installed:
     - To enable vision, you must add `"VISION_MODEL": "llava:latest"` and `"SCREENSHOTS_PATH": "C:/Users/YourUser/AppData/Roaming/.minecraft/screenshots"`.
     - For semantic long-term memory, set `"EMBEDDING_MODEL": "nomic-embed-text"` (or another Ollama embedding model available locally).
     - Memory retention controls are available with `"MEMORY_RETENTION_ENABLED"`, `"MEMORY_MAX_ENTRIES"`, and `"MEMORY_MAX_AGE_DAYS"`.
+    - If you use a non-default embedding model, set `"EMBEDDING_DIMENSIONS"` so pgvector indexes can be created with the correct vector width.
     - Gather structure protection controls are available with `"PROTECT_BUILDINGS_FOR_GATHERING"` and `"BUILDING_DETECTOR_RADIUS"`.
-    - To enable long-term memory, add `"POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/chronoscribe"` (or set `DATABASE_URL` in your environment).
+    - Night ghost mode is controlled with `"GHOST_MODE_AT_NIGHT"` and is enabled by default.
+    - To enable long-term memory, add `"POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/cobblewright"` (or set `DATABASE_URL` in your environment).
+    - S.C semantic capsules are loaded automatically from `data/S.C/*.sc.json`.
+    - For NPC persona styling, place a voice/persona capsule in `data/S.C` (for example, `persona-voice.sc.json`).
+    - Legacy fallback is still supported at `cobblewright-npc/persona.sc.json`.
     - **IMPORTANT:** You must replace `YourUser` with your actual Windows username.
 4. Create a file named `architect.js` in this folder and copy the entire source code into it.
 
@@ -99,17 +104,22 @@ This guide focuses on the most stable method: running a dedicated server on your
 
 #### 2. Start the Server and the Bot
 
-1. **Start the Server:** In a terminal, navigate to your `MinecraftServer` directory and run `\.\start.bat`. Wait for it to say `Done!`.
-2. **Join the Game:** Launch Minecraft 1.21.1, go to **Multiplayer**, and connect to `localhost`.
-3. **Start the Bot:** Once you are in the game, open a **new, separate terminal**, navigate to your `cobblewright` directory, and run `node architect.js`.
+1. **Start the Stack:** In a terminal, navigate to your `MinecraftServer` directory and run `\.\start.bat`.
+2. **What the script does:** It starts PostgreSQL when Docker is available, launches the Minecraft server, waits for readiness, and then launches CobbleWright.
+3. **Join the Game:** Launch Minecraft 1.21.1, go to **Multiplayer**, and connect to `localhost`.
+4. **Optional manual bot start:** If you prefer to run the bot separately, open a new terminal in the `cobblewright` directory and run `node architect.js`.
 
 You should see log messages in your terminal indicating that CobbleWright is connecting. Within a few seconds, you will see its welcome message in the Minecraft chat.
 
 ## Becoming a Server Operator (for Dedicated Servers)
 
-To use in-game commands like `/gamemode` or `/give` on your dedicated server, you need to grant yourself operator status. In the console window where your server is running, type the following command, replacing `YourUsername` with your actual Minecraft username:
+To use in-game commands like `/gamemode`, `/effect`, `/weather`, or `/give` on your dedicated server, the relevant account must have operator status. In the console window where your server is running, type the following command, replacing `YourUsername` with your actual Minecraft username:
 
 `op YourUsername`
+
+If you want CobbleWright's night ghost mode to work, also grant operator status to the bot account:
+
+`op CobbleWright`
 
 ## Performance Tuning (for Dedicated Servers)
 
@@ -138,7 +148,12 @@ Remember to adjust the path to your `java.exe` and the `-Xmx` value (for example
     del package-lock.json
     npm install
     ```
-- **PostgreSQL Connection Errors:** If long-term memory fails to initialize, verify your PostgreSQL server is running and that `POSTGRES_URL` points to a reachable database/user/password.
+
+- **PostgreSQL Connection Errors:** If long-term memory fails to initialize, verify your PostgreSQL server is running and that `POSTGRES_URL` points to a reachable database/user/password. CobbleWright can now auto-create the configured database when the server is reachable but the database does not exist.
+
+- **Ghost Mode Not Working:** If CobbleWright still takes damage during night patrol, verify that the bot account has permission to run `/gamemode` and `/effect`. Without those permissions, it falls back to normal flee behavior.
+
+- **Patrol Keeps Asking For Coal:** If the bot cannot find coal for torches, it now defers torch crafting for a cooldown period and continues roaming instead of retrying every patrol tick.
 
     ```powershell
     # Press Ctrl+C to cancel the hanging install
@@ -153,7 +168,7 @@ Remember to adjust the path to your `java.exe` and the `-Xmx` value (for example
 
 This advanced method uses the **MCSkinsGen** project, a Stable Diffusion-based pipeline, to generate CobbleWright's skin from the design document.
 
-### Prerequisites
+### MCSkinsGen Prerequisites
 
 - **Git:** Required to clone the research repository.
 - **Python 3.10+** and **pip**.
@@ -162,32 +177,50 @@ This advanced method uses the **MCSkinsGen** project, a Stable Diffusion-based p
 
 ### Setup
 
-1.  **Clone the MCSkinsGen Repository:**
-    Find a suitable location outside of the `chronoscribe` project folder and clone the official repository.
+1. **Clone the MCSkinsGen Repository:**
+    Find a suitable location outside of the `cobblewright` project folder and clone the official repository.
+
     ```bash
     git clone https://github.com/RandomGamingDev/MCSkinsGen.git
     ```
 
-2.  **Install Dependencies:**
+2. **Install Dependencies:**
     Navigate into the cloned directory and install the required Python packages.
+
     ```bash
     cd MCSkinsGen
     pip install -r requirements.txt
     ```
 
-3.  **Configure CobbleWright:**
+3. **Configure CobbleWright:**
     Open `cobblewright-npc/config.json` and add the `experimental` section, pointing `MCSKINSGEN_PATH` to the location where you cloned the repository.
+
     ```json
       "experimental": {
         "MCSKINSGEN_PATH": "C:/path/to/your/MCSkinsGen"
       }
     ```
 
-4.  **Generate the Skin:**
+4. **Generate the Skin:**
     Navigate back to the `cobblewright-npc` directory and run the orchestrator script.
+
     ```bash
-    cd C:/path/to/your/chronoscribe/cobblewright-npc
+    cd C:/path/to/your/cobblewright/cobblewright-npc
     python generate_skin.py
     ```
 
 This will invoke the pipeline. On the first run, you will be prompted to log in to Hugging Face with your access token. The script will then download the necessary models and generate the `skin.png` file.
+
+---
+
+## S.C Capsules Quick Reference
+
+- Directory: `data/S.C`
+- File pattern: `*.sc.json`
+- Runtime behavior: capsules are loaded at startup and exposed to architect/NPC systems
+- Recommended areas: `core`, `build`, `project`, `memory`, `conversation`, `farming`, `collaboration`, `persona-voice`
+
+## Config Additions Quick Reference
+
+- `EMBEDDING_DIMENSIONS`: optional override for pgvector column dimensions when using a non-default embedding model
+- `GHOST_MODE_AT_NIGHT`: enable or disable command-driven ghost mode during night patrol

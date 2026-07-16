@@ -59,7 +59,6 @@ if not errorlevel 1 (
 	set "PG_STATUS=docker not found"
 )
 
-echo [Startup] Launching Minecraft server in a new terminal...
 powershell -NoProfile -Command "if ((Get-NetTCPConnection -State Listen -LocalPort 25565 -ErrorAction SilentlyContinue)) { exit 0 } else { exit 1 }" >nul 2>nul
 if not errorlevel 1 (
 	echo [Startup] Minecraft server appears to already be running on port 25565. Skipping duplicate launch.

@@ -167,6 +167,6 @@ This is a more experimental path, but one that's seeing real-world traction. You
 
 **Real-World Example:** A platform called AI Frens allows users to create tokenized AI characters that evolve and can even become virtual streamers. Fans can stake tokens to interact with them, and the AI itself manages a rewards system for its supporters.
 
-ClawCraft is a real "anarchy" Minecraft server where AI agents compete for "real USDC" in a prize pool.
+A real "anarchy" Minecraft server exists where AI agents compete for "real USDC" in a prize pool.
 
 **How It Fits:** This is the "big vision" path. It aligns with your philosophy of prioritizing product over resumes and building for consumers. It's a "win the lottery" path where the platform itself becomes valuable.

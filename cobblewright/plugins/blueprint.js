@@ -94,7 +94,17 @@ module.exports = (bot, sharedState) => {
    * @param {string} structureName - The name of the structure to generate (e.g., "hut", "tower").
    * @returns {Promise<object|null>} A blueprint object or null on failure.
    */
-  async function generateBlueprint(structureName) {
+  async function generateBlueprint(structureName, username = null) {
+    const awarenessContext = sharedState.buildAwarenessPromptContext
+      ? await sharedState.buildAwarenessPromptContext({
+        username,
+        purpose: `generate a safe and practical blueprint for ${structureName}`,
+        includeProject: true,
+        includeMemories: true,
+        includeTerrain: true
+      })
+      : '';
+
     // This prompt is a key architectural decision. Instead of asking the AI for a natural
     // language description, we force it to respond in a structured JSON format.
     // This makes the AI's output predictable and machine-readable, which is far more
@@ -110,6 +120,9 @@ Each object in the "blocks" array must have:
 - "type" (string, e.g., "oak_planks", "cobblestone").
 
 Prefer gather-friendly and common materials when possible, especially logs, planks, cobblestone, stone, dirt, sand, glass, and simple decorative blocks that can be collected or crafted from those materials.
+Stay consistent with the CobbleWright runtime identity, capabilities, and Minecraft version context below.
+
+${awarenessContext}
 
 Example for a 3x3 hut:
 {
@@ -328,7 +341,7 @@ Now, generate the JSON for a "${structureName}". Respond with ONLY the JSON obje
     if (sharedState.STRUCTURES_DATA[normalizedName]) {
       blueprint = sharedState.STRUCTURES_DATA[normalizedName];
     } else {
-      blueprint = await generateBlueprint(normalizedName);
+      blueprint = await generateBlueprint(normalizedName, username);
     }
 
     if (!blueprint) {

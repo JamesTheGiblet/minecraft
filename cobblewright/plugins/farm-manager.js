@@ -52,70 +52,11 @@ module.exports = (bot, sharedState) => {
     maxDistance: 24
   });
 
-  const placeCraftingTableFromInventory = async () => {
-    const craftingTableItem = bot.inventory.items().find((item) => item.name === 'crafting_table');
-    if (!craftingTableItem) return null;
-
-    const referenceBlock = bot.findBlock({
-      matching: (block) => block && block.boundingBox === 'block' && block.name !== 'crafting_table',
-      maxDistance: 6
-    });
-
-    if (!referenceBlock) return null;
-
-    try {
-      sharedState.say('I need a crafting table for farm tools, so I will place one.');
-      await bot.pathfinder.goto(new GoalBlock(referenceBlock.position.x, referenceBlock.position.y, referenceBlock.position.z));
-      await bot.equip(craftingTableItem, 'hand');
-      await bot.placeBlock(referenceBlock, new Vec3(0, 1, 0));
-      await bot.waitForTicks(2);
-      return bot.blockAt(referenceBlock.position.offset(0, 1, 0));
-    } catch (error) {
-      console.warn('[Farm] Failed to place crafting table:', error.message);
-      return null;
-    }
-  };
-
-  const craftItemByName = async (itemName, craftCount = 1) => {
-    const mcData = getMcData();
-    const itemInfo = mcData.itemsByName[itemName];
-    if (!itemInfo) return false;
-
-    const inventoryRecipes = bot.recipesFor(itemInfo.id, null, 1, null) || [];
-    if (inventoryRecipes.length > 0) {
-      for (let i = 0; i < craftCount; i++) {
-        await bot.craft(inventoryRecipes[0], 1, null);
-      }
-      return true;
-    }
-
-    let craftingTableBlock = findNearbyCraftingTable(mcData);
-    if (!craftingTableBlock) {
-      craftingTableBlock = await placeCraftingTableFromInventory();
-    }
-    if (!craftingTableBlock) return false;
-
-    await bot.pathfinder.goto(new GoalBlock(
-      craftingTableBlock.position.x,
-      craftingTableBlock.position.y,
-      craftingTableBlock.position.z
-    ));
-
-    const tableRecipes = bot.recipesFor(itemInfo.id, null, 1, craftingTableBlock) || [];
-    if (tableRecipes.length === 0) return false;
-
-    for (let i = 0; i < craftCount; i++) {
-      await bot.craft(tableRecipes[0], 1, craftingTableBlock);
-    }
-
-    return true;
-  };
-
   const ensureHoe = async () => {
     const existingHoe = bot.inventory.items().find((item) => supportedHoeNames.has(item.name));
     if (existingHoe) return existingHoe;
-
-    const crafted = await craftItemByName('wooden_hoe', 1);
+    
+    const crafted = await sharedState.craftItem('wooden_hoe', 1);
     if (!crafted) return null;
 
     return bot.inventory.items().find((item) => supportedHoeNames.has(item.name)) || null;

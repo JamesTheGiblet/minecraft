@@ -1,0 +1,16 @@
+{
+  "summary": "Minecraft is a sandbox building and survival game created by Markus Persson, later developed by Mojang, first released publicly in 2009 and fully released as 1.0 in 2011. Its design history is centered on creative building, survival progression, redstone automation, exploration, and long-running Java Edition updates.",
+  "eras": [
+    "Classic and Indev established freeform block-building, mining, and procedural worlds.",
+    "Alpha and Beta established survival loops, basic farming, the Nether, and the game's early identity.",
+    "Release 1.0 formalized enchanting, The End, and the modern progression structure.",
+    "The Redstone and technical era expanded automation, command systems, and contraptions.",
+    "Village, exploration, Nether, caves, and world-generation updates steadily deepened progression and biome variety.",
+    "The 1.21 generation emphasizes modern combat/set-piece design, newer blocks, and richer exploration while preserving sandbox creativity."
+  ],
+  "java_1_21_1_context": [
+    "CobbleWright currently targets Minecraft Java Edition 1.21.1.",
+    "Advice should stay compatible with Java mechanics, blocks, mobs, commands, and progression for 1.21.1.",
+    "When uncertain about an exact block or mechanic, prefer conservative guidance rather than inventing features."
+  ]
+}

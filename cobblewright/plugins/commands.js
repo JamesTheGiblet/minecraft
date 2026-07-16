@@ -115,7 +115,7 @@ module.exports = (bot, sharedState) => {
 
   registerCommand('inspire', (username) => {
     sharedState.say("Gazing into the creative ether for you...");
-    sharedState.getInspiration();
+    sharedState.getInspiration(username);
   });
 
   registerCommand('status', async (username) => {
@@ -151,6 +151,11 @@ module.exports = (bot, sharedState) => {
     const unreviewedCount = sharedState.memoryLog.filter(e => e.type === 'advice' && e.outcome === 'unknown' && e.context.username === username).length;
     sharedState.say(`- Memory Capsules: ${sharedState.memoryLog.length} total, ${unreviewedCount} unreviewed for you.`);
   });
+
+  registerCommand('botstatus', (username) => {
+    const mode = sharedState.botMode || 'unknown';
+    sharedState.say(`My current status is: ${mode}. ${sharedState.isBusy ? 'I am currently busy with a task.' : ''}`);
+  }, ['bstatus']);
 
   registerCommand('style', (username, args) => {
     const requestedStyle = args[1];
@@ -188,6 +193,30 @@ module.exports = (bot, sharedState) => {
     // 4. Reset the cancellation flag after a short delay so new tasks can be started.
     setTimeout(() => { sharedState.isCancelled = false; }, 1000);
   }, ['here', 'return']);
+
+  registerCommand('goto', (username, args) => {
+    const poiName = args.slice(1).join(' ');
+
+    if (!poiName) {
+      if (sharedState.pointsOfInterest.size === 0) {
+        sharedState.say("I haven't discovered any points of interest yet. I'll keep an eye out on my next patrol!");
+        return;
+      }
+      const knownPlaces = Array.from(sharedState.pointsOfInterest.keys()).join('; ');
+      sharedState.say(`I know of these locations: ${knownPlaces}. Which one do you want to go to? (e.g., /goto Village near [x, z])`);
+      return;
+    }
+
+    const destination = sharedState.pointsOfInterest.get(poiName);
+    if (destination) {
+      sharedState.say(`Alright, leading the way to ${poiName}! Follow me.`);
+      sharedState.applySafeMovements();
+      const { GoalNear } = require('mineflayer-pathfinder').goals;
+      bot.pathfinder.setGoal(new GoalNear(destination.x, destination.y, destination.z, 1));
+    } else {
+      sharedState.say(`I don't recognize the location "${poiName}". Try '/goto' to see the list of places I know.`);
+    }
+  }, ['lead']);
 
   // The main build command
   const buildHandler = (username) => {

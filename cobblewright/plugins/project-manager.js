@@ -14,6 +14,53 @@ module.exports = (bot, sharedState) => {
   const pool = postgresUrl ? new Pool({ connectionString: postgresUrl }) : null;
   let ready = false;
 
+  const getDbBootstrapInfo = () => {
+    if (!postgresUrl) return null;
+
+    try {
+      const url = new URL(postgresUrl);
+      const dbName = decodeURIComponent(url.pathname.replace(/^\//, '') || '');
+      if (!dbName || dbName.toLowerCase() === 'postgres') return null;
+
+      url.pathname = '/postgres';
+      url.search = '';
+      return { dbName, adminConnectionString: url.toString() };
+    } catch {
+      return null;
+    }
+  };
+
+  const ensureDatabaseExists = async () => {
+    if (!pool) return;
+
+    try {
+      await pool.query('SELECT 1');
+      return;
+    } catch (error) {
+      if (error?.code !== '3D000') throw error;
+    }
+
+    const bootstrap = getDbBootstrapInfo();
+    if (!bootstrap) throw new Error('Target database is missing and bootstrap info could not be determined.');
+
+    const adminPool = new Pool({ connectionString: bootstrap.adminConnectionString });
+    try {
+      const safeDbName = bootstrap.dbName.replace(/"/g, '""');
+      await adminPool.query(`CREATE DATABASE "${safeDbName}"`);
+      console.log(`[Project] Created missing PostgreSQL database "${bootstrap.dbName}".`);
+    } catch (error) {
+      if (error?.code === '42P04') {
+        console.log(`[Project] PostgreSQL database "${bootstrap.dbName}" already exists.`);
+      } else {
+        throw error;
+      }
+    } finally {
+      await adminPool.end().catch(() => {});
+    }
+
+    await pool.query('SELECT 1');
+  };
+
   const phaseOrder = ['foundation', 'structure', 'utility', 'polish'];
 
   const normalizePhase = (phase) => {
@@ -81,7 +128,7 @@ module.exports = (bot, sharedState) => {
     tags: [String(index + 1)]
   }));
 
-  const buildPhasePrompt = (objective, phase) => `
+  const buildPhasePrompt = (objective, phase, awarenessContext = '') => `
 You are a Minecraft project planner.
 Create a concise JSON task set for the ${phase} phase of a project.
 Return ONLY valid JSON in this shape:
@@ -94,7 +141,8 @@ Rules:
 - Tasks must be actionable and in order.
 - Keep each task under 110 characters.
 - Focus only on the ${phase} phase.
-Objective: ${objective}
+${awarenessContext ? `- Stay consistent with the runtime awareness context below.\n` : ''}Objective: ${objective}
+${awarenessContext ? `\n${awarenessContext}` : ''}
 `;
 
   const defaultPlan = (objective) => ({
@@ -107,14 +155,24 @@ Objective: ${objective}
     ]
   });
 
-  const proposePlan = async (objective, phase = 'foundation') => {
+  const proposePlan = async (objective, phase = 'foundation', username = null) => {
     const fallback = defaultPlan(objective);
 
     if (!sharedState.callOllama) {
       return fallback;
     }
 
-    const prompt = buildPhasePrompt(objective, phase);
+    const awarenessContext = sharedState.buildAwarenessPromptContext
+      ? await sharedState.buildAwarenessPromptContext({
+        username,
+        purpose: `project planning for the ${phase} phase`,
+        includeProject: false,
+        includeMemories: true,
+        includeTerrain: true
+      })
+      : '';
+
+    const prompt = buildPhasePrompt(objective, phase, awarenessContext);
 
     try {
       const response = await sharedState.callOllama(prompt);
@@ -183,6 +241,8 @@ Objective: ${objective}
   const ensureSchema = async () => {
     if (!pool) return;
 
+    await ensureDatabaseExists();
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS project_goals (
         id TEXT PRIMARY KEY,
@@ -201,7 +261,7 @@ Objective: ${objective}
     `);
 
     await pool.query('CREATE INDEX IF NOT EXISTS project_goals_user_status_idx ON project_goals (username, status)');
-    await pool.query('ALTER TABLE project_goals ADD COLUMN IF NOT EXISTS phase_history JSONB NOT NULL DEFAULT ''[]''::jsonb');
+    await pool.query(`ALTER TABLE project_goals ADD COLUMN IF NOT EXISTS phase_history JSONB NOT NULL DEFAULT '[]'::jsonb`);
     ready = true;
     console.log('[Project] PostgreSQL project goal storage is ready.');
   };
@@ -246,7 +306,7 @@ Objective: ${objective}
     const upcomingPhase = nextPhase(project.phase);
     if (!upcomingPhase) return project;
 
-    const plan = await proposePlan(project.objective, upcomingPhase);
+    const plan = await proposePlan(project.objective, upcomingPhase, project.username);
     const tasks = Array.isArray(plan.tasks) ? plan.tasks : [];
     const nextAction = tasks.find((task) => !task.done)?.text || 'Define the next concrete build step.';
     const phaseHistory = Array.isArray(project.phase_history) ? [...project.phase_history] : [];
@@ -365,7 +425,7 @@ Objective: ${objective}
     if (!cleanObjective) throw new Error('Project objective is required.');
 
     const now = Date.now();
-    const plan = await proposePlan(cleanObjective, 'foundation');
+    const plan = await proposePlan(cleanObjective, 'foundation', username);
     const tasks = plan.tasks;
     const nextAction = tasks.find((task) => !task.done)?.text || tasks[0]?.text || 'Define the first concrete build step.';
 
@@ -490,7 +550,7 @@ Objective: ${objective}
       };
     }
 
-    const openBlockers = blockers.filter((blocker) => blocker?.status === 'open').length;
+    const openBlockerCount = blockers.filter((blocker) => blocker?.status === 'open').length;
     const nextAction = openBlockers > 0
       ? 'Resolve remaining blockers before advancing.'
       : project.next_action;

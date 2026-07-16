@@ -76,10 +76,12 @@
 - **Command shortcuts preserved:** Existing one-word commands still work as before.
 - **Conversation follow-up:** The bot now keeps short-lived per-user follow-up state so it can ask clarifying questions and resolve project task/blocker ambiguity across multiple chat turns.
 
-### 🎭 Persona Voice Capsule
+### 🧩 S.C Capsule System
 
-- **Persona-driven NPC dialogue:** The lite NPC bot now reads `persona.sc.json` and styles outgoing dialogue by register.
-- **Safe fallback:** If the persona capsule is missing or invalid, the bot falls back to plain dialogue.
+- **Multi-capsule runtime:** CobbleWright now loads semantic capsules from `data/S.C/*.sc.json` and shares them through runtime state.
+- **Scoped guidance in advice:** Architect prompt context now includes scoped capsule summaries for core, build, project, memory, conversation, farming, and collaboration areas.
+- **NPC voice from S.C:** The lite NPC bot now prefers voice/persona capsules from `data/S.C` and keeps safe fallback behavior.
+- **Legacy compatibility:** If no suitable S.C voice capsule is found, the NPC still falls back to `cobblewright-npc/persona.sc.json` and then to plain dialogue.
 - **Config toggle:** Persona styling can be enabled or disabled with `persona.enabled` in `cobblewright-npc/config.json`.
 
 ### 🏁 Startup Orchestration
@@ -87,6 +89,14 @@
 - **One-command launch:** `start.bat` now starts the Minecraft server, PostgreSQL container, and bot from one script.
 - **Readiness checks:** The startup flow waits for PostgreSQL and the Minecraft server before launching the bot.
 - **Duplicate protection:** Re-running `start.bat` avoids spawning duplicate server or bot windows.
+- **Database bootstrap:** If PostgreSQL is reachable but the configured `cobblewright` database is missing, memory and project storage now create it automatically.
+
+### 🌙 Survival Hardening
+
+- **Patrol compatibility fixes:** Night patrol now uses mineflayer-compatible terrain fallback logic instead of assuming every world helper API exists.
+- **Coal fallback roaming:** If coal for torches is unavailable, CobbleWright keeps roaming and retries later instead of looping or stalling.
+- **Night ghost mode:** Patrol can now enable a real ghost-mode safety profile with `/gamemode` and `/effect` when server permissions allow it.
+- **Flee fallback during patrol:** If ghost mode is unavailable or fails, the bot can still flee home during night patrol rather than remaining exposed.
 
 ### 📦 Dependencies and Setup
 
@@ -98,6 +108,8 @@
 
 - `POSTGRES_URL` for PostgreSQL connectivity.
 - `EMBEDDING_MODEL` for Ollama embedding generation.
+- `EMBEDDING_DIMENSIONS` for pgvector column/index dimension alignment.
+- `GHOST_MODE_AT_NIGHT` to enable or disable command-driven night ghost mode.
 - `persona.enabled` for NPC persona styling.
 
 ---

@@ -103,72 +103,13 @@ module.exports = (bot, sharedState) => {
 
   const pickExistingItemName = (mcData, candidates) => candidates.find((name) => mcData.itemsByName[name]);
 
-  const craftItemByName = async (itemName, craftCount = 1) => {
-    const mcData = getMcData();
-    const itemInfo = mcData.itemsByName[itemName];
-    if (!itemInfo) return false;
-
-    const inventoryRecipes = bot.recipesFor(itemInfo.id, null, 1, null) || [];
-    if (inventoryRecipes.length > 0) {
-      for (let i = 0; i < craftCount; i++) {
-        await bot.craft(inventoryRecipes[0], 1, null);
-      }
-      return true;
-    }
-
-    let craftingTableBlock = findNearbyCraftingTable(mcData);
-    if (!craftingTableBlock) {
-      craftingTableBlock = await placeCraftingTableFromInventory();
-    }
-    if (!craftingTableBlock) return false;
-
-    await bot.pathfinder.goto(new GoalBlock(
-      craftingTableBlock.position.x,
-      craftingTableBlock.position.y,
-      craftingTableBlock.position.z
-    ));
-
-    const tableRecipes = bot.recipesFor(itemInfo.id, null, 1, craftingTableBlock) || [];
-    if (tableRecipes.length === 0) return false;
-
-    for (let i = 0; i < craftCount; i++) {
-      await bot.craft(tableRecipes[0], 1, craftingTableBlock);
-    }
-
-    return true;
-  };
-
   const findNearbyFurnace = (mcData) => bot.findBlock({
     matching: (block) => block && ['furnace', 'blast_furnace', 'smoker'].includes(block.name),
     maxDistance: 24
   });
 
   const placeFurnaceFromInventory = async () => {
-    const furnaceItem = bot.inventory.items().find(item => item.name === 'furnace');
-    if (!furnaceItem) return null;
-
-    const referenceBlock = bot.findBlock({
-      matching: (block) => block && block.boundingBox === 'block' && block.name !== 'furnace',
-      maxDistance: 6
-    });
-
-    if (!referenceBlock) return null;
-
-    try {
-      sharedState.say('No furnace nearby. I will place one from my inventory.');
-      await bot.pathfinder.goto(new GoalBlock(
-        referenceBlock.position.x,
-        referenceBlock.position.y,
-        referenceBlock.position.z
-      ));
-      await bot.equip(furnaceItem, 'hand');
-      await bot.placeBlock(referenceBlock, new Vec3(0, 1, 0));
-      await bot.waitForTicks(2);
-      return bot.blockAt(referenceBlock.position.offset(0, 1, 0));
-    } catch (err) {
-      console.warn(`[Auto-Gather] Failed to place furnace: ${err.message}`);
-      return null;
-    }
+    return sharedState.placeBlockFromInventory('furnace', 'No furnace nearby. I will place one from my inventory.');
   };
 
   const smeltItemByName = async (inputName, outputName, count) => {
@@ -469,7 +410,7 @@ module.exports = (bot, sharedState) => {
         }
 
         if (action.kind === 'craft') {
-          const crafted = await craftItemByName(action.itemName, Math.max(1, action.count || 1));
+          const crafted = await sharedState.craftItem(action.itemName, Math.max(1, action.count || 1));
           if (!crafted) {
             unresolved.push({ itemName: step.itemName, missingCount: step.missingCount, note: `could not craft ${action.itemName}` });
             failed = true;
@@ -520,7 +461,7 @@ module.exports = (bot, sharedState) => {
   };
 
   const isLikelyPlayerBuiltStructure = (block) => {
-    if (!protectBuildingsForGathering || !block) return false;
+    if (!protectBuildingsForGathering || !block || !block.position) return false;
 
     if (structureMarkerNames.has(block.name)) {
       return true;
@@ -549,63 +490,6 @@ module.exports = (bot, sharedState) => {
     maxDistance: 24
   });
 
-  const placeCraftingTableFromInventory = async () => {
-    const craftingTableItem = bot.inventory.items().find(item => item.name === 'crafting_table');
-    if (!craftingTableItem) return null;
-
-    const referenceBlock = bot.findBlock({
-      matching: (block) => block && block.boundingBox === 'block' && block.name !== 'crafting_table',
-      maxDistance: 6
-    });
-
-    if (!referenceBlock) return null;
-
-    try {
-      sharedState.say('No crafting table nearby. I will place one from my inventory.');
-      await bot.pathfinder.goto(new GoalBlock(
-        referenceBlock.position.x,
-        referenceBlock.position.y,
-        referenceBlock.position.z
-      ));
-      await bot.equip(craftingTableItem, 'hand');
-      await bot.placeBlock(referenceBlock, new Vec3(0, 1, 0));
-      await bot.waitForTicks(2);
-      return bot.blockAt(referenceBlock.position.offset(0, 1, 0));
-    } catch (err) {
-      console.warn(`[Auto-Gather] Failed to place crafting table: ${err.message}`);
-      return null;
-    }
-  };
-
-  const craftItemById = async (itemId, mcData) => {
-    const itemInfo = mcData.items[itemId];
-    if (!itemInfo) return false;
-
-    const inventoryRecipes = bot.recipesFor(itemId, null, 1, null) || [];
-    if (inventoryRecipes.length > 0) {
-      await bot.craft(inventoryRecipes[0], 1, null);
-      return true;
-    }
-
-    let craftingTableBlock = findNearbyCraftingTable(mcData);
-    if (!craftingTableBlock) {
-      craftingTableBlock = await placeCraftingTableFromInventory();
-    }
-    if (!craftingTableBlock) return false;
-
-    await bot.pathfinder.goto(new GoalBlock(
-      craftingTableBlock.position.x,
-      craftingTableBlock.position.y,
-      craftingTableBlock.position.z
-    ));
-
-    const tableRecipes = bot.recipesFor(itemId, null, 1, craftingTableBlock) || [];
-    if (tableRecipes.length === 0) return false;
-
-    await bot.craft(tableRecipes[0], 1, craftingTableBlock);
-    return true;
-  };
-
   const ensureToolForBlock = async (block, blockName, mcData, attemptedToolIds) => {
     const toolIds = getHarvestToolIds(block);
     if (toolIds.length === 0) return false;
@@ -620,7 +504,7 @@ module.exports = (bot, sharedState) => {
       sharedState.say(`I need a ${toolInfo.name} for ${blockName}. Let me try to craft one.`);
 
       try {
-        const crafted = await craftItemById(toolId, mcData);
+        const crafted = await sharedState.craftItem(toolInfo.name, 1);
         if (!crafted) continue;
 
         const craftedTool = bot.inventory.items().find(item => item.type === toolId);
@@ -721,8 +605,9 @@ module.exports = (bot, sharedState) => {
         }
 
         // Find multiple candidate blocks instead of just the closest one.
-        const blocks = bot.findBlocks({
+        const candidatePositions = bot.findBlocks({
           matching: (block) => {
+            if (!block || !block.position) return false;
             if (block.type !== blockType.id) return false;
             // Build Protection: Check if the block is inside the home radius.
             const homePos = sharedState.getHomePosition();
@@ -740,6 +625,10 @@ module.exports = (bot, sharedState) => {
           maxDistance: 128,
           count: 10 // Look for up to 10 candidates
         });
+
+        const blocks = candidatePositions
+          .map((position) => bot.blockAt(position))
+          .filter((candidate) => candidate && candidate.position);
 
         if (blocks.length === 0) {
           sharedState.say(`I can't find any more ${blockName} nearby.`);
@@ -873,4 +762,5 @@ module.exports = (bot, sharedState) => {
 
   sharedState.getBlueprintResourcePlan = getBlueprintResourcePlan;
   sharedState.collectBlueprintResources = collectBlueprintResources;
+  sharedState.gatherItem = gatherBlocks; // Expose for other plugins like survival.js
 };

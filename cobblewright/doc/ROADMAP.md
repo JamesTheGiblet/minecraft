@@ -38,8 +38,10 @@ With a stable foundation, the vision for 1.2-complete is to grant CobbleWright t
 - [x] Automated farming with tilling, planting, harvesting, and chest storage.
 - [x] Collaborative building support for filling walls and assisting on player-built frames/pillars.
 - [x] Intent-based natural language routing for chat commands.
-- [x] Persona voice capsule support for the NPC bot.
+- [x] S.C multi-capsule architecture with runtime loading and scoped guidance.
 - [x] One-command startup orchestration with duplicate-launch protection.
+- [x] PostgreSQL auto-bootstrap when the configured database is missing.
+- [x] Hardened night patrol with compatibility fallbacks, roaming recovery, and command-driven ghost mode.
 
 ### Core AI & Memory Enhancements
 
@@ -48,7 +50,8 @@ The brain is now mostly implemented; the remaining work here is refinement rathe
 - **[✓] Persistent Long-Term Memory:** PostgreSQL-backed memory with Ollama embeddings and pgvector similarity search is live.
 - **[✓] Goal-Oriented Project Management:** Project persistence, commands, and phase/blocker flows are live.
 - **[✓] Natural Language Conversation:** Intent routing, pending follow-ups, and project ambiguity handling are live.
-- **[✓] Persona Voice Capsule (NPC):** Persona-driven NPC dialogue styling is live with safe fallback and config toggle.
+- **[✓] S.C Capsule Runtime:** Multi-capsule loading from `data/S.C` is live and available through shared runtime state.
+- **[✓] Persona Voice via S.C (NPC):** NPC dialogue styling now prefers S.C voice/persona capsules with legacy fallback and config toggle.
 
 ### Advanced In-Game Autonomy
 
@@ -58,6 +61,7 @@ This phase focuses on giving CobbleWright the ability to physically interact wit
 - **[✓] Autonomous Resource Gathering:** Blueprint planning now resolves common crafted materials like slabs, stairs, torches, glass, fences, doors, and lanterns through their base materials, crafting, and smelting steps.
 - **[✓] Collaborative Building:** The bot can now detect nearby frames and pillars, fill wall spans, and extend incomplete support columns.
 - **[✓] Automated Farming:** Crop tending now handles tilling, harvesting, replanting, and chest storage near the farm center.
+- **[✓] Survival Hardening:** Night patrol now survives missing terrain helpers, missing coal, and hostile pressure more gracefully.
 
 ### Migration Notes (V1 → V2)
 
@@ -87,12 +91,15 @@ The roadmap above is intentionally concise. The sections below preserve the olde
 
 - **Persistent memory implementation:** PostgreSQL-backed `memory_stream` table with Ollama embeddings and pgvector similarity search.
 - **ANN index support:** HNSW is preferred when available; IVFFlat is used as a fallback.
+- **Database bootstrap:** PostgreSQL-backed systems create the configured database automatically when the server is reachable but the DB is absent.
 - **Project management implementation:** PostgreSQL-backed `project_goals` table with project commands and active-project advice alignment.
 - **Natural language routing implementation:** Free-form chat is routed into existing commands using intent matching and memory-aware advice context.
-- **Persona voice implementation:** `cobblewright-npc/persona.sc.json` drives dialogue styling through register-based voice transforms.
+- **S.C capsule implementation:** `data/S.C/*.sc.json` drives scoped behavior and persona/voice context across architect and NPC flows.
+- **Legacy persona fallback:** `cobblewright-npc/persona.sc.json` remains supported for backward compatibility.
 
 ### Autonomy Detail
 
 - **Resource gathering:** `/gather` is the first step toward blueprint-driven collection and full automation.
 - **Collaborative building:** Planned support for guided wall-filling and frame completion.
 - **Automated farming:** Planned support for tilling, planting, harvesting, and chest storage.
+- **Night patrol hardening:** Patrol now supports terrain-height fallbacks, delayed torch retries, and operator-backed ghost mode.

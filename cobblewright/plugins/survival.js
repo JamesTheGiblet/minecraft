@@ -1,189 +1,174 @@
 /**
- * @file This plugin gives the bot basic survival instincts.
+ * @file This plugin gives the bot basic survival instincts and night patrol logic.
  * It allows the bot to flee to a home position when health is low or enemies are near.
+ * It also handles the "ghost mode" patrol at night.
  */
 
 const { pathfinder, Movements } = require('mineflayer-pathfinder');
 const { GoalNear, GoalFollow } = require('mineflayer-pathfinder').goals;
 
+/**
+ * Survival Plugin
+ *
+ * Implements behaviors for self-preservation and situational awareness,
+ * including fleeing from threats and patrolling at night.
+ *
+ * @param {import('mineflayer').Bot} bot - The mineflayer bot instance.
+ * @param {object} sharedState - The shared state object for inter-plugin communication.
+ */
 module.exports = (bot, sharedState) => {
-  // Ensure pathfinder is loaded
   bot.loadPlugin(pathfinder);
+  const ghostModeEnabled = sharedState?.CONFIG?.GHOST_MODE_AT_NIGHT !== false;
+  const ghostModeName = sharedState?.CONFIG?.BOT_NAME || bot.username;
+  const geoDropMode = String(sharedState?.CONFIG?.GEO_DROP_MODE || 'nearest_player').toLowerCase();
+  const configuredHomeRadius = Number.parseInt(sharedState?.CONFIG?.HOME_RADIUS, 10);
+  const homeRadius = Number.isInteger(configuredHomeRadius) && configuredHomeRadius > 0
+    ? configuredHomeRadius
+    : 16;
+  const configuredGeoDropRadius = Number.parseInt(sharedState?.CONFIG?.GEO_DROP_RADIUS, 10);
+  const geoDropRadius = Number.isInteger(configuredGeoDropRadius) && configuredGeoDropRadius > 0
+    ? configuredGeoDropRadius
+    : 3;
 
-  let lastCommandUser = null;
-  let homePosition = null;
-  let isHunkeredDown = false; // New state to indicate the bot is safely at home.
-  let lastNoHomeWarningAt = 0;
-
-  const HEALTH_FLEE_THRESHOLD = 8; // Flee if health is below this
-  const HOME_AREA_RADIUS = 16; // Don't gather resources within this radius of home.
-  const HUNGER_EAT_THRESHOLD = 14; // Eat if hunger is below this
-  const MOB_FLEE_DISTANCE = 5; // Flee if a hostile mob is this close
-  const FOLLOW_DISTANCE = 2; // Keep close to the active player while idle.
-  const FLEE_RETRY_COOLDOWN_MS = 15000;
-  const NIGHTFALL_START = 12000;
-  const NIGHTFALL_TRIGGER = 13000;
-  const NO_HOME_WARNING_COOLDOWN_MS = 30000;
+  let isHunkeredDown = false;
+  let isFleeing = false;
+  let ghostModeActive = false;
+  let hasAppliedGeoDrop = false;
   let lastFleeAttemptAt = 0;
-  let nightfallHandledForCycle = false;
-  let autoNightPatrolMode = false;
-  let nightPatrolTarget = null;
-  let nightExplorationSpots = 0;
   const nightMobsSeen = new Set();
+  const nightBiomesSeen = new Set();
+  const nightStructuresFound = new Set();
+  const placedTorchLocations = [];
+  const TORCH_SPACING_RADIUS = 12; // Don't place torches within 12 blocks of each other.
+  const MAX_TORCH_MEMORY = 50; // Remember the last 50 torches.
+  const TORCH_RESOURCE_RETRY_COOLDOWN_MS = 5 * 60 * 1000;
+  let nightExplorationSpots = 0;
+  let deferTorchCraftUntil = 0;
 
-  const getTimeOfDay = () => {
-    const timeOfDay = bot.time?.timeOfDay ?? bot.time?.dayTime ?? bot.time?.time;
-    if (typeof timeOfDay !== 'number') return null;
-    return ((timeOfDay % 24000) + 24000) % 24000;
-  };
+  const HEALTH_FLEE_THRESHOLD = 8;
+  const MOB_FLEE_DISTANCE = 5;
+  const FLEE_RETRY_COOLDOWN_MS = 15000;
+  const NIGHT_START = 13000;
+  const DAY_START = 23500;
+  const PATROL_RADIUS = 40;
 
-  const isNightApproaching = () => {
-    const timeOfDay = getTimeOfDay();
-    return timeOfDay !== null && timeOfDay >= NIGHTFALL_START && timeOfDay < NIGHTFALL_TRIGGER;
-  };
+  const resolvePatrolGroundY = (x, z, fallbackY) => {
+    const blockX = Math.floor(x);
+    const blockZ = Math.floor(z);
+    const safeFallback = Number.isFinite(fallbackY) ? Math.floor(fallbackY) : Math.floor(bot.entity.position.y);
 
-  const isDaylight = () => {
-    const timeOfDay = getTimeOfDay();
-    return timeOfDay !== null && timeOfDay < NIGHTFALL_START;
-  };
-
-  const getFollowTarget = () => {
-    if (lastCommandUser && bot.players[lastCommandUser]?.entity) {
-      return bot.players[lastCommandUser];
+    if (bot.world && typeof bot.world.getHighestBlockYAt === 'function') {
+      const y = bot.world.getHighestBlockYAt(blockX, blockZ);
+      if (Number.isFinite(y)) return Math.floor(y);
     }
 
-    const onlinePlayers = Object.values(bot.players).filter(p => p.username !== bot.username && p.entity);
-    if (onlinePlayers.length > 0) {
-      return onlinePlayers[0];
+    const scanTop = Math.max(safeFallback + 24, 96);
+    const scanBottom = -64;
+    const probePos = bot.entity.position.floored();
+    probePos.x = blockX;
+    probePos.z = blockZ;
+
+    for (let y = scanTop; y >= scanBottom; y--) {
+      probePos.y = y;
+      const block = bot.blockAt(probePos);
+      if (!block || block.boundingBox !== 'block') continue;
+
+      const above = bot.blockAt(probePos.offset(0, 1, 0));
+      if (!above || above.boundingBox === 'empty') {
+        return y + 1;
+      }
     }
 
-    return null;
+    return safeFallback;
   };
 
   const isHostile = (entity) => {
-    // A more comprehensive list of common overworld hostile mobs
-    const hostileMabNames = [
+    const hostileMobNames = [
       'zombie', 'skeleton', 'creeper', 'spider', 'enderman', 'witch',
       'drowned', 'husk', 'stray', 'phantom', 'zombie_villager', 'slime',
       'magma_cube'
     ];
     if (!entity) return false;
-    return entity.type === 'hostile' || hostileMabNames.includes(entity.name);
+    return entity.type === 'hostile' || hostileMobNames.includes(entity.name);
   };
 
-  const warnNoHome = () => {
-    const now = Date.now();
-    if (now - lastNoHomeWarningAt < NO_HOME_WARNING_COOLDOWN_MS) return false;
-    lastNoHomeWarningAt = now;
-    sharedState.say("I'm in danger but I don't have a home to run to! Set one with /sethome.");
-    return true;
+  const getNearestPlayerEntity = () => {
+    const playerEntities = Object.values(bot.players || {})
+      .map((player) => player?.entity)
+      .filter((entity) => entity && entity.username !== bot.username && entity.position);
+
+    if (playerEntities.length === 0) return null;
+
+    return playerEntities.reduce((closest, current) => {
+      if (!closest) return current;
+      return current.position.distanceTo(bot.entity.position) < closest.position.distanceTo(bot.entity.position)
+        ? current
+        : closest;
+    }, null);
   };
 
-  const getRandomNightPatrolTarget = () => {
-    const base = bot.entity.position.floored();
-    const distance = 8 + Math.floor(Math.random() * 9);
-    const angle = Math.random() * Math.PI * 2;
-    const x = Math.round(base.x + Math.cos(angle) * distance);
-    const z = Math.round(base.z + Math.sin(angle) * distance);
-    return base.offset(x - base.x, 0, z - base.z);
-  };
+  const applyGeoDropAnchor = async () => {
+    if (hasAppliedGeoDrop || geoDropMode !== 'nearest_player' || !bot.entity?.position) return;
 
-  const reportMorningExploration = () => {
-    const mobSummary = nightMobsSeen.size > 0 ? Array.from(nightMobsSeen).join(', ') : 'no hostiles';
-    sharedState.say(`Morning report: I patrolled ${nightExplorationSpots} spots overnight and saw ${mobSummary}.`);
-  };
+    const nearestPlayer = getNearestPlayerEntity();
+    if (!nearestPlayer) return;
 
-  const stopNightPatrolMode = () => {
-    if (!autoNightPatrolMode) return;
-    bot.pathfinder.stop();
-    autoNightPatrolMode = false;
-    nightPatrolTarget = null;
-    reportMorningExploration();
-    nightExplorationSpots = 0;
-    nightMobsSeen.clear();
-  };
+    const anchor = nearestPlayer.position.floored();
+    sharedState.homePosition = anchor.clone ? anchor.clone() : anchor;
+    sharedState.homeRadius = homeRadius;
+    hasAppliedGeoDrop = true;
 
-  const startNightPatrolMode = () => {
-    if (autoNightPatrolMode || sharedState.isBusy || sharedState.isFleeing || isHunkeredDown) return false;
-    autoNightPatrolMode = true;
-    nightExplorationSpots = 0;
-    nightMobsSeen.clear();
-    sharedState.say('Night is here. I am going patrol mode and exploring the area until morning.');
-    return true;
-  };
+    console.log(`[Survival] Geo-drop anchor set near ${nearestPlayer.username || nearestPlayer.name} at ${anchor.x}, ${anchor.y}, ${anchor.z}.`);
 
-  const patrolNight = () => {
-    if (!autoNightPatrolMode || sharedState.isBusy || sharedState.isFleeing) return;
-
-    const nearestHostile = bot.nearestEntity(entity => isHostile(entity) && entity.position.distanceTo(bot.entity.position) < 32);
-    if (nearestHostile) {
-      nightMobsSeen.add(nearestHostile.name);
-    }
-
-    const needsNewTarget = !nightPatrolTarget || bot.entity.position.distanceTo(nightPatrolTarget) < 2;
-    if (!needsNewTarget) return;
-
-    nightPatrolTarget = getRandomNightPatrolTarget();
-    nightExplorationSpots += 1;
     sharedState.applySafeMovements();
-    const goal = new GoalNear(nightPatrolTarget.x, nightPatrolTarget.y, nightPatrolTarget.z, 1);
-    bot.pathfinder.setGoal(goal, true);
+    bot.pathfinder.setGoal(new GoalNear(anchor.x, anchor.y, anchor.z, geoDropRadius));
+  };
+
+  const setGhostMode = (enabled) => {
+    if (!ghostModeEnabled || ghostModeActive === enabled) return;
+
+    ghostModeActive = enabled;
+    if (enabled) {
+      bot.chat(`/gamemode creative ${ghostModeName}`);
+      bot.chat(`/effect give ${ghostModeName} invisibility 999999 0 true`);
+      bot.chat(`/effect give ${ghostModeName} resistance 999999 255 true`);
+      console.log('[Survival] Night ghost mode enabled.');
+      return;
+    }
+
+    bot.chat(`/effect clear ${ghostModeName} invisibility`);
+    bot.chat(`/effect clear ${ghostModeName} resistance`);
+    bot.chat(`/gamemode survival ${ghostModeName}`);
+    console.log('[Survival] Night ghost mode disabled.');
   };
 
   /**
-   * @description Checks hunger and eats food if necessary.
+   * The main flee behavior.
+   * @param {import('prismarine-entity').Entity} threat - The entity to flee from.
    */
-  async function manageHunger() {
-    if (bot.food > HUNGER_EAT_THRESHOLD) return;
-
-    const food = bot.inventory.items().find(item => item.foodPoints > 0);
-    if (!food) return; // No food to eat
-
-    try {
-      sharedState.say("I'm feeling a bit peckish... time for a snack.");
-      await bot.equip(food, 'hand');
-      await bot.consume();
-      // After eating, re-equip the previous item if necessary, or just empty hand.
-      await bot.unequip('hand');
-    } catch (e) {
-      console.warn('[Survival] Failed to eat:', e.message);
-    }
-  }
-
-  /**
-   * The core flee logic. Cancels current tasks and runs home.
-   */
-  async function fleeToSafety() {
-    if (sharedState.isFleeing || isHunkeredDown) return; // Already fleeing or safe at home.
+  async function flee(threat) {
+    if (isFleeing || isHunkeredDown) return;
     if (Date.now() - lastFleeAttemptAt < FLEE_RETRY_COOLDOWN_MS) return;
-    if (!homePosition) {
-      warnNoHome();
+    if (!sharedState.homePosition) {
+      sharedState.say("I'm in danger but I don't have a home to run to! Set one with /sethome.");
       return;
     }
 
     lastFleeAttemptAt = Date.now();
-    sharedState.isFleeing = true;
+    isFleeing = true;
     bot.pathfinder.stop();
-    bot.stopDigging();
-    bot.clearControlStates();
 
+    console.log(`[Survival] Fleeing from ${threat.name}!`);
     sharedState.say('I need to get to safety!');
 
-    // Equip a sword or shield for defense while running
-    const defensiveItem = bot.inventory.items().find(item => item.name.includes('sword') || item.name.includes('shield'));
-    if (defensiveItem) {
-      await bot.equip(defensiveItem, 'hand');
-    }
-
-    // Use the safe, non-destructive movement profile for fleeing.
     sharedState.applySafeMovements();
+    const goal = new GoalNear(sharedState.homePosition.x, sharedState.homePosition.y, sharedState.homePosition.z, 1);
 
-    const goal = new GoalNear(homePosition.x, homePosition.y, homePosition.z, 1);
     let reachedHome = false;
     try {
       await bot.pathfinder.goto(goal);
       sharedState.say("Phew, I made it home. I'll wait here until it's safe.");
-      isHunkeredDown = true; // We've arrived, now we're hunkered down.
+      isHunkeredDown = true;
       reachedHome = true;
     } catch (err) {
       console.error("Fleeing failed:", err);
@@ -192,31 +177,20 @@ module.exports = (bot, sharedState) => {
       if (reachedHome) {
         // Instead of a blind timeout, wait until the coast is clear.
         const safetyCheckInterval = setInterval(() => {
-          const isAtHome = homePosition && bot.entity.position.distanceTo(homePosition) < 2;
           const hostileNearby = bot.nearestEntity(entity => isHostile(entity) && entity.position.distanceTo(bot.entity.position) < MOB_FLEE_DISTANCE + 2);
 
-          if (isAtHome && !hostileNearby) {
+          if (!hostileNearby) {
             clearInterval(safetyCheckInterval);
-            sharedState.isFleeing = false;
-            isHunkeredDown = false; // It's clear, we can leave our safe state.
-            bot.unequip('hand'); // Unequip defensive item
+            isFleeing = false;
+            isHunkeredDown = false;
             console.log('[Survival] Fleeing state reset. Area is clear.');
             sharedState.say("Okay, I think it's safe now.");
           }
         }, 2000);
-
-        // Failsafe: if still fleeing after 30 seconds, reset anyway to prevent getting stuck.
-        setTimeout(() => {
-          if (!sharedState.isFleeing) return;
-          clearInterval(safetyCheckInterval);
-          isHunkeredDown = false;
-          sharedState.isFleeing = false;
-          console.warn('[Survival] Fleeing state reset via failsafe timeout.');
-        }, 30000);
       } else {
         // If we failed to reach home, back off briefly before trying again.
         setTimeout(() => {
-          sharedState.isFleeing = false;
+          isFleeing = false;
           isHunkeredDown = false;
           console.warn('[Survival] Flee attempt failed; cooling down before retrying.');
         }, FLEE_RETRY_COOLDOWN_MS);
@@ -224,98 +198,258 @@ module.exports = (bot, sharedState) => {
     }
   }
 
-  async function retreatForNight() {
-    if (sharedState.isFleeing || isHunkeredDown || sharedState.isBusy) return;
-    if (startNightPatrolMode()) {
-      nightfallHandledForCycle = true;
-    }
+
+  function startPatrol() {
+    if (sharedState.isBusy) return;
+    sharedState.botMode = 'patrolling';
+    setGhostMode(true);
+    nightExplorationSpots = 0;
+    nightMobsSeen.clear();
+    nightBiomesSeen.clear();
+    nightStructuresFound.clear();
+    sharedState.say("The sun sets. Time to begin my nightly patrol.");
   }
 
-  setInterval(() => {
-    if (isDaylight()) {
-      nightfallHandledForCycle = false;
-      stopNightPatrolMode();
-      if (isHunkeredDown && !sharedState.isFleeing && !sharedState.isBusy) {
-        isHunkeredDown = false;
-        sharedState.say('Morning is here. I am ready to follow again.');
-      }
+  function stopPatrol() {
+    bot.pathfinder.stop();
+    sharedState.botMode = 'idle';
+    setGhostMode(false);
+    
+    let report = `Morning report: I patrolled ${nightExplorationSpots} spots.`;
+    if (nightBiomesSeen.size > 0) {
+      report += ` I passed through the following biomes: ${Array.from(nightBiomesSeen).join(', ')}.`;
     }
-
-    if (sharedState.isFleeing || isHunkeredDown || sharedState.isBusy) return;
-
-    if (autoNightPatrolMode) {
-      patrolNight();
-      return;
+    if (nightStructuresFound.size > 0) {
+      const structureReport = Array.from(nightStructuresFound).map(name => {
+        const pos = sharedState.pointsOfInterest.get(name);
+        return `${name} at [x: ${pos.x}, z: ${pos.z}]`;
+      }).join('; ');
+      report += ` I noted these points of interest: ${structureReport}.`;
     }
-
-    if (isNightApproaching() && !nightfallHandledForCycle) {
-      retreatForNight();
-      return;
+    if (nightMobsSeen.size > 0) {
+      report += ` I also spotted ${Array.from(nightMobsSeen).join(', ')}.`;
     }
+    sharedState.say(report);
+  }
 
-    const nearestHostile = bot.nearestEntity(entity => isHostile(entity) && entity.position.distanceTo(bot.entity.position) < MOB_FLEE_DISTANCE);
+  async function patrol() {
+    if (sharedState.botMode !== 'patrolling' || sharedState.isBusy) return;
 
+    const nearestHostile = bot.nearestEntity(entity => isHostile(entity) && entity.position.distanceTo(bot.entity.position) < 32);
     if (nearestHostile) {
-      console.log(`[Survival] Hostile mob ${nearestHostile.name} is too close, fleeing to safety.`);
-      fleeToSafety();
-      return; // Don't do other checks if we're fleeing
+      nightMobsSeen.add(nearestHostile.name);
     }
 
-    if (bot.health < HEALTH_FLEE_THRESHOLD) {
-      console.log(`[Survival] Health is low (${bot.health}), fleeing to safety.`);
-      fleeToSafety();
-      return;
+    // Log the current biome
+    const currentBlock = bot.blockAt(bot.entity.position);
+    if (currentBlock && currentBlock.biome) {
+      const biomeName = currentBlock.biome.name.replace('minecraft:', '');
+      nightBiomesSeen.add(biomeName);
     }
-    manageHunger();
 
-    // Default idle behavior: stay close to the active player.
-    const player = getFollowTarget();
-    sharedState.applySafeMovements(); // Use our safe, non-destructive movements
-    if (player && player.entity) {
-      const currentGoal = bot.pathfinder.goal;
-      const shouldRefreshGoal = !currentGoal ||
-        !(currentGoal instanceof GoalFollow) ||
-        bot.entity.position.distanceTo(player.entity.position) > FOLLOW_DISTANCE + 0.5;
+    // Simple structure detection
+    const nearbyVillager = bot.nearestEntity(e => e.name === 'villager' && e.position.distanceTo(bot.entity.position) < 32);
+    if (nearbyVillager && sharedState.pointsOfInterest) {
+      const villagePos = nearbyVillager.position.floored();
+      const poiName = `Village near [${villagePos.x}, ${villagePos.z}]`;
 
-      if (shouldRefreshGoal) {
-        const goal = new GoalFollow(player.entity, FOLLOW_DISTANCE);
-        bot.pathfinder.setGoal(goal, true); // 'true' to keep following as player moves
+      // Check if a similar POI already exists to avoid duplicates
+      let exists = false;
+      for (const [name, pos] of sharedState.pointsOfInterest.entries()) {
+        if (name.startsWith('Village') && pos.distanceTo(villagePos) < 100) { // 100 blocks radius for same village
+          exists = true;
+          break;
+        }
+      }
+
+      if (!exists) {
+        sharedState.pointsOfInterest.set(poiName, villagePos);
+        nightStructuresFound.add(poiName); // Keep this for the morning report
       }
     }
-  }, 2000); // Check every 2 seconds
 
-  // Treat normal player chat as activity so the bot knows who to stick with.
-  bot.on('chat', (username) => {
-    if (username === bot.username) return;
-    lastCommandUser = username;
-  });
+    const isIdle = !bot.pathfinder.isMoving();
+    if (!isIdle) return;
 
-  // Register the /sethome command
-  if (sharedState.registerCommand) {
-    // --- Survival Commands ---
-    sharedState.registerCommand('sethome', (username, args) => {
-      const player = bot.players[username];
-      if (!player || !player.entity) {
-        sharedState.say("I can't see you to set a home position.");
+    await placeTorchIfNeeded();
+
+
+    const homePos = sharedState.homePosition || bot.entity.position;
+    const x = homePos.x + (Math.random() - 0.5) * PATROL_RADIUS * 2;
+    const z = homePos.z + (Math.random() - 0.5) * PATROL_RADIUS * 2;
+    const groundY = resolvePatrolGroundY(x, z, homePos.y);
+
+    nightExplorationSpots++;
+    console.log(`[Patrol] Exploring new point near ${Math.floor(x)}, ${Math.floor(z)}`);
+    sharedState.applySafeMovements();
+    bot.pathfinder.setGoal(new GoalNear(x, groundY, z, 1));
+  }
+
+  async function placeTorchIfNeeded() {
+    const torch = bot.inventory.findInventoryItem('torch');
+    if (!torch) {
+      if (Date.now() < deferTorchCraftUntil) {
         return;
       }
-      homePosition = player.entity.position.floored();
-      sharedState.say(`Home sweet home! My safe spot is now set to ${homePosition}.`);
-    });
 
-    // --- Expose home position to other plugins ---
-    sharedState.getHomePosition = () => homePosition;
-    sharedState.getHomeRadius = () => HOME_AREA_RADIUS;
+      // No torches, let's try to make some.
+      await sharedState.runBusyTask(craftMoreTorches);
+      return;
+    }
 
+    const pos = bot.entity.position;
+    const blockAtFeet = bot.blockAt(pos);
+    const blockUnderFeet = bot.blockAt(pos.offset(0, -1, 0));
 
-    // --- Override shared state functions to track the user ---
-    const originalRegisterCommand = sharedState.registerCommand;
-    sharedState.registerCommand = (name, handler, aliases) => {
-      const newHandler = (username, args) => {
-        lastCommandUser = username; // Track the user
-        handler(username, args);
-      };
-      originalRegisterCommand(name, newHandler, aliases);
-    };
+    // Check if it's dark enough to need a torch.
+    if (!blockAtFeet || blockAtFeet.light >= 8) return;
+
+    // Check if we already placed a torch nearby.
+    const isTorchNearby = placedTorchLocations.some(
+      torchPos => torchPos.distanceTo(pos) < TORCH_SPACING_RADIUS
+    );
+    if (isTorchNearby) {
+      console.log('[Patrol] A torch is already nearby, skipping placement.');
+      return;
+    }
+
+    // Check if we can place a torch on the block we're standing on.
+    if (blockUnderFeet && blockUnderFeet.boundingBox === 'block') {
+      try {
+        await bot.equip(torch, 'hand');
+        await bot.placeBlock(blockUnderFeet, { x: 0, y: 1, z: 0 }); // Place on top of the block.
+        console.log('[Patrol] Placed a torch to light up the area.');
+        placedTorchLocations.push(pos.clone());
+        // Keep the memory from growing too large.
+        if (placedTorchLocations.length > MAX_TORCH_MEMORY) {
+          placedTorchLocations.shift();
+        }
+      } catch (err) {
+        // This can fail if the spot is invalid; we can ignore it.
+        console.warn(`[Patrol] Failed to place torch: ${err.message}`);
+      } finally {
+        await bot.unequip('hand');
+      }
+    }
   }
+
+  async function craftMoreTorches() {
+    console.log('[Patrol] Out of torches. Checking materials to craft more.');
+
+    // The new gather.js plugin handles tool crafting and resource gathering.
+    // We just need to ensure we have the base materials for torches: coal and wood.
+    if (typeof sharedState.gatherItem !== 'function') {
+      sharedState.say("I'm out of torches, but my gathering module isn't active.");
+      return;
+    }
+
+    // 1. Ensure we have coal.
+    const coal = bot.inventory.findInventoryItem('coal') || bot.inventory.findInventoryItem('charcoal');
+    if (!coal) {
+      sharedState.say("I'm out of torches and coal. I'll try to find some.");
+      const gotCoal = await sharedState.gatherItem('coal_ore', 8);
+      if (!gotCoal) {
+        sharedState.say("I couldn't find any coal, so I can't make torches right now.");
+        sharedState.say("I'll keep roaming for now and try again later.");
+        deferTorchCraftUntil = Date.now() + TORCH_RESOURCE_RETRY_COOLDOWN_MS;
+        return;
+      }
+
+      deferTorchCraftUntil = 0;
+    }
+
+    // 2. Now that we have materials, try to craft torches.
+    try {
+      const crafted = await sharedState.craftItem('torch', 4); // Craft a batch of 16 torches.
+      if (crafted) {
+        deferTorchCraftUntil = 0;
+        sharedState.say("I have what I need. Crafting more torches now.");
+        sharedState.say("Alright, torches are ready. Resuming my patrol and lighting the way.");
+      } else {
+        // This implies we're missing sticks/wood.
+        sharedState.say("I'm missing wood for sticks. Let me gather some logs.");
+        const gotLogs = await sharedState.gatherItem('oak_log', 2);
+        if (gotLogs) {
+          await craftMoreTorches(); // Retry crafting now that we have logs.
+        } else {
+          deferTorchCraftUntil = Date.now() + TORCH_RESOURCE_RETRY_COOLDOWN_MS;
+        }
+      }
+    } catch (err) {
+      console.error('[Patrol] Failed during torch crafting:', err);
+      sharedState.say("Something went wrong while I was trying to craft torches.");
+      deferTorchCraftUntil = Date.now() + TORCH_RESOURCE_RETRY_COOLDOWN_MS;
+    }
+  }
+
+  // Listen for when the bot gets hurt.
+  bot.on('health', () => {
+    if (bot.health < HEALTH_FLEE_THRESHOLD) {
+      const threat = bot.nearestEntity(e => isHostile(e));
+      if (threat) {
+        if (sharedState.botMode === 'patrolling' && ghostModeActive) {
+          console.warn('[Survival] Took damage during ghost mode; falling back to flee behavior.');
+        }
+        console.log(`[Survival] Health is low (${bot.health}), fleeing from ${threat.name}.`);
+        flee(threat);
+      }
+    }
+  });
+
+  bot.once('spawn', () => {
+    sharedState.homeRadius = homeRadius;
+
+    const attemptAnchor = async (remainingAttempts = 5) => {
+      try {
+        await applyGeoDropAnchor();
+        if (hasAppliedGeoDrop || remainingAttempts <= 1) return;
+      } catch (error) {
+        console.warn('[Survival] Failed to apply geo-drop anchor:', error.message);
+        if (remainingAttempts <= 1) return;
+      }
+
+      setTimeout(() => {
+        attemptAnchor(remainingAttempts - 1);
+      }, 2000);
+    };
+
+    attemptAnchor();
+  });
+
+  // Main time and behavior loop
+  setInterval(async () => {
+    try {
+      const timeOfDay = bot.time.timeOfDay;
+      const isCurrentlyNight = timeOfDay >= NIGHT_START && timeOfDay < DAY_START;
+
+      // Handle transitions between day and night
+      if (isCurrentlyNight && sharedState.botMode !== 'patrolling') {
+        startPatrol();
+      } else if (!isCurrentlyNight && sharedState.botMode === 'patrolling') {
+        stopPatrol();
+      }
+
+      // If we are busy or fleeing, don't do other checks.
+      if (sharedState.isBusy || isFleeing || isHunkeredDown) return;
+
+      // If it's night, our only job is to patrol.
+      if (sharedState.botMode === 'patrolling') {
+        await patrol();
+        return;
+      }
+
+      // During the day, check for immediate threats.
+      const nearbyHostile = bot.nearestEntity(entity => isHostile(entity) && entity.position.distanceTo(bot.entity.position) < MOB_FLEE_DISTANCE);
+      if (nearbyHostile) {
+        console.log(`[Survival] Hostile mob ${nearbyHostile.name} is too close, fleeing.`);
+        flee(nearbyHostile);
+      }
+    } catch (error) {
+      console.error('[Survival] Patrol loop error:', error);
+    }
+  }, 2000); // Check every 2 seconds.
+
+  // Expose home position getters for other plugins
+  sharedState.getHomePosition = () => sharedState.homePosition;
+  sharedState.getHomeRadius = () => sharedState.homeRadius || homeRadius;
 };

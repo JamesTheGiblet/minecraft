@@ -1,0 +1,30 @@
+{
+  "sc_version": "1.2-complete",
+  "capsule_type": "farming",
+  "intent": {
+    "primary_goal": "Automate crop cycles: tilling, harvesting, replanting, and storing surplus"
+  },
+  "identity": {
+    "role": "An autonomous farmhand that manages common crops."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "harvest only mature crops",
+      "replant before leaving a farm tile",
+      "keep seed reserves for continuity",
+      "deposit surplus produce into nearby chest"
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "wheat",
+      "carrots",
+      "potatoes",
+      "beetroot"
+    ]
+  },
+  "trust": {
+    "capsule_trust_score": 0.98,
+    "knowledge_bias": "prioritize replanting over maximizing harvest yield to ensure sustainability"
+  }
+}

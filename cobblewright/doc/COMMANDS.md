@@ -30,6 +30,8 @@ Type the command in chat without a leading slash. Most commands are case-insensi
 - `style` accepts `any` or one of the styles stored in `styles_data.json`.
 - `critique` works best after taking a screenshot with `F2`.
 - `sethome` is used by the survival logic so CobbleWright can flee to a safe location.
+- `sethome` also defines the center point for night patrol roaming and emergency fallback when ghost mode commands are unavailable.
+- Night ghost mode uses built-in server commands under the hood, so the bot account must have permission to run `/gamemode` and `/effect` if you want patrol invulnerability.
 
 ## Examples
 

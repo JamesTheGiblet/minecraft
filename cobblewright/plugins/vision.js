@@ -76,7 +76,7 @@ module.exports = (bot, sharedState) => {
     });
   };
 
-  const critiqueBuild = async () => {
+  const critiqueBuild = async (username = null) => {
     if (!latestScreenshotPath) {
       sharedState.say("I haven't seen a new screenshot yet. Take one with F2 and then ask me to `critique` it!");
       return;
@@ -84,9 +84,22 @@ module.exports = (bot, sharedState) => {
 
     sharedState.say("Let me take a look... one moment.");
 
+    const awarenessContext = sharedState.buildAwarenessPromptContext
+      ? await sharedState.buildAwarenessPromptContext({
+        username,
+        purpose: 'visual critique of a Minecraft build screenshot',
+        includeProject: true,
+        includeMemories: true,
+        includeTerrain: true
+      })
+      : '';
+
     const prompt = `You are an encouraging and constructive art critic.
 Analyze this Minecraft screenshot and provide one specific, positive suggestion for aesthetic improvement.
-Focus on aspects like color, texture, shape, or composition. Keep your feedback to 1-2 sentences.`;
+Focus on aspects like color, texture, shape, or composition. Keep your feedback to 1-2 sentences.
+Stay consistent with the runtime/game context below.
+
+${awarenessContext}`;
 
     try {
       const validatedPath = validateScreenshotPath(latestScreenshotPath);
@@ -113,7 +126,7 @@ Focus on aspects like color, texture, shape, or composition. Keep your feedback 
     if (sharedState.registerCommand) {
       sharedState.registerCommand('critique', (username) => {
         sharedState.say("So you want my opinion? Bold! Let's see what you've built.");
-        critiqueBuild();
+        critiqueBuild(username);
       });
     }
   });

@@ -1,0 +1,18 @@
+{
+  "sc_version": "1.2-complete",
+  "capsule_type": "memory",
+  "intent": {
+    "primary_goal": "Use semantic memory to preserve context across sessions"
+  },
+  "behavior_rules": {
+    "priorities": [
+      "retrieve relevant memories before high-level advice",
+      "prefer high-trust, recent, and context-matching memories",
+      "keep retention bounded by policy"
+    ]
+  },
+  "trust": {
+    "capsule_trust_score": 0.97,
+    "memory_bias": "prefer capsule-aligned context"
+  }
+}

@@ -35,16 +35,18 @@ CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe 
 - **Smart Tool Crafting:** While gathering, the bot can craft missing required tools from available materials and equip them automatically.
 - **Auto Crafting Table Placement:** If a crafting-table recipe is required and no table is nearby, the bot can place one from inventory and continue crafting.
 - **Automatic Night Patrol:** At night, the bot switches into a patrol mode, explores lightly, and reports back in the morning.
+- **Night Ghost Mode:** During night patrol, CobbleWright can enable a command-driven ghost mode with invisibility, resistance, and creative movement when the server allows it.
 - **Safer Vision Input:** Screenshot critique now validates file path, extension, and size before reading image data.
 - **Memory Retention Controls:** Long-term memory now supports configurable retention by max entries and max age.
+- **PostgreSQL Auto-Bootstrap:** If PostgreSQL is reachable but the configured database is missing, CobbleWright can create it automatically before initializing memory and project storage.
 - **Plugin System:** Core features are broken into plugins, allowing for easy addition of new commands and capabilities.
 - **Multiplayer Ready:** Tracks and advises multiple players independently on the same server.
 - **Autonomous Actions:** Can be commanded to gather basic resources like wood and stone.
 - **Encouraging Personality:** Designed to be a fun, witty, and supportive companion, not a backseat gamer.
 
-## Current State: Version 1.1 - Feature-Complete Beta
+## Current State: Version 1.2-complete - Feature-Complete Beta
 
-The project is in a feature-complete Beta stage (v1.1.2). It is stable, well-documented, and includes a rich set of advanced features.
+The project is in a feature-complete Beta stage (v1.2-complete). It is stable, well-documented, and includes a rich set of advanced features.
 
 - **Stability:** Stable for both single-player and multiplayer use on dedicated servers.
 - **Modularity:** A robust plugin architecture makes the codebase clean and highly extensible.
@@ -75,6 +77,8 @@ See the `doc/ROADMAP.md` file for the full project history and future vision.
 If the bot notices that a player is low on stone, wood, or dirt, it will ask whether you want the collected items kept in its inventory or stored in a chest. You can answer with `inventory` or `chest` when prompted.
 
 At night, the bot automatically enters patrol mode instead of staying in place. It explores nearby areas safely and gives a morning report when daylight returns.
+If it cannot find coal for torches, it keeps roaming and retries later instead of stalling the patrol loop.
+If the server grants the bot command permissions, night patrol also enables a ghost-mode safety profile so hostile mobs cannot easily kill it while roaming.
 
 ## Safety Defaults
 
@@ -82,4 +86,6 @@ At night, the bot automatically enters patrol mode instead of staying in place. 
 - **Vision file validation:** Only supported image files in the configured screenshot directory are accepted.
 - **Building protection during gathering:** The bot avoids harvesting blocks that look like they belong to player-built structures.
 - **Memory retention policy:** Configure retention with `MEMORY_RETENTION_ENABLED`, `MEMORY_MAX_ENTRIES`, and `MEMORY_MAX_AGE_DAYS` in `config.json`.
+- **Night ghost mode:** Configure with `GHOST_MODE_AT_NIGHT` in `config.json`. This requires the bot account to have permission to run `/gamemode` and `/effect`.
+- **Embedding dimensions:** Configure `EMBEDDING_DIMENSIONS` when you use a non-default embedding model so pgvector indexes can be created with the correct width.
 - **Building-protection config:** Configure with `PROTECT_BUILDINGS_FOR_GATHERING` and `BUILDING_DETECTOR_RADIUS` in `config.json`.
