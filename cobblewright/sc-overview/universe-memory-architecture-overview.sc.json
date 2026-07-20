@@ -1,0 +1,56 @@
+{
+  "id": "COBBLEWRIGHT.v1.universe-memory-architecture-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the Wright Universe memory architecture.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\memory-architecture.md"
+  },
+  "intent": {
+    "primary_goal": "To define the multi-layered memory architecture for the Wright Universe, detailing how memory is partitioned, stored, and accessed by agents and realms."
+  },
+  "identity": {
+    "role": "The canonical specification for the distributed memory system of the Wright Universe."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Memory is partitioned into four scopes: Agent Memory (private), Realm Memory (shared within a world), Project Memory (task-specific), and Universal Knowledge (read-only).",
+      "PostgreSQL with pgvector is the standard storage backend for persistent, searchable memory.",
+      "Memory access is governed by strict permissions; agents cannot access the private memory of other agents.",
+      "The Leighton Loop critiques outcomes and enriches memory capsules with learning signals.",
+      "All memory creation and updates must be auditable via ChronoSCRIBE."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Database architecture",
+      "Vector databases",
+      "Distributed systems",
+      "AI memory"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\memory-architecture.md",
+      "purpose": "To provide a technical blueprint for the project's memory system, ensuring it is scalable, secure, and effective."
+    },
+    "key_concepts": {
+      "agent_memory": "An agent's private log of actions, thoughts, and learned heuristics.",
+      "realm_memory": "A shared memory pool for all agents within a single realm, like Wrightrealm.",
+      "project_memory": "Context-specific memory tied to a particular building project.",
+      "universal_knowledge": "Read-only, canonical knowledge derived from foundational capsules.",
+      "semantic_retrieval": "Using vector similarity search to find memories based on meaning, not just keywords."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative technical specification for the project's memory system."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\memory-architecture.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

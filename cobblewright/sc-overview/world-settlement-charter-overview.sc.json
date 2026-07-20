@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.world-settlement-charter-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the Wrightrealm Settlement Charter.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\settlement-charter.md"
+  },
+  "intent": {
+    "primary_goal": "To define the rules and principles for establishing and governing new settlements within Wrightrealm, ensuring they are purposeful and well-integrated."
+  },
+  "identity": {
+    "role": "The governing charter for all settlements, towns, and cities in Wrightrealm."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "New settlements must be chartered with a specific purpose (e.g., 'industrial outpost', 'agricultural hub').",
+      "Each settlement must adhere to the Wrightrealm Building Standards.",
+      "Settlements must be registered in the Wrightrealm Cultural Ledger.",
+      "The creation of a new settlement is a major project that must be approved via Leighton-Weighted Consensus.",
+      "Each settlement has a designated agent (or the Collective) as its steward."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Urban planning",
+      "Governance",
+      "World-building",
+      "Procedural generation"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\settlement-charter.md",
+      "purpose": "To provide a framework for the orderly and meaningful expansion of civilization within Wrightrealm."
+    },
+    "key_concepts": {
+      "chartering": "The formal process of proposing and approving a new settlement.",
+      "settlement_purpose": "The primary economic or cultural function of a settlement.",
+      "stewardship": "The assignment of an agent responsible for a settlement's development and maintenance.",
+      "cultural_registration": "The requirement to log a new settlement in the realm's historical records."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule defines the rules for creating new towns and cities. It is the foundation of civilization in Wrightrealm."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\settlement-charter.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

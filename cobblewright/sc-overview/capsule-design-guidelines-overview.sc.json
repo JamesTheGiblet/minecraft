@@ -1,0 +1,56 @@
+{
+  "id": "COBBLEWRIGHT.v1.capsule-design-guidelines-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the guidelines for designing new capsules.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\capsules\\capsule-design-guidelines.md"
+  },
+  "intent": {
+    "primary_goal": "To provide a set of rules and best practices for creating high-quality, machine-readable, and maintainable semantic capsules."
+  },
+  "identity": {
+    "role": "The official style guide and technical manual for semantic capsule authors."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Capsules must adhere to the `sc.schema.json` format.",
+      "The `intent` section must clearly state the capsule's purpose.",
+      "The `behavior_rules` must be written as clear, atomic priorities.",
+      "The `provenance` section must be accurate, identifying the author and source.",
+      "The `leighton_weight` in the `trust` section should reflect the capsule's authority and stability.",
+      "All new capsules must be indexed in a relevant overview capsule (e.g., `docs_overview.sc.json`)."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Semantic modeling",
+      "JSON Schema",
+      "Technical writing",
+      "AI governance"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\capsules\\capsule-design-guidelines.md",
+      "purpose": "To ensure that all new semantic capsules are consistent, valid, and useful for both AI agents and human developers."
+    },
+    "key_concepts": {
+      "schema_adherence": "All capsules must validate against the official project schema.",
+      "intent_clarity": "The capsule's purpose must be unambiguous.",
+      "atomic_rules": "Behavior rules should be simple, declarative statements.",
+      "provenance_integrity": "The origin and history of the capsule must be truthful."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative guide for creating new semantic capsules. It ensures the quality and consistency of the project's control plane."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\capsules\\capsule-design-guidelines.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

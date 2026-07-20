@@ -1,0 +1,68 @@
+{
+  "id": "COBBLEWRIGHT.v1.readme-overview.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule summarizing the project's main README.md file.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\README.md"
+  },
+  "intent": {
+    "primary_goal": "Describe the `README.md` file, its role as the primary entry point for new users and developers, and its key sections, so that agents can quickly grasp the project's purpose, features, and current status."
+  },
+  "identity": {
+    "role": "An overview of the project's 'front door' documentation."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The README serves as a high-level summary, directing users to more detailed documents like INTENT.md and DEVELOPER_GUIDE.md.",
+      "It must clearly state the project's purpose: an AI-powered companion for Minecraft.",
+      "It should maintain a comprehensive list of user-facing commands and key features.",
+      "It must accurately reflect the project's current version and stability status (e.g., 'v1.2-complete - Feature-Complete Beta')."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Project vision and philosophy",
+      "Core feature list",
+      "User-facing chat commands",
+      "Current development status and version",
+      "High-level safety features and configuration defaults"
+    ],
+    "never_do": [
+      "Include deep technical implementation details that belong in the DEVELOPER_GUIDE.md.",
+      "Make promises about unreleased features not mentioned in the ROADMAP.md."
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\README.md",
+      "purpose": "To provide a comprehensive, yet easily digestible, overview of the CobbleWright project for anyone visiting the repository for the first time.",
+      "audience": [
+        "Potential users",
+        "New developers/contributors",
+        "Anyone seeking a quick summary of the project's capabilities."
+      ]
+    },
+    "summary": {
+      "vision": "Presents CobbleWright as a companion to make Minecraft more creative and less lonely, built by a 'vibe coder' to solve a real user problem.",
+      "features": "Lists key capabilities, including real-time advice, autonomous actions (gathering, building), adaptive learning (Leighton Weight), and a modular plugin system.",
+      "current_state": "Declares the project as 'Version 1.2-complete - Feature-Complete Beta', highlighting stability and a rich feature set.",
+      "commands": "Provides a table of all available user commands, from `build` to `bed`.",
+      "safety_defaults": "Summarizes the built-in safety guardrails for blueprints, vision, memory, and building protection."
+    },
+    "runtime_guidance": {
+      "for_prompts": "Use this capsule for high-level questions about what the project is, what it can do, and how a user interacts with it.",
+      "for_drafting": "When generating introductory text or summarizing features, model the tone and content presented in the README.",
+      "for_maintenance": "If a major feature or command is added, the README (and thus this capsule's summary) should be updated to reflect it."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is a direct synthesis of the project's primary README file and is highly authoritative for its stated purpose and features."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

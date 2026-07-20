@@ -1,0 +1,99 @@
+{
+  "id": "FORGE.v1.leighton_weight_core.2026-07-16.JM",
+  "scp_version": "1.2.0",
+  "created_at": "2026-07-16T00:00:00Z",
+  "modified_at": "2026-07-16T00:00:00Z",
+  "provenance": {
+    "author": "James / Giblets Forge Ltd",
+    "agent": "Claude Sonnet 5",
+    "context": "Core reference capsule for Leighton Weight (λ) — the trust-scoring/decay engine at the heart of the Forge Stack. Consolidated from Aletheia design sessions, Mimir calibration runs, and the SCP spec's formal §7 trust block definition.",
+    "capture_mode": "agent_generated",
+    "source_ref": null,
+    "lineage": ["SCP.v1.protocol_spec"]
+  },
+  "intent": {
+    "primary": "Define what Leighton Weight is, its formula, its inputs, and how it behaves over time — so any Forge Stack component (Aletheia, ChronoSCRIBE, HAL, CobbleWright, etc.) can reason about trust scores consistently.",
+    "problem_solved": "Leighton Weight definitions and calibration numbers have been scattered and re-derived across many sessions (Mimir tuning, SCP spec, Aletheia design). This capsule is the single canonical reference."
+  },
+  "content": {
+    "what_it_is": {
+      "summary": "Leighton Weight (symbol: λ) is a time-decayed, corroboration-weighted trust score assigned to any claim, fact, or data point in the Forge Stack. It answers the question 'how much should this still be trusted right now' — not just 'was this ever true'.",
+      "origin_story": "Named after James's own surname/framework. Emerged from noticing the same exponential decay curve recurring across unrelated domains — robotics calibration, coffee extraction, battery discharge, market behaviour — and generalising it into a reusable epistemic weighting function. This general pattern is 'Forge Theory'; Leighton Weight is Forge Theory applied specifically to trust/knowledge.",
+      "position_in_stack": "Third stage of the Forge Stack five-stage spine: Declare (SCP) → Classify (Six Lenses) → Trust-score (Leighton Weight) → Audit (ChronoSCRIBE) → Act (AXIOM/HAL)."
+    },
+    "base_formula": {
+      "simple_form": "N(t) = N₀ × e^(−k·t)",
+      "simple_form_meaning": "The foundational Forge Theory decay curve — a value N₀ decays exponentially over time t, governed by decay constant k. This is the pattern that shows up identically whether N is trust in a claim, flavour extraction in coffee, charge in a battery, or momentum in a market.",
+      "full_scp_formula": "L(t) = min(1.0, W₀ × (1 + n·c) × e^(−k·t))",
+      "full_form_meaning": "The production version used in SCP capsule trust blocks. Adds an initial-weight-by-source term and a corroboration boost on top of the base decay curve."
+    },
+    "formula_variables": {
+      "W0": "Initial weight by source class — 0.3 anonymous, 0.5 registered, 0.7+ known/verified source. Sets the starting trust ceiling before decay or corroboration apply.",
+      "n": "Count of independent corroborating sources for the claim.",
+      "c": "Corroboration coefficient — default 0.1. Each independent corroboration multiplies the weight upward by this fraction.",
+      "k": "Decay constant, in units of 1/day. Governs how fast trust erodes without reinforcement. This is the tunable, domain-specific parameter (see calibration below).",
+      "t": "Days elapsed since last_evaluated (i.e. since the claim was last touched/corroborated).",
+      "clamping": "Result is always clamped to [0.0, 1.0]. Implementations MUST use math.exp (the real constant e), not an approximation."
+    },
+    "calibration_values": {
+      "default_generic_k": "0.01/day — original generic default before domain-specific tuning.",
+      "software_config_facts_k": "0.0148/day — fitted specifically for software configuration facts via Mimir calibration, found to outperform the generic 0.01 default for that data class.",
+      "git_repo_derived_k": "0.1009/day — calibrated against 164 git repositories, giving a half-life of ~6.87 days. Fastest-decaying calibration found so far, reflecting how quickly code-related trust/relevance goes stale.",
+      "half_life_note": "Half-life = ln(2)/k. A higher k means faster trust decay and a shorter half-life. Different domains warrant different k — a git commit's relevance decays much faster than, say, a physical fact about hardware wiring.",
+      "status": "k is domain-tunable, not fixed. New domains should get their own calibration run rather than assuming the default."
+    },
+    "how_trust_changes_over_time": {
+      "no_corroboration": "A claim entered at some initial weight, left untouched, drifts steadily downward following the decay curve. It is never deleted — it just carries less authority in downstream reasoning.",
+      "with_corroboration": "Each independent corroborating source arriving later compounds the weight upward (via the n·c term) AND resets the decay clock (t restarts from last_evaluated). Corroboration can only flow forward in time — ChronoSCRIBE's causal ordering prevents backfilling trust onto a claim after the fact.",
+      "worked_example": {
+        "claim": "\"The fire door on Level 2 was propped open during the inspection on 14 May.\"",
+        "steps": [
+          "Ingested via human operator, first-hand observation, high credibility ceiling",
+          "Passes all Six Lenses checks (empirical, logical, source, coherence, temporal, adversarial)",
+          "Leighton Weight = 0.81 on ingestion",
+          "ChronoSCRIBE records it at T+0, decay clock starts",
+          "30 days later, no corroboration → weight drifts to 0.67",
+          "45 days later, a CCTV log corroborates it → weight compounds up to 0.88, decay clock resets"
+        ]
+      }
+    },
+    "canonical_status_ladder": {
+      "levels": ["bedrock", "gospel", "standard", "provisional", "questioned", "rejected"],
+      "demotion_rule": "If a capsule receives an inbound 'contradicts' link from a capsule whose trust score exceeds its own by ≥0.2, its canonical_status SHOULD be demoted one level (e.g. standard → provisional). A TRUST_REEVALUATED history event MUST be appended. Contradiction never auto-promotes the contradicting claim — the two coexist in tension until resolved, rather than one silently overwriting the other."
+    },
+    "trust_propagation_rule": {
+      "rule": "Trust does NOT propagate transitively by default. A query-time 'derived confidence' MAY be computed as score × link_strength across a link for ranking purposes, but this derived value MUST NOT be written back into stored capsules. Keeps trust scores from silently inflating/deflating through chains of association."
+    },
+    "what_prevents_bad_data_becoming_trusted": [
+      "Lens veto — a claim contradicting a well-established, high-λ Cube fact triggers a conflict flag rather than an overwrite",
+      "Decay function — without ongoing corroboration, even an accepted claim's effective weight erodes over time",
+      "Source lineage / taint propagation — every fact retains full capsule ancestry; if a trusted source is later shown compromised, that taint can propagate back through the chain and reduce confidence retroactively"
+    ],
+    "where_it_plugs_in": {
+      "SCP_capsules": "Every capsule carries a `trust` block with `score`, `leighton_weight`, `canonical_status`, `decay_rate`, `last_evaluated`, `sources`, `corroboration`, `submissions`.",
+      "Aletheia": "Truth layer — Claim Splitter, Six Lenses, and Leighton Weight together form the epistemic evaluation pipeline before a claim is written to the DataCube.",
+      "ChronoSCRIBE": "Enforces causal ordering so corroboration timestamps can't be backdated, and records every TRUST_REEVALUATED event in the hash chain.",
+      "HAL": "Uses λ scores (via Six Lenses) as one of its instruments for human-accountable decision gating.",
+      "Mimir": "The fine-tuned model used to test/derive calibration constants (e.g. the 0.0148/day and 0.1009/day values) against real datasets (~6k items / 164 repos).",
+      "DataCube": "Stores capsules across six lens categories (Fact, Counter, Opinion, Fiction, Context, Unknown); λ is the trust dimension layered on top of that classification."
+    },
+    "cross_domain_pattern": {
+      "note": "The same N(t) = N₀ × e^(−k·t) shape has been validated by James across multiple unrelated domains over 8+ years as part of Forge Theory generally — robotics behaviour calibration, coffee extraction, battery discharge curves, and market/momentum behaviour. Leighton Weight is the specific instantiation of that pattern applied to epistemic trust."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.85,
+    "canonical_status": "standard",
+    "decay_rate": 0.01,
+    "last_evaluated": "2026-07-16T00:00:00Z",
+    "sources": ["conversation history across ~6 sessions"],
+    "corroboration": 5,
+    "note": "This capsule describes Leighton Weight itself, so its own trust score is a light bit of dogfooding. Not authoritative code — reconcile against the actual Aletheia/scp.py implementation if the formula needs to be exact for production use."
+  },
+  "links": [
+    {"type": "requires", "target_id": "SCP.v1.protocol_spec", "strength": 1.0, "description": "Leighton Weight is formally defined within the SCP trust block spec, §7."},
+    {"type": "supports", "target_id": "FORGE.v1.chronoscribe_core", "strength": 0.8, "description": "ChronoSCRIBE enforces the causal ordering that makes corroboration/decay meaningful."}
+  ],
+  "signature": null,
+  "extensions": {}
+}

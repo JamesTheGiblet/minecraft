@@ -5,6 +5,16 @@
 const http = require('http');
 
 module.exports = (bot, sharedState) => {
+  const audit = (eventType, payload, rationale) => {
+    if (typeof sharedState.recordAuditEvent !== 'function') return;
+    sharedState.recordAuditEvent({
+      contributorId: 'brain-plugin',
+      eventType,
+      payload,
+      rationale
+    });
+  };
+
   /**
    * @description Scans the blocks and entities around the player to analyze the situation.
    * @param {string} username - The username of the player to scan around.
@@ -59,11 +69,20 @@ module.exports = (bot, sharedState) => {
   function formatCapsuleContext(capsules) {
     const entries = Object.values(capsules || {});
     if (entries.length === 0) return '';
-    return entries.map(capsule => {
-      const meta = capsule?._meta;
-      if (!meta) return null;
-      const summary = Array.isArray(meta.summary) ? meta.summary.slice(0, 3).join(' | ') : '';
-      return `- [${meta.area}] ${summary || 'capsule loaded'}`;
+
+    return entries.map((capsule) => {
+      if (!capsule || typeof capsule !== 'object') return null;
+
+      const meta = capsule._meta || null;
+      if (meta) {
+        const summary = Array.isArray(meta.summary) ? meta.summary.slice(0, 3).join(' | ') : '';
+        return `- [${meta.area}] ${summary || 'capsule loaded'}`;
+      }
+
+      const capsuleId = capsule.scp_id || capsule.id || 'semantic capsule';
+      const intent = capsule.intent?.primary || capsule.intent || capsule.content?.game_summary?.core_aim || '';
+      const title = capsuleId.replace(/^.*\//, '');
+      return `- [${title}] ${String(intent).slice(0, 180) || 'capsule loaded'}`;
     }).filter(Boolean).join('\n');
   }
 
@@ -73,6 +92,69 @@ module.exports = (bot, sharedState) => {
       .map(([, value]) => value);
 
     return formatCapsuleContext(capsuleEntries);
+  }
+
+  function getCreatorVoiceContext() {
+    const voiceCapsule = sharedState['JAMES_VOICE_V1.SC_DATA'] || sharedState['james_voice_v1.SC_DATA'] || null;
+    if (!voiceCapsule || typeof voiceCapsule !== 'object') return '';
+
+    const interpretation = voiceCapsule.interpretation || {};
+    const registers = interpretation.registers || {};
+    const fastChat = registers.fast_chat || null;
+    const technicalDocs = registers.technical_docs || null;
+    const brandPublic = registers.brand_public || null;
+    const brandManifesto = registers.brand_manifesto || null;
+
+    const lines = [];
+    lines.push(`Voice Intent: ${voiceCapsule.intent || 'James voice reference'}`);
+    if (interpretation.tone) lines.push(`Tone: ${interpretation.tone}`);
+    if (Array.isArray(interpretation.dont_change) && interpretation.dont_change.length > 0) {
+      lines.push(`Must keep: ${interpretation.dont_change.join(' | ')}`);
+    }
+    if (fastChat?.example) lines.push(`Fast chat example: ${fastChat.example}`);
+    if (technicalDocs?.example) lines.push(`Technical example: ${technicalDocs.example}`);
+    if (brandPublic?.when) lines.push(`Public register: ${brandPublic.when}`);
+    if (Array.isArray(brandManifesto?.signature_lines) && brandManifesto.signature_lines.length > 0) {
+      lines.push(`Manifesto signatures: ${brandManifesto.signature_lines.slice(0, 3).join(' | ')}`);
+    }
+
+    return lines.length > 0 ? `Creator Voice Profile:\n${lines.map((line) => `- ${line}`).join('\n')}` : '';
+  }
+
+  function resolveVoiceRegister(options = {}) {
+    const explicit = String(options.voiceMode || options.voiceRegister || '').trim().toLowerCase();
+    if (explicit) return explicit;
+
+    const purpose = String(options.purpose || '').toLowerCase();
+    if (/(linked?in|public|manifesto|launch|announcement|brand)/.test(purpose)) return 'brand_manifesto';
+    if (/(docs?|readme|architecture|schema|spec|capsule|project planning|blueprint|json|technical)/.test(purpose)) return 'technical_docs';
+    if (/(critique|inspiration|chat|conversation|advice|support|player|visual)/.test(purpose)) return 'fast_chat';
+
+    return 'fast_chat';
+  }
+
+  function getVoiceRegisterContext(registerName) {
+    const voiceCapsule = sharedState['JAMES_VOICE_V1.SC_DATA'] || sharedState['james_voice_v1.SC_DATA'] || null;
+    if (!voiceCapsule || typeof voiceCapsule !== 'object') return '';
+
+    const interpretation = voiceCapsule.interpretation || {};
+    const registers = interpretation.registers || {};
+    const register = registers[registerName] || null;
+    if (!register) return '';
+
+    const lines = [];
+    lines.push(`Selected register: ${registerName}`);
+    if (register.when) lines.push(`When: ${register.when}`);
+    if (Array.isArray(register.traits) && register.traits.length > 0) {
+      lines.push(`Traits: ${register.traits.slice(0, 6).join(' | ')}`);
+    }
+    if (register.example) lines.push(`Example: ${register.example}`);
+    if (register.example_2) lines.push(`Example 2: ${register.example_2}`);
+    if (Array.isArray(interpretation.avoid) && interpretation.avoid.length > 0) {
+      lines.push(`Avoid: ${interpretation.avoid.slice(0, 5).join(' | ')}`);
+    }
+
+    return lines.length > 0 ? `Voice Register Guidance:\n${lines.map((line) => `- ${line}`).join('\n')}` : '';
   }
 
   function buildSelfAwarenessContext(username, terrain, inv) {
@@ -167,8 +249,12 @@ module.exports = (bot, sharedState) => {
     const terrain = resolvedUsername && includeTerrain ? scanSurroundings(resolvedUsername) : null;
     const inv = resolvedUsername ? sharedState.getInventorySummary(resolvedUsername) : sharedState.getInventorySummary(bot.username);
     const sections = [];
+    const voiceRegister = resolveVoiceRegister(options);
 
     sections.push(`Prompt Purpose:\n- ${purpose}`);
+
+    const voiceRegisterContext = getVoiceRegisterContext(voiceRegister);
+    if (voiceRegisterContext) sections.push(voiceRegisterContext);
 
     const selfAwareness = buildSelfAwarenessContext(resolvedUsername || bot.username, terrain, inv);
     if (selfAwareness) sections.push(selfAwareness);
@@ -181,6 +267,29 @@ module.exports = (bot, sharedState) => {
     if (includeHistory) {
       const historyContext = formatMinecraftHistoryContext();
       if (historyContext) sections.push(historyContext);
+    }
+
+    const creatorVoiceContext = getCreatorVoiceContext();
+    if (creatorVoiceContext) sections.push(creatorVoiceContext);
+
+    if (resolvedUsername && sharedState.getLearningInsights) {
+      const insights = await sharedState.getLearningInsights(resolvedUsername).catch(() => null);
+      if (insights) {
+        const styleHints = Object.entries(insights.styleAffinity || {})
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3)
+          .map(([style, score]) => `${style}:${score}`)
+          .join(', ');
+
+        sections.push(
+          `Adaptive Learning Profile:\n` +
+          `- Preferred difficulty: ${insights.preferredDifficulty || 'balanced'}.\n` +
+          `- Running score: ${insights.runningScore ?? 0}.\n` +
+          `- Top failure patterns: ${(insights.topFailurePatterns || []).join(', ') || 'none'}.\n` +
+          `- Priority hints: ${(insights.priorityHints || []).join(' | ') || 'none'}.\n` +
+          `- Style affinity: ${styleHints || 'none'}.`
+        );
+      }
     }
 
     if (includeProject && resolvedUsername && sharedState.getActiveProject) {
@@ -226,9 +335,13 @@ module.exports = (bot, sharedState) => {
       .map(entry => `Advice to '${entry.content.substring(0, 20)}...' was ${entry.outcome}.`)
       .join(' ');
 
+    let activeProject = null;
+
     const contextSections = [];
     const selfAwareness = buildSelfAwarenessContext(username, terrain, inv);
     if (selfAwareness) contextSections.push(selfAwareness);
+
+    const voiceMode = 'fast_chat';
 
     const capsuleContext = getLoadedCapsuleContext();
     if (capsuleContext) contextSections.push(`Loaded Semantic Capsules:\n${capsuleContext}`);
@@ -239,7 +352,7 @@ module.exports = (bot, sharedState) => {
     if (recentOutcomes) contextSections.push(`Recent Outcomes Analysis:\n- ${recentOutcomes}`);
 
     if (sharedState.getActiveProject) {
-      const activeProject = await sharedState.getActiveProject(username).catch(() => null);
+      activeProject = await sharedState.getActiveProject(username).catch(() => null);
       if (activeProject) {
         const tasks = Array.isArray(activeProject.tasks) ? activeProject.tasks : [];
         const progress = `${tasks.filter(t => t?.done).length}/${tasks.length}`;
@@ -295,6 +408,8 @@ Your goal is to suggest a practical, 2-step project to help the player progress.
 You must respond with ONLY a valid JSON object. Do not include any other text or markdown.
 The JSON object must have four string properties: "observation", "step1", "step2", and "goal".
 
+  Use the ${voiceMode} voice register from James's capsule: direct, unpolished, concise, and no generic assistant phrasing.
+
 Rules for your response:
 - Base your suggestion on the player's situation, but be mindful that the inventory is just a proxy for available resources.
 - Your advice must be practical and actionable.
@@ -324,7 +439,7 @@ Example of a valid JSON response:
 Now, generate your JSON response.`;
 
     try {
-      const response = await callOllama(prompt);
+      const response = await sharedState.callOllama(prompt);
       const jsonString = response.substring(response.indexOf('{'), response.lastIndexOf('}') + 1);
       const adviceJson = JSON.parse(jsonString);
 
@@ -338,13 +453,37 @@ Now, generate your JSON response.`;
         .filter(mat => formattedAdvice.toLowerCase().includes(mat));
 
       if (sharedState.addMemory) {
+        const playerPos = bot.players[username]?.entity?.position?.floored ? bot.players[username].entity.position.floored() : null;
+        const botPos = bot.entity?.position?.floored ? bot.entity.position.floored() : null;
+        const projectTaskDoneCount = activeProject && Array.isArray(activeProject.tasks)
+          ? activeProject.tasks.filter((task) => task?.done).length
+          : 0;
+        const telemetryAtAdvice = sharedState.getLearningTelemetrySnapshot
+          ? sharedState.getLearningTelemetrySnapshot(username)
+          : { movementDistance: 0, blockChangesNearPlayer: 0, hazardEvents: 0 };
+
         sharedState.addMemory({
           id: `advice_${Date.now()}`,
           timestamp: Date.now(),
           type: 'advice',
           content: formattedAdvice,
           outcome: 'unknown',
-          context: { username, inventory: inv, mentionedMaterials }
+          context: {
+            username,
+            inventory: inv,
+            mentionedMaterials,
+            playerPositionAtAdvice: playerPos ? { x: playerPos.x, y: playerPos.y, z: playerPos.z } : null,
+            botPositionAtAdvice: botPos ? { x: botPos.x, y: botPos.y, z: botPos.z } : null,
+            telemetryAtAdvice,
+            projectAtAdvice: activeProject
+              ? {
+                id: activeProject.id,
+                phase: activeProject.phase,
+                doneCount: projectTaskDoneCount,
+                totalCount: Array.isArray(activeProject.tasks) ? activeProject.tasks.length : 0
+              }
+              : null
+          }
         });
       }
 
@@ -352,10 +491,34 @@ Now, generate your JSON response.`;
         sharedState.updateProjectFromAdvice(username, adviceJson).catch(err => console.warn('[Brain] Project update failed:', err.message));
       }
 
+      audit(
+        'advice_generated',
+        {
+          username,
+          trigger,
+          observation: adviceJson.observation,
+          step1: adviceJson.step1,
+          step2: adviceJson.step2,
+          goal: adviceJson.goal,
+          biome: terrain?.biome || 'unknown',
+          activeProject: activeProject ? { id: activeProject.id, phase: activeProject.phase } : null
+        },
+        'Advice capsule generated from runtime awareness and memory context.'
+      );
+
       sharedState.say(`🏛️ ${formattedAdvice}`);
 
     } catch (e) {
       console.error('[Brain] Failed to get and parse advice:', e.message);
+      audit(
+        'advice_generation_failed',
+        {
+          username,
+          trigger,
+          error: String(e?.message || e)
+        },
+        'Advice generation failed before a valid JSON response was produced.'
+      );
       if (e.message.includes("ECONNREFUSED")) {
         sharedState.say("I can't seem to connect to my thoughts... Is Ollama running?");
       } else {
@@ -368,6 +531,7 @@ Now, generate your JSON response.`;
     const awarenessContext = await buildAwarenessPromptContext({
       username,
       purpose: 'creative inspiration inside real CobbleWright capabilities and Minecraft context',
+      voiceMode: 'fast_chat',
       includeProject: true,
       includeMemories: true,
       includeTerrain: true
@@ -390,9 +554,25 @@ Now, inspire me:`;
 
     try {
       const inspiration = await callOllama(prompt);
+      audit(
+        'inspiration_generated',
+        {
+          username,
+          inspiration: String(inspiration || '').trim().slice(0, 300)
+        },
+        'Creative inspiration generated using awareness context.'
+      );
       sharedState.say(`✨ ${inspiration.trim()}`);
     } catch (e) {
       console.error('Failed to get inspiration from Ollama.', e);
+      audit(
+        'inspiration_failed',
+        {
+          username,
+          error: String(e?.message || e)
+        },
+        'Inspiration generation failed during model call.'
+      );
       sharedState.say("My creative well seems to be dry at the moment... please check the console.");
     }
   }
@@ -441,7 +621,7 @@ Now, inspire me:`;
   }
 
   // --- Automatic Advice Loop ---
-  setInterval(() => {
+  const adviceInterval = setInterval(() => {
     if (sharedState.isBusy || sharedState.isFleeing) return;
 
     // Find the most recently active player who is not AFK
@@ -463,9 +643,23 @@ Now, inspire me:`;
     }
   }, sharedState.CONFIG.ADVICE_INTERVAL_MS || 90000);
 
+  // Avoid keeping Node/Jest alive solely because this background loop exists.
+  if (typeof adviceInterval.unref === 'function') {
+    adviceInterval.unref();
+  }
+
+  // Clean up when the bot disconnects to prevent orphaned timers.
+  if (typeof bot.on === 'function') {
+    bot.on('end', () => {
+      clearInterval(adviceInterval);
+    });
+  }
+
   // Expose functions to sharedState
   sharedState.buildAwarenessPromptContext = buildAwarenessPromptContext;
   sharedState.getArchitectAdvice = getArchitectAdvice;
   sharedState.getInspiration = getInspiration;
-  sharedState.callOllama = callOllama;
+  if (typeof sharedState.callOllama !== 'function' || sharedState.callOllama.toString().includes('{}')) {
+    sharedState.callOllama = callOllama;
+  }
 };

@@ -1,0 +1,64 @@
+{
+  "id": "COBBLEWRIGHT.v1.data-overview.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "data_storage",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "Semantic capsule for the root CobbleWright data folder.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\data"
+  },
+  "intent": {
+    "primary_goal": "Describe the `data` folder, its role as the top-level container for all persistent application data, and the distinction between its subdirectories for knowledge (`S.C`) and runtime artifacts (`chronoscribe`)."
+  },
+  "identity": {
+    "role": "An overview capsule for CobbleWright's primary data directory."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "This folder separates static, declarative knowledge from dynamic, runtime-generated data.",
+      "The `S.C` subdirectory is the exclusive location for semantic capsules that are loaded at startup.",
+      "The `chronoscribe` subdirectory is the exclusive location for the append-only audit logs.",
+      "New types of persistent data should be organized into new, clearly-named subdirectories within this folder."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Data architecture and organization",
+      "Distinction between static knowledge and runtime state",
+      "Data persistence strategies",
+      "Knowledge loading vs. runtime data access"
+    ],
+    "never_do": [
+      "Place individual files directly in the `data` root; all files should belong to a subdirectory.",
+      "Mix knowledge files (`.sc.json`) with runtime artifacts (`.jsonl`).",
+      "Treat the contents of this folder as ephemeral; it is for persistent storage."
+    ]
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\data",
+      "purpose": "To serve as the root directory for all persistent data used by the CobbleWright application, including its knowledge base and runtime state.",
+      "document_types": [
+        "Subdirectories for different data categories."
+      ]
+    },
+    "architecture": {
+      "subdirectory_S.C": "Contains the `.sc.json` knowledge base. All files in this directory are automatically loaded by `architect.js` to provide grounding context to the AI.",
+      "subdirectory_chronoscribe": "Contains the `.jsonl` audit logs. These files are runtime artifacts written by the `chronoscribe.js` plugin and are not loaded as knowledge.",
+      "extension_style": "To add a new form of persistent data (e.g., player preferences, world markers), create a new subdirectory here and a corresponding plugin to manage it."
+    },
+    "runtime_guidance": {
+      "for_prompts": "When reasoning about where any persistent data is stored, start by looking at the subdirectories described in this capsule.",
+      "for_drafting": "Code that needs to save or load data should be directed to the appropriate subdirectory based on whether the data is static knowledge or dynamic state.",
+      "for_maintenance": "Keep the data types segregated in their respective folders to maintain architectural clarity."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "This capsule provides the high-level map for all application data. It is authoritative for understanding the separation of concerns between different data types."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

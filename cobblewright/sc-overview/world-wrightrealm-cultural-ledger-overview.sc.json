@@ -1,0 +1,54 @@
+{
+  "id": "COBBLEWRIGHT.v1.world-wrightrealm-cultural-ledger-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the Wrightrealm Cultural Ledger.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-cultural-ledger.md"
+  },
+  "intent": {
+    "primary_goal": "To describe the purpose and structure of the Wrightrealm Cultural Ledger, a template for recording the realm's historical and architectural evolution."
+  },
+  "identity": {
+    "role": "The historical backbone of Wrightrealm, providing a structured template for its cultural memory."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The ledger is an append-only record of cultural, architectural, and societal evolution.",
+      "It is divided into eight canonical sections: Foundational Events, Architectural Traditions, Realm Settlements, Cultural Practices, Timeline, Aesthetic Principles, Innovations, and Expansion Records.",
+      "Chronos is the primary scribe for the ledger.",
+      "All entries must be capsule-aligned and logged in the main provenance ledger."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "World-building",
+      "History",
+      "Cultural development",
+      "Record-keeping"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-cultural-ledger.md",
+      "purpose": "To provide a structured, expandable template for recording Wrightrealm’s cultural evolution over time."
+    },
+    "key_concepts": {
+      "foundational_events": "Records of major events that shaped the realm.",
+      "architectural_traditions": "Documentation of building styles and philosophies.",
+      "realm_settlements": "A catalog of bases, outposts, and major structures.",
+      "timeline_of_wrightrealm": "The official chronological history of the realm."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule describes the template for the realm's cultural memory. It is the framework for how the Collective remembers its own history."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-cultural-ledger.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

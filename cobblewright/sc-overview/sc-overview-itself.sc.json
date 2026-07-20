@@ -1,0 +1,64 @@
+{
+  "id": "COBBLEWRIGHT.v1.sc-overview-itself.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "knowledge_management",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A recursive semantic capsule describing the sc-overview folder itself.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview"
+  },
+  "intent": {
+    "primary_goal": "Describe the `sc-overview` folder, its role as a repository for agent-generated documentation capsules, and clarify that its contents are for human/developer reference and are not loaded by the runtime."
+  },
+  "identity": {
+    "role": "A meta-overview for the project's documentation capsule directory."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "This folder contains semantic capsules that provide overviews of the project's structure and files.",
+      "Files in this directory are for documentation and developer reference only.",
+      "These files are explicitly NOT loaded by the `architect.js` runtime.",
+      "This separates generated documentation from the core, runtime-loaded knowledge in `data/S.C`."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Project documentation strategy",
+      "Separation of concerns between runtime knowledge and static documentation",
+      "Semantic capsule structure for documentation"
+    ],
+    "never_do": [
+      "Place runtime-critical knowledge in this folder.",
+      "Assume files here are available in `sharedState`."
+    ]
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview",
+      "purpose": "To act as a centralized storage location for agent-generated semantic capsules that document the CobbleWright project's architecture, directories, and key files.",
+      "document_types": [
+        "Project-level overviews (`project-overview.sc.json`)",
+        "Directory overviews (`plugins-overview.sc.json`, `data-overview.sc.json`, etc.)",
+        "Key file overviews (`readme-overview.sc.json`)",
+        "Structural maps (`file-tree-overview.sc.json`)"
+      ]
+    },
+    "architecture": {
+      "loader_behavior": "Files in this directory are intentionally ignored by the runtime knowledge loader in `architect.js`. They are for human and agent reference during development, not for runtime grounding.",
+      "distinction_from_data_sc": "The `data/S.C` folder contains capsules that are auto-loaded at startup to define the AI's core knowledge and persona. This `sc-overview` folder contains capsules that *describe* the project but are not part of the AI's active memory."
+    },
+    "runtime_guidance": {
+      "for_prompts": "Use the capsules within this directory to gain a deep understanding of the project's structure and intent before modifying or adding code.",
+      "for_drafting": "When creating a new overview capsule for a folder or file, it should be placed here.",
+      "for_maintenance": "Ensure that the information in these capsules remains synchronized with the actual state of the codebase."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.99,
+    "note": "This capsule is the meta-document for the project's documentation system. It is authoritative for understanding the purpose of the `sc-overview` directory."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

@@ -1,0 +1,59 @@
+{
+  "id": "COBBLEWRIGHT.v1.world-wrightrealm-geography-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the geography of the Wrightrealm world.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-geography.md"
+  },
+  "intent": {
+    "primary_goal": "To define the canonical region map of Wrightrealm, including the identity, terrain, and architectural purpose of its seven major regions."
+  },
+  "identity": {
+    "role": "The official geography and mental map of the Wrightrealm world used by the CobbleWright Collective."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Wrightrealm is divided into seven canonical regions: Primehaven, Terrafold Highlands, Forgeworks Basin, Visioncrest Plateau, Chronosreach Valley, The Quiet Expanse, and The Frontier Ring.",
+      "Primehaven is the central capital region and origin point.",
+      "Terrafold Highlands is the domain of Terra for terrain experiments.",
+      "Forgeworks Basin is the industrial domain of Forge.",
+      "Visioncrest Plateau is the analytical domain of Vision.",
+      "Chronosreach Valley is the historical archive of Chronos.",
+      "The Quiet Expanse is the unshaped frontier for future growth."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "World-building",
+      "Geography",
+      "Spatial reasoning",
+      "Agent domains"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-geography.md",
+      "purpose": "To define the spatial structure and region identities of Wrightrealm, providing a shared map for all agents."
+    },
+    "key_concepts": {
+      "primehaven": "The central settlement and capital region.",
+      "terrafold_highlands": "Terra's domain for terrain shaping.",
+      "forgeworks_basin": "Forge's domain for industrial systems.",
+      "visioncrest_plateau": "Vision's domain for analysis and critique.",
+      "chronosreach_valley": "Chronos's domain for historical archives.",
+      "the_quiet_expanse": "The unshaped frontier at the edge of the realm, representing future growth."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of Wrightrealm's geography. It should be used for all spatial reasoning and agent domain assignments."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\wrightrealm-geography.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

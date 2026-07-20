@@ -6,6 +6,38 @@
 module.exports = (bot, sharedState) => {
   // A set to keep track of tamed animals we've already greeted.
   const greetedTamedAnimals = new Set();
+  const autoComeEnabled = sharedState?.CONFIG?.AUTO_COME_ON_PLAYER_JOIN !== false;
+  const configuredAutoComeDelay = Number.parseInt(sharedState?.CONFIG?.AUTO_COME_DELAY_MS, 10);
+  const autoComeDelayMs = Number.isInteger(configuredAutoComeDelay) && configuredAutoComeDelay >= 0
+    ? configuredAutoComeDelay
+    : 1500;
+  const autoComeOnlyFor = String(sharedState?.CONFIG?.AUTO_COME_ONLY_FOR || '').trim().toLowerCase();
+
+  const shouldAutoComeFor = (username) => {
+    if (!autoComeEnabled) return false;
+    if (!username || username === bot.username) return false;
+    if (!autoComeOnlyFor) return true;
+    return String(username).toLowerCase() === autoComeOnlyFor;
+  };
+
+  const triggerAutoCome = (username) => {
+    if (!shouldAutoComeFor(username)) return;
+
+    setTimeout(() => {
+      if (typeof sharedState.startFollowingPlayer === 'function') {
+        sharedState.startFollowingPlayer(username, {
+          message: `Welcome back, ${username}. I am on my way to you.`
+        });
+        return;
+      }
+
+      const player = bot.players?.[username];
+      if (!player?.entity) return;
+
+      const { GoalFollow } = require('mineflayer-pathfinder').goals;
+      bot.pathfinder.setGoal(new GoalFollow(player.entity, 1), true);
+    }, autoComeDelayMs);
+  };
 
   // Welcome players when they join
   bot.on('playerJoined', (player) => {
@@ -13,6 +45,8 @@ module.exports = (bot, sharedState) => {
       setTimeout(() => {
         sharedState.say(`Welcome to the server, ${player.username}! Let me know if you need any building advice.`);
       }, 3000);
+
+      triggerAutoCome(player.username);
     }
   });
 

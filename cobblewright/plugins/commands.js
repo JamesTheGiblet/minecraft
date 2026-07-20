@@ -13,6 +13,16 @@ module.exports = (bot, sharedState) => {
   const pendingInteractions = new Map();
   const pendingInteractionTtlMs = 2 * 60 * 1000;
 
+  const audit = (eventType, payload, rationale) => {
+    if (typeof sharedState.recordAuditEvent !== 'function') return;
+    sharedState.recordAuditEvent({
+      contributorId: 'commands-plugin',
+      eventType,
+      payload,
+      rationale
+    });
+  };
+
   const normalizeReply = (value) => String(value || '').trim().toLowerCase();
 
   const clearPendingInteraction = (username) => {
@@ -83,10 +93,64 @@ module.exports = (bot, sharedState) => {
     return true;
   };
 
-  const executeCommand = (commandName, username, args = []) => {
+  const executeCommand = (commandName, username, args = [], source = 'direct', rawMessage = '') => {
     const handler = commands[commandName];
     if (!handler) return false;
-    handler(username, args.length > 0 ? args : [commandName]);
+
+    const commandArgs = args.length > 0 ? args : [commandName];
+    audit(
+      'command_received',
+      {
+        username,
+        command: commandName,
+        args: commandArgs,
+        source,
+        rawMessage
+      },
+      'Player command routed into command handler.'
+    );
+
+    try {
+      const result = handler(username, commandArgs);
+      Promise.resolve(result)
+        .then(() => {
+          audit(
+            'command_completed',
+            {
+              username,
+              command: commandName,
+              args: commandArgs,
+              source
+            },
+            'Command handler completed without throwing.'
+          );
+        })
+        .catch((error) => {
+          audit(
+            'command_failed',
+            {
+              username,
+              command: commandName,
+              source,
+              error: String(error?.message || error)
+            },
+            'Command handler rejected.'
+          );
+        });
+    } catch (error) {
+      audit(
+        'command_failed',
+        {
+          username,
+          command: commandName,
+          source,
+          error: String(error?.message || error)
+        },
+        'Command handler threw synchronously.'
+      );
+      throw error;
+    }
+
     return true;
   };
 
@@ -157,6 +221,30 @@ module.exports = (bot, sharedState) => {
     sharedState.say(`My current status is: ${mode}. ${sharedState.isBusy ? 'I am currently busy with a task.' : ''}`);
   }, ['bstatus']);
 
+  registerCommand('audit', async (username, args) => {
+    const sub = String(args[1] || '').toLowerCase();
+
+    if (sub === 'path' && typeof sharedState.getAuditLedgerPath === 'function') {
+      sharedState.say(`ChronoSCRIBE ledger path: ${sharedState.getAuditLedgerPath()}`);
+      return;
+    }
+
+    if (typeof sharedState.verifyAuditChain !== 'function') {
+      sharedState.say('ChronoSCRIBE is not available in this runtime.');
+      return;
+    }
+
+    sharedState.say('Verifying ChronoSCRIBE chain integrity...');
+    const result = await sharedState.verifyAuditChain();
+
+    if (!result?.ok) {
+      sharedState.say(`Audit verification failed at record ${result?.at || '?'} (${result?.reason || 'unknown reason'}).`);
+      return;
+    }
+
+    sharedState.say(`Audit chain verified: ${result.verified} records, head ${String(result.lastHash).slice(0, 12)}...`);
+  }, ['verify', 'ledger']);
+
   registerCommand('style', (username, args) => {
     const requestedStyle = args[1];
     const playerState = sharedState.playerStates.get(username);
@@ -171,27 +259,15 @@ module.exports = (bot, sharedState) => {
   });
 
   registerCommand('come', (username, args) => {
-    sharedState.say("On my way!");
-
-    // 1. Signal cancellation to any running tasks.
-    sharedState.isCancelled = true;
-    sharedState.isBusy = false;
-
-    // 2. Immediately stop physical actions.
-    bot.stopDigging();
-    bot.clearControlStates();
-
-    // 3. Set the new goal to follow the player.
-    const player = bot.players[username];
-    if (player && player.entity) {
-      sharedState.applySafeMovements();
-      const { GoalFollow } = require('mineflayer-pathfinder').goals;
-      const goal = new GoalFollow(player.entity, 1);
-      bot.pathfinder.setGoal(goal, true);
+    if (typeof sharedState.startFollowingPlayer === 'function') {
+      const started = sharedState.startFollowingPlayer(username, { message: 'On my way!' });
+      if (!started) {
+        sharedState.say("I can't find you right now. Move a little and try again.");
+      }
+      return;
     }
 
-    // 4. Reset the cancellation flag after a short delay so new tasks can be started.
-    setTimeout(() => { sharedState.isCancelled = false; }, 1000);
+    sharedState.say('On my way!');
   }, ['here', 'return']);
 
   registerCommand('goto', (username, args) => {
@@ -210,7 +286,16 @@ module.exports = (bot, sharedState) => {
     const destination = sharedState.pointsOfInterest.get(poiName);
     if (destination) {
       sharedState.say(`Alright, leading the way to ${poiName}! Follow me.`);
-      sharedState.applySafeMovements();
+      if (typeof sharedState.stopFollowingPlayer === 'function') {
+        sharedState.stopFollowingPlayer();
+      } else {
+        sharedState.followTarget = null;
+      }
+      if (typeof sharedState.applyNonDestructiveMovements === 'function') {
+        sharedState.applyNonDestructiveMovements();
+      } else {
+        sharedState.applySafeMovements();
+      }
       const { GoalNear } = require('mineflayer-pathfinder').goals;
       bot.pathfinder.setGoal(new GoalNear(destination.x, destination.y, destination.z, 1));
     } else {
@@ -238,13 +323,13 @@ module.exports = (bot, sharedState) => {
     const inspirationPattern = /(inspire me|need inspiration|creative idea|give me an idea)/;
     const materialsPattern = /(what materials|how many materials|inventory check|check inventory|material count)/;
     const statusPattern = /(bot status|system status|diagnostic|diagnostics|are you online|health check)/;
-    const critiquePattern = /(critique|rate my build|what do you think of my build|feedback on my build)/;
+    const critiquePattern = /(critique|rate my build|what do you think of this|feedback on my build)/;
     const weatherPattern = /(what's the weather|what is the weather|weather status|is it raining|clear the weather|weather clear)/;
-    const gatherPattern = /(gather|collect|get)\s+(\d+)?\s*([a-z0-9_ ]{2,40})/i;
+    const gatherPattern = /(gather|collect|get)\s+(\d+)?\s*([a-z_]+)/i;
     const farmPattern = /(farm|harvest crops|tend the farm|plant crops|work the farm|crop farm)/;
     const assistPattern = /(assist build|help build|fill walls|complete frame|finish frame|help with the build|build with me|support the frame|pillar support)/;
 
-    if (advicePattern.test(lower) && (addressedToBot || lower.includes('?'))) {
+    if (advicePattern.test(lower) && addressedToBot) {
       return { command: 'build', args: ['build'] };
     }
 
@@ -356,7 +441,7 @@ module.exports = (bot, sharedState) => {
     if (commands.hasOwnProperty(commandName)) {
       clearPendingInteraction(username);
       // Execute the command's handler function, passing the player's name and the original (non-lowercased) arguments.
-      executeCommand(commandName, username, args);
+      executeCommand(commandName, username, args, 'direct', message);
       return;
     }
 
@@ -370,7 +455,7 @@ module.exports = (bot, sharedState) => {
     const intent = parseNaturalIntent(message);
     if (intent && intent.command) {
       clearPendingInteraction(username);
-      executeCommand(intent.command, username, intent.args);
+      executeCommand(intent.command, username, intent.args, 'natural_language', message);
     }
   });
 };

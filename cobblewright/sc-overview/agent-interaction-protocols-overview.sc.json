@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.agent-interaction-protocols-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing agent interaction protocols.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\interaction-protocols.md"
+  },
+  "intent": {
+    "primary_goal": "To define the standardized methods of communication between agents, and between agents and players, ensuring predictable and parsable interactions."
+  },
+  "identity": {
+    "role": "The API and communication contract for all agents in the Wright Universe."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Player-facing communication uses natural language routed through the `commands.js` plugin.",
+      "Agent-to-agent communication uses structured messages, preferably via `sharedState` event emitters or functions.",
+      "All interactions that change world state or agent goals must be auditable via ChronoSCRIBE.",
+      "Error states and requests for clarification must follow a defined format.",
+      "Consensus-seeking interactions must follow the Leighton-Weighted Consensus Protocol."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Communication protocols",
+      "API design",
+      "Natural language processing",
+      "State management"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\interaction-protocols.md",
+      "purpose": "To provide a clear set of rules for how agents talk to each other and to players, preventing conversational chaos."
+    },
+    "key_concepts": {
+      "direct_command": "A single-word command from a player (e.g., 'build').",
+      "natural_intent": "A conversational phrase from a player that is parsed into a command.",
+      "agent_proposal": "A structured message an agent sends to initiate a consensus cycle.",
+      "state_update": "An event emitted by a plugin to inform other plugins of a change."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of all agent communication rules. It is the 'TCP/IP' of the CobbleWright Collective."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\interaction-protocols.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

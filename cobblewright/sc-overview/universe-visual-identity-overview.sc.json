@@ -1,0 +1,54 @@
+{
+  "id": "COBBLEWRIGHT.v1.universe-visual-identity-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the visual identity of the Wright Universe.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\visual-identity.md"
+  },
+  "intent": {
+    "primary_goal": "To define the official branding, logos, color palettes, and design principles for the Wright Universe and CobbleWright project."
+  },
+  "identity": {
+    "role": "The brand style guide for the CobbleWright project."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Defines the primary and secondary color palettes.",
+      "Specifies logo usage, including clear space and minimum size.",
+      "Provides guidelines for typography in documentation and UI elements.",
+      "Outlines the design philosophy for agent skins and in-game visual elements (e.g., HUD)."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Graphic design",
+      "Branding",
+      "UI/UX design",
+      "Visual identity"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\visual-identity.md",
+      "purpose": "To ensure a consistent and professional visual presentation for the project across all platforms."
+    },
+    "key_concepts": {
+      "primary_palette": "The core set of colors used for logos and primary branding.",
+      "typography_rules": "The specified fonts and font weights for headings and body text.",
+      "logo_guidelines": "Rules for the correct application of the project's logo.",
+      "skin_philosophy": "The design principles that guide the creation of agent skins."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative guide for all visual design related to the CobbleWright project."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\visual-identity.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

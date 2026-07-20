@@ -1,86 +1,23 @@
-[05:53:26] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[05:53:30] [ServerMain/INFO]: Loaded 1290 recipes
-[05:53:31] [ServerMain/INFO]: Loaded 1399 advancements
-[05:53:32] [Server thread/INFO]: Starting minecraft server version 1.21.1
-[05:53:32] [Server thread/INFO]: Loading properties
-[05:53:32] [Server thread/INFO]: Default game type: SURVIVAL
-[05:53:32] [Server thread/INFO]: Generating keypair
-[05:53:32] [Server thread/INFO]: Starting Minecraft server on *:25565
-[05:53:33] [Server thread/INFO]: Using default channel type
-[05:53:33] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
-[05:53:33] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
-[05:53:33] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
-[05:53:33] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
-[05:53:33] [Server thread/INFO]: Preparing level "world"
-[05:53:35] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
-[05:53:36] [Worker-Main-2/INFO]: Preparing spawn area: 0%
-[05:53:36] [Worker-Main-2/INFO]: Preparing spawn area: 0%
-[05:53:36] [Worker-Main-2/INFO]: Preparing spawn area: 0%
-[05:53:37] [Server thread/INFO]: Time elapsed: 1365 ms
-[05:53:37] [Server thread/INFO]: Done (3.668s)! For help, type "help"
-[05:53:54] [Server thread/INFO]: Cobblewright[/127.0.0.1:64003] logged in with entity id 74 at (340.5, 63.0, 611.5)
-[05:53:54] [Server thread/INFO]: Cobblewright joined the game
-[05:56:26] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[05:56:27] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[05:56:29] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[05:56:31] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[05:57:31] [Server thread/INFO]: DramaticSage[/127.0.0.1:63199] logged in with entity id 564 at (345.8040216429572, 70.0, 658.9591971646648)
-[05:57:32] [Server thread/INFO]: DramaticSage joined the game
-[05:57:32] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2025ms or 40 ticks behind
-[05:57:36] [Server thread/INFO]: [Not Secure] <Cobblewright> Welcome to the server, DramaticSage! Let me know if you need any building advice.
-[05:57:48] [Server thread/INFO]: [Not Secure] <DramaticSage> come
-[05:57:49] [Server thread/INFO]: [Not Secure] <Cobblewright> On my way!
-[05:57:53] [Server thread/INFO]: [Not Secure] <Cobblewright> I noticed you are low on stone. I can collect 100 for you. Where should I leave it: chest or inventory?
-[05:57:59] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 12002ms or 240 ticks behind
-[05:58:54] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3024ms or 60 ticks behind
-[06:03:46] [Server thread/INFO]: [Not Secure] <Cobblewright> The sun sets. Time to begin my nightly patrol.
-[06:03:46] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm out of torches and coal. I'll try to find some.
-[06:03:46] [Server thread/INFO]: [Not Secure] <Cobblewright> Okay, I'll start looking for 8 coal_ore(s).
-[06:03:51] [Server thread/INFO]: [Not Secure] <Cobblewright> I can't find any more coal_ore nearby.
-[06:03:51] [Server thread/INFO]: [Not Secure] <Cobblewright> I couldn't find any coal, so I can't make torches right now.
-[06:03:51] [Server thread/INFO]: [Not Secure] <Cobblewright> I'll keep roaming for now and try again later.
-[06:04:46] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2023ms or 40 ticks behind
-[06:05:06] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2017ms or 40 ticks behind
-[06:05:25] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2019ms or 40 ticks behind
-[06:06:34] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2058ms or 41 ticks behind
-[06:06:57] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 8273ms or 165 ticks behind
-[06:07:30] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 17854ms or 357 ticks behind
-[06:07:52] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 7189ms or 143 ticks behind
-[06:08:20] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2000ms or 40 ticks behind
-[06:08:40] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5718ms or 114 ticks behind
-[06:08:58] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm out of torches and coal. I'll try to find some.
-[06:08:58] [Server thread/INFO]: [Not Secure] <Cobblewright> Okay, I'll start looking for 8 coal_ore(s).
-[06:09:06] [Server thread/INFO]: [Not Secure] <Cobblewright> I can't find any more coal_ore nearby.
-[06:09:06] [Server thread/INFO]: [Not Secure] <Cobblewright> I couldn't find any coal, so I can't make torches right now.
-[06:09:06] [Server thread/INFO]: [Not Secure] <Cobblewright> I'll keep roaming for now and try again later.
-[06:09:12] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2018ms or 40 ticks behind
-[06:09:32] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5449ms or 108 ticks behind
-[06:09:53] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5580ms or 111 ticks behind
-[06:10:10] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2016ms or 40 ticks behind
-[06:10:27] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2120ms or 42 ticks behind
-[06:10:31] [Server thread/INFO]: [Not Secure] <DramaticSage> come
-[06:10:32] [Server thread/INFO]: [Not Secure] <Cobblewright> On my way!
-[06:10:56] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 13318ms or 266 ticks behind
-[06:11:15] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4046ms or 80 ticks behind
-[06:11:49] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 19096ms or 381 ticks behind
-[06:12:19] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2014ms or 40 ticks behind
-[06:12:38] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4188ms or 83 ticks behind
-[06:12:55] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2099ms or 41 ticks behind
-[06:13:16] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 5338ms or 106 ticks behind
-[06:13:38] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 7374ms or 147 ticks behind
-[06:14:02] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 8720ms or 174 ticks behind
-[06:14:07] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm out of torches and coal. I'll try to find some.
-[06:14:08] [Server thread/INFO]: [Not Secure] <Cobblewright> Okay, I'll start looking for 8 coal_ore(s).
-[06:14:15] [Server thread/INFO]: [Not Secure] <Cobblewright> I can't find any more coal_ore nearby.
-[06:14:15] [Server thread/INFO]: [Not Secure] <Cobblewright> I couldn't find any coal, so I can't make torches right now.
-[06:14:16] [Server thread/INFO]: [Not Secure] <Cobblewright> I'll keep roaming for now and try again later.
-[06:14:19] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2081ms or 41 ticks behind
-[06:14:40] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 6561ms or 131 ticks behind
-[06:15:04] [Server thread/INFO]: [Not Secure] <Cobblewright> Morning report: I patrolled 33 spots. I passed through the following biomes: . I also spotted creeper, skeleton.
-[06:15:09] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 14172ms or 283 ticks behind
-[06:15:29] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[06:15:30] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[06:15:31] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[06:15:32] [Server thread/INFO]: Cobblewright drowned
-[06:15:32] [Server thread/INFO]: [Not Secure] <Cobblewright> I'm in danger but I don't have a home to run to! Set one with /sethome.
-[06:15:32] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2075ms or 41 ticks behind
+[14:33:35] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[14:33:41] [ServerMain/INFO]: Loaded 1290 recipes
+[14:33:42] [ServerMain/INFO]: Loaded 1399 advancements
+[14:33:43] [Server thread/INFO]: Starting minecraft server version 1.21.1
+[14:33:43] [Server thread/INFO]: Loading properties
+[14:33:43] [Server thread/INFO]: Default game type: SURVIVAL
+[14:33:43] [Server thread/INFO]: Generating keypair
+[14:33:43] [Server thread/INFO]: Starting Minecraft server on *:25565
+[14:33:44] [Server thread/INFO]: Using default channel type
+[14:33:44] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[14:33:44] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[14:33:44] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[14:33:44] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[14:33:44] [Server thread/INFO]: Preparing level "world"
+[14:33:48] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[14:33:49] [Worker-Main-6/INFO]: Preparing spawn area: 0%
+[14:33:49] [Worker-Main-6/INFO]: Preparing spawn area: 0%
+[14:33:49] [Server thread/INFO]: Time elapsed: 1117 ms
+[14:33:49] [Server thread/INFO]: Done (5.100s)! For help, type "help"
+[14:33:59] [Server thread/INFO]: Cobblewright[/127.0.0.1:57718] logged in with entity id 44 at (367.5, 71.0, 657.4611672120244)
+[14:33:59] [Server thread/INFO]: Cobblewright joined the game
+[14:34:49] [Server thread/INFO]: Cobblewright lost connection: Disconnected
+[14:34:49] [Server thread/INFO]: Cobblewright left the game

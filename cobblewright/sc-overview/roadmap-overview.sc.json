@@ -1,0 +1,66 @@
+{
+  "id": "COBBLEWRIGHT.v1.roadmap-overview.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_strategic",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule summarizing the project's ROADMAP.md file.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\ROADMAP.md"
+  },
+  "intent": {
+    "primary_goal": "Describe the `ROADMAP.md` file, its role in tracking development history and future plans, and its key milestones, so that agents can reason about the project's evolution and strategic direction."
+  },
+  "identity": {
+    "role": "An overview of the project's strategic roadmap and development history."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The roadmap clearly separates completed milestones from future or in-progress work.",
+      "It defines the theme and vision for major version releases (e.g., 'Version 1.2-complete - The Sentient Architect').",
+      "It provides clear migration notes for users upgrading between major versions.",
+      "It serves as the single source of truth for what features are considered complete."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Project version history",
+      "Completed feature milestones",
+      "Current and future development goals",
+      "Thematic vision for releases",
+      "Technical migration steps for upgrades"
+    ],
+    "never_do": [
+      "Present a future plan as a guaranteed commitment.",
+      "Confuse historical implementation notes with current functionality."
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\ROADMAP.md",
+      "purpose": "To document the project's development journey, outlining what has been accomplished, what is currently being worked on, and what is planned for the future.",
+      "audience": [
+        "Developers and contributors",
+        "Users interested in the project's progress"
+      ]
+    },
+    "summary": {
+      "strategic_thesis": "The roadmap establishes `sc-overview/` as the project's core strategic advantage—a machine-readable control plane to keep architecture, intent, and documentation aligned.",
+      "execution_plan": "It details a three-pillar execution plan: Pillar 1 (The World) defines a stable beta sandbox with a fixed seed (`6246468738900744`). Pillar 2 (The Autonomous Architect Loop) reframes the agent's core logic into a continuous `observe → plan → act` cycle. Pillar 3 (The Persistent World) outlines the 24/7 VPS deployment strategy.",
+      "milestones_and_gates": "The plan is structured around seven key milestones (M1-M7) and four release-blocking gates (Quality, Reliability, Multi-Agent Integrity, Persistent World Readiness) that govern the transformation from a single agent to a multi-agent society.",
+      "completed_features_v1.2": "The document also serves as a historical record, listing all features completed for the 'v1.2-complete' release, including persistent memory, project management, and autonomous gathering/building."
+    },
+    "runtime_guidance": {
+      "for_prompts": "Use this capsule to answer questions about the project's history, feature release versions, and future direction.",
+      "for_drafting": "When discussing project status or upcoming features, ground the response in the themes and milestones outlined in the roadmap.",
+      "for_maintenance": "When a major feature is completed, the roadmap should be updated to move it to the 'Completed' section, and this capsule should be refreshed."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.97,
+    "note": "This capsule is a direct synthesis of the project's strategic roadmap and is authoritative for understanding the project's development history and intended future."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

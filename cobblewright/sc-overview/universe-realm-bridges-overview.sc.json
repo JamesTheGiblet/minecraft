@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.universe-realm-bridges-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the concepts for realm-to-realm bridges.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\realm-bridges.md"
+  },
+  "intent": {
+    "primary_goal": "To conceptualize the technical and cosmological mechanisms by which different realms within the Wright Universe can connect and interact."
+  },
+  "identity": {
+    "role": "The theoretical framework for inter-realm connectivity and data exchange."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Realm bridges facilitate the transfer of agents, data, and cultural artifacts between realms.",
+      "Bridges must enforce the memory partitioning rules defined in the cosmology.",
+      "All cross-realm events must be logged to the provenance ledgers of both participating realms.",
+      "Agent travel across a bridge requires a consensus check to ensure the action aligns with the goals of both realms.",
+      "Bridge security protocols must prevent unauthorized data transfer or agent intrusion."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Distributed systems",
+      "Network protocols",
+      "Cosmology",
+      "Multi-agent systems"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\realm-bridges.md",
+      "purpose": "To lay the conceptual groundwork for future features that allow different Wright Universe realms to interact."
+    },
+    "key_concepts": {
+      "agent_transfer": "The protocol for an agent moving from one realm to another.",
+      "data_synchronization": "Rules for sharing or copying memory and cultural artifacts between realms.",
+      "cross_realm_provenance": "Ensuring that the audit trail remains intact when an action spans multiple realms.",
+      "bridge_protocol": "The specific technical implementation of a connection between two realms."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "This capsule describes a conceptual future state. It is authoritative for planning but does not reflect a currently implemented feature."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\realm-bridges.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

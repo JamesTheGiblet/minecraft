@@ -6,6 +6,16 @@ const { Pool } = require('pg');
 const http = require('http');
 
 module.exports = (bot, sharedState) => {
+  const audit = (eventType, payload, rationale) => {
+    if (typeof sharedState.recordAuditEvent !== 'function') return;
+    sharedState.recordAuditEvent({
+      contributorId: 'long-term-memory-plugin',
+      eventType,
+      payload,
+      rationale
+    });
+  };
+
   const postgresUrl =
     sharedState?.CONFIG?.POSTGRES_URL ||
     process.env.POSTGRES_URL ||
@@ -251,6 +261,18 @@ module.exports = (bot, sharedState) => {
         'CREATE INDEX IF NOT EXISTS memory_stream_timestamp_idx ON memory_stream (timestamp_ms DESC)'
       );
 
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS learning_profiles (
+          username TEXT PRIMARY KEY,
+          profile JSONB NOT NULL,
+          updated_at BIGINT NOT NULL
+        )
+      `);
+
+      await pool.query(
+        'CREATE INDEX IF NOT EXISTS learning_profiles_updated_idx ON learning_profiles (updated_at DESC)'
+      );
+
       if (vectorEnabled) {
         await pool.query('ALTER TABLE memory_stream ADD COLUMN IF NOT EXISTS embedding vector');
 
@@ -289,6 +311,15 @@ module.exports = (bot, sharedState) => {
 
       dbReady = true;
       console.log('[LTM] Connected to PostgreSQL table "memory_stream".');
+      audit(
+        'memory_backend_ready',
+        {
+          vectorEnabled,
+          embeddingModel,
+          embeddingDimensions: embeddingDimensions || null
+        },
+        'Long-term memory backend initialized and schema verified.'
+      );
 
       // Load recent memories into the working memory log on startup.
       const limit = maxEntries ? Math.max(maxEntries, 100) : 100;
@@ -363,6 +394,16 @@ module.exports = (bot, sharedState) => {
       );
 
       console.log(`[LTM] Persisted memory capsule ${memoryCapsule.id}.`);
+      audit(
+        'memory_capsule_persisted',
+        {
+          id: memoryCapsule.id,
+          type: memoryCapsule.type || 'unknown',
+          username: memoryCapsule?.context?.username || null,
+          timestamp: getTimestamp(memoryCapsule)
+        },
+        'Memory capsule appended to persistent memory stream.'
+      );
 
       await prunePersistentMemory();
     } catch (e) {
@@ -398,6 +439,17 @@ module.exports = (bot, sharedState) => {
         getTimestamp(memoryCapsule),
         embeddingLiteral
       ]
+    );
+
+    audit(
+      'memory_capsule_updated',
+      {
+        id: memoryCapsule.id,
+        type: memoryCapsule.type || 'unknown',
+        username: memoryCapsule?.context?.username || null,
+        timestamp: getTimestamp(memoryCapsule)
+      },
+      'Memory capsule update persisted after critique/learning cycle.'
     );
   }
 
@@ -498,10 +550,118 @@ module.exports = (bot, sharedState) => {
       .slice(0, safeLimit);
   }
 
+  const defaultLearningProfile = (username) => ({
+    username,
+    version: 1,
+    updatedAt: Date.now(),
+    successCount: 0,
+    failureCount: 0,
+    runningScore: 0,
+    preferredDifficulty: 'balanced',
+    styleAffinity: {},
+    topFailurePatterns: [],
+    priorityHints: [
+      'favor realistic, resource-aware steps',
+      'include safety and site-readiness checks',
+      'prefer short actionable sequences'
+    ],
+    signalAverages: {
+      movement: 0,
+      blockProgress: 0,
+      projectProgress: 0,
+      hazardPenalty: 0
+    }
+  });
+
+  async function getLearningProfile(username) {
+    const safeUser = String(username || '').trim();
+    if (!safeUser) return defaultLearningProfile('unknown');
+
+    if (!dbReady) {
+      return defaultLearningProfile(safeUser);
+    }
+
+    try {
+      const result = await pool.query(
+        'SELECT profile FROM learning_profiles WHERE username = $1 LIMIT 1',
+        [safeUser]
+      );
+
+      const stored = result.rows[0]?.profile;
+      if (!stored || typeof stored !== 'object') {
+        return defaultLearningProfile(safeUser);
+      }
+
+      return {
+        ...defaultLearningProfile(safeUser),
+        ...stored,
+        username: safeUser
+      };
+    } catch (error) {
+      console.warn(`[LTM] Failed to load learning profile for ${safeUser}:`, error.message);
+      return defaultLearningProfile(safeUser);
+    }
+  }
+
+  async function saveLearningProfile(username, profile) {
+    const safeUser = String(username || '').trim();
+    if (!safeUser || !profile || typeof profile !== 'object') return;
+
+    const record = {
+      ...defaultLearningProfile(safeUser),
+      ...profile,
+      username: safeUser,
+      updatedAt: Date.now()
+    };
+
+    if (!dbReady) return;
+
+    try {
+      await pool.query(
+        `
+          INSERT INTO learning_profiles (username, profile, updated_at)
+          VALUES ($1, $2::jsonb, $3)
+          ON CONFLICT (username) DO UPDATE
+          SET profile = EXCLUDED.profile,
+              updated_at = EXCLUDED.updated_at
+        `,
+        [safeUser, JSON.stringify(record), record.updatedAt]
+      );
+
+      audit(
+        'learning_profile_saved',
+        {
+          username: safeUser,
+          preferredDifficulty: record.preferredDifficulty,
+          runningScore: record.runningScore,
+          topFailurePatterns: record.topFailurePatterns
+        },
+        'Adaptive learning profile persisted for future prompt tuning.'
+      );
+    } catch (error) {
+      console.warn(`[LTM] Failed to persist learning profile for ${safeUser}:`, error.message);
+    }
+  }
+
+  async function getLearningInsights(username) {
+    const profile = await getLearningProfile(username);
+    return {
+      preferredDifficulty: profile.preferredDifficulty || 'balanced',
+      priorityHints: Array.isArray(profile.priorityHints) ? profile.priorityHints.slice(0, 5) : [],
+      topFailurePatterns: Array.isArray(profile.topFailurePatterns) ? profile.topFailurePatterns.slice(0, 5) : [],
+      runningScore: Number(profile.runningScore) || 0,
+      signalAverages: profile.signalAverages || {},
+      styleAffinity: profile.styleAffinity || {}
+    };
+  }
+
   // Expose the new memory functions to other plugins.
   sharedState.addMemory = addMemory;
   sharedState.updateMemory = updateMemory;
   sharedState.findRelevantMemories = findRelevantMemories;
+  sharedState.getLearningProfile = getLearningProfile;
+  sharedState.saveLearningProfile = saveLearningProfile;
+  sharedState.getLearningInsights = getLearningInsights;
 
   bot.once('login', initializeMemory);
 };

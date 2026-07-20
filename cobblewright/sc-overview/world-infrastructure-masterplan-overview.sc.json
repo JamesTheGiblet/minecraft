@@ -1,0 +1,54 @@
+{
+  "id": "COBBLEWRIGHT.v1.world-infrastructure-masterplan-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the infrastructure masterplan for Wrightrealm.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\infrastructure-masterplan.md"
+  },
+  "intent": {
+    "primary_goal": "To outline the long-term development plan for shared, realm-wide infrastructure in Wrightrealm, guiding the Forge variant and collective building efforts."
+  },
+  "identity": {
+    "role": "The official urban and industrial planning document for Wrightrealm."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The masterplan prioritizes core infrastructure: transportation networks (roads, rails), resource depots, automated farms, and public utilities.",
+      "Forge is the primary agent responsible for executing the masterplan.",
+      "New infrastructure projects must be proposed and approved via the Leighton-Weighted Consensus protocol.",
+      "The plan is a living document, intended to be updated as the realm evolves."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Urban planning",
+      "Logistics",
+      "Industrial automation",
+      "Long-term strategy"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\infrastructure-masterplan.md",
+      "purpose": "To provide a strategic roadmap for the development of large-scale, shared infrastructure within Wrightrealm."
+    },
+    "key_concepts": {
+      "transportation_network": "The planned system of roads and railways connecting key regions.",
+      "resource_depots": "Centralized storage facilities for materials gathered by agents.",
+      "automated_farms": "Large-scale farms for food and resources, managed by Forge.",
+      "public_utilities": "Shared facilities like enchanting setups, potion breweries, and villager trading halls."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "This capsule summarizes the long-term infrastructure goals for Wrightrealm. It guides the Forge agent and large-scale collective projects."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\infrastructure-masterplan.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

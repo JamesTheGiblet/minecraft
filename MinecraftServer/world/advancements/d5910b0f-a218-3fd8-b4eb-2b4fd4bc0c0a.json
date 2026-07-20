@@ -81,6 +81,7 @@
   },
   "minecraft:adventure/kill_all_mobs": {
     "criteria": {
+      "minecraft:zombified_piglin": "2026-07-16 20:09:34 +0100",
       "minecraft:zombie": "2026-07-12 17:33:07 +0100"
     },
     "done": false
@@ -178,6 +179,18 @@
   "minecraft:recipes/redstone/oak_button": {
     "criteria": {
       "has_planks": "2026-07-12 20:56:43 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/gold_nugget_from_smelting": {
+    "criteria": {
+      "has_golden_sword": "2026-07-16 20:09:36 +0100"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/gold_nugget_from_blasting": {
+    "criteria": {
+      "has_golden_sword": "2026-07-16 20:09:36 +0100"
     },
     "done": true
   },

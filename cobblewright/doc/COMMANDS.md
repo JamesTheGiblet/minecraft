@@ -14,6 +14,8 @@ Type the command in chat without a leading slash. Most commands are case-insensi
 - `roast`: Gives a playful, constructive critique instead of harsh feedback. Example: `roast`
 - `inspire`: Generates a random creative building prompt. Example: `inspire`
 - `status`: Runs diagnostics for uptime, Ollama connection, and memory capsule counts. Example: `status`
+- `audit` (aliases: `verify`, `ledger`): Verifies ChronoSCRIBE chain integrity and signatures. Example: `audit`
+- `audit path`: Prints the local ChronoSCRIBE ledger file location. Example: `audit path`
 - `style <name>`: Sets the architectural style CobbleWright should use for future advice. Example: `style rustic`
 - `blueprint <structure>`: Generates a JSON blueprint and tries to build it near you. Example: `blueprint hut`
 - `gather <item> [amount]`: Sends CobbleWright to find and collect nearby resources. Example: `gather oak_log 5`
@@ -21,6 +23,10 @@ Type the command in chat without a leading slash. Most commands are case-insensi
 - `weather clear`: Asks CobbleWright to clear the weather. Example: `weather clear`
 - `critique`: Reviews the latest screenshot for aesthetic feedback. Example: `critique`
 - `sethome`: Saves your current position as CobbleWright's safety home. Example: `sethome`
+- `home`: Shows CobbleWright's currently saved home coordinates. Example: `home`
+- `gohome` (alias: `returnhome`): Immediately path back to the saved home anchor. Example: `gohome`
+- `hud` (alias: `coordhud`): Toggles the on-screen coordinate display. Use `hud off` to disable. Example: `hud`
+- `bed` (aliases: `sleep`, `rest`): Makes CobbleWright find/place a bed and sleep if possible. Example: `bed`
 
 ## Notes On Specific Commands
 
@@ -31,6 +37,7 @@ Type the command in chat without a leading slash. Most commands are case-insensi
 - `critique` works best after taking a screenshot with `F2`.
 - `sethome` is used by the survival logic so CobbleWright can flee to a safe location.
 - `sethome` also defines the center point for night patrol roaming and emergency fallback when ghost mode commands are unavailable.
+- `hud` displays player, bot, and home coordinates in the sidebar.
 - Night ghost mode uses built-in server commands under the hood, so the bot account must have permission to run `/gamemode` and `/effect` if you want patrol invulnerability.
 
 ## Examples
@@ -43,6 +50,8 @@ Here are some simple messages you can type in chat:
 - `roast`: `roast` -> Gets a playful build critique.
 - `inspire`: `inspire` -> Gets a random creative prompt.
 - `status`: `status` -> Runs a quick diagnostic check.
+- `audit`: `audit` -> Verifies append-only ledger integrity and signatures.
+- `audit path`: `audit path` -> Shows where the local audit ledger file is stored.
 - `style`: `style rustic` -> Switches future advice to a rustic style.
 - `blueprint`: `blueprint hut` -> Generates and builds a hut blueprint.
 - `gather`: `gather oak_log 5` -> Tells CobbleWright to collect 5 oak logs.
@@ -50,6 +59,10 @@ Here are some simple messages you can type in chat:
 - `weather clear`: `weather clear` -> Asks CobbleWright to clear the weather.
 - `critique`: `critique` -> Reviews the latest screenshot.
 - `sethome`: `sethome` -> Saves your current location as the safety home.
+- `home`: `home` -> Shows the currently saved home anchor coordinates.
+- `gohome`: `gohome` -> Forces immediate return to the saved home anchor.
+- `hud`: `hud` -> Toggles the coordinate display.
+- `bed`: `bed` -> Tells CobbleWright to go to bed; useful when you want to skip the night together.
 
 ## Minecraft Commands CobbleWright May Recommend
 

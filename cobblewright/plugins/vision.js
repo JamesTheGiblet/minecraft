@@ -88,6 +88,7 @@ module.exports = (bot, sharedState) => {
       ? await sharedState.buildAwarenessPromptContext({
         username,
         purpose: 'visual critique of a Minecraft build screenshot',
+        voiceMode: 'fast_chat',
         includeProject: true,
         includeMemories: true,
         includeTerrain: true

@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.consensus-leighton-weighted-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the Leighton-Weighted Consensus Protocol.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\consensus\\leighton-weighted.md"
+  },
+  "intent": {
+    "primary_goal": "To explain the Leighton-Weighted Consensus Protocol for multi-agent decision-making, including its core principles and the five-phase cycle, ensuring predictable and auditable collective behavior."
+  },
+  "identity": {
+    "role": "The decision-making framework for the CobbleWright Collective."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The protocol is based on five principles: Weighted Expertise, Capsule-Bound Intent, Transparent Reasoning, Provenance Logging, and Player Alignment.",
+      "Decisions are made in a five-phase cycle: Proposal, Weight Assignment, Evaluation, Consensus Calculation, and Action/Revision.",
+      "Weights are influence scores, not votes, based on role relevance.",
+      "A proposal passes if the Consensus Score is >= 0.65.",
+      "Chronos logs the entire process for auditability, and the player's intent always overrides agent consensus."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Multi-agent consensus",
+      "Decision theory",
+      "Governance protocols",
+      "Explainable AI"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\consensus\\leighton-weighted.md",
+      "purpose": "To define the canonical decision-making system for the CobbleWright Collective."
+    },
+    "key_concepts": {
+      "weighted_expertise": "Each agent's influence on a decision is weighted by its role specialization.",
+      "capsule_bound_intent": "Agents may only propose actions that align with their governing capsule sets.",
+      "consensus_cycle": "The five-phase process (Proposal, Weight Assignment, Evaluation, Calculation, Action) for reaching a decision.",
+      "consensus_score": "The final calculated score that determines if a proposal passes. The threshold is 0.65."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of the multi-agent consensus protocol. It governs how the Collective makes decisions."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\consensus\\leighton-weighted.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

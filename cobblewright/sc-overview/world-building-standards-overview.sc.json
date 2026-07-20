@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.world-building-standards-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the building standards for Wrightrealm.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\building-standards.md"
+  },
+  "intent": {
+    "primary_goal": "To define the official building code for all structures in Wrightrealm, ensuring they are safe, structurally sound, and aesthetically coherent."
+  },
+  "identity": {
+    "role": "The canonical building code and architectural compliance guide for Wrightrealm."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "All agent-built structures must adhere to these standards.",
+      "Standards cover structural integrity (e.g., support distances), safety (e.g., lighting levels to prevent mob spawns), and material palettes per region.",
+      "The Vision variant is the primary enforcer of these standards during its critique cycle.",
+      "Deviations for creative purposes must be explicitly logged and justified.",
+      "Standards apply to both new construction and modifications of existing structures."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Architectural standards",
+      "Structural engineering (in-game)",
+      "Safety compliance",
+      "Aesthetic governance"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\building-standards.md",
+      "purpose": "To provide a clear, enforceable set of building rules that ensures quality and safety across all of Wrightrealm."
+    },
+    "key_concepts": {
+      "structural_integrity": "Rules governing load-bearing elements and span distances.",
+      "safety_compliance": "Mandatory lighting, access, and hazard-mitigation requirements.",
+      "regional_palette": "Guidelines for material usage that aligns with a region's defined geography and purpose.",
+      "critique_enforcement": "The process by which the Vision agent uses these standards to evaluate builds."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of the Wrightrealm building code. It should be used by all agents during planning and construction."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\world\\building-standards.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

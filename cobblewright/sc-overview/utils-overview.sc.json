@@ -1,0 +1,66 @@
+{
+  "sc_version": "1.2-complete",
+  "capsule_type": "utils",
+  "intent": {
+    "primary_goal": "Describe the CobbleWright utils layer as a collection of helper modules so consuming agents can reason about where to find reusable, low-level functionality."
+  },
+  "identity": {
+    "role": "A utility capsule for CobbleWright's shared helper functions and classes."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "keep utility functions pure and stateless where possible",
+      "group related helpers into single files (e.g., 'vector-helpers.js', 'block-helpers.js')",
+      "document function signatures and purposes clearly with JSDoc comments",
+      "avoid dependencies on bot or sharedState; utilities should be self-contained"
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "vector math",
+      "block and item ID lookups",
+      "geometric calculations",
+      "data structure manipulation",
+      "text formatting"
+    ],
+    "never_do": [
+      "introduce side-effects into utility functions",
+      "add complex, high-level application logic that belongs in a plugin",
+      "access the Minecraft bot instance directly"
+    ]
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\utils",
+      "purpose": "Shared, reusable helper functions for the CobbleWright runtime and plugins.",
+      "document_types": [
+        "math and geometry helpers",
+        "data transformation modules",
+        "Minecraft-specific constant lookups"
+      ]
+    },
+    "architecture": {
+      "loader_behavior": "Utility modules are not auto-loaded like plugins. They are explicitly required by `architect.js` or other plugins.",
+      "usage_pattern": "Modules export functions or classes that can be imported and used by any other part of the system.",
+      "extension_style": "The folder is designed for adding new, self-contained helper modules."
+    },
+    "utility_catalog": {
+      "vector-helpers.js": "Provides pure functions for vector mathematics, such as distance calculations, normalization, and other geometric operations. Essential for pathfinding and spatial reasoning.",
+      "block-helpers.js": "Contains utilities for working with Minecraft blocks, including ID lookups, checking block properties (e.g., is it solid, transparent), and other data transformations.",
+      "text-helpers.js": "A collection of stateless functions for text formatting, such as escaping characters for use in Minecraft commands.",
+      "player-helpers.js": "Provides helper functions for working with player objects, such as finding the most recently active player."
+    },
+    "runtime_guidance": {
+      "for_prompts": "Use this capsule when reasoning about where to find or create low-level, reusable helper functions.",
+      "for_drafting": "When creating a new utility, add it to the catalog here with a brief description of its purpose.",
+      "for_maintenance": "Keep the catalog in sync with the files in the utils/ folder."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.90,
+    "note": "Initial capsule structure. Confidence will increase as the utility catalog is populated with real file descriptions."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

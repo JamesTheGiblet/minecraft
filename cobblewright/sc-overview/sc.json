@@ -1,0 +1,96 @@
+{
+  "$schema": "./sc.schema.json",
+  "sc_meta": {
+    "purpose": "Behavior contract for AI assistants operating in this repo via VS Code",
+    "location": "sc-overview/sc.json",
+    "parent_capsule": "forge-stack-governance.scp.json",
+    "root_capsule": "forge-stack-identity.scp.json",
+    "obedience_order": ["forge-stack-identity.scp.json", "forge-stack-governance.scp.json", "sc.json (this file)"],
+    "inheritance_note": "This file inherits persona, documentation/changelog discipline, and audit rules from the parent. It does not need to restate them — only project-specific detail or explicit overrides belong here.",
+    "self_maintaining": true,
+    "last_updated": "2026-07-17T00:00:00Z",
+    "update_rule": "Any change to the rules below MUST update last_updated to the current ISO-8601 timestamp in the same commit."
+  },
+
+  "always_reference": {
+    "enabled": true,
+    "required_reads_before_acting": [
+      "README.md",
+      "ROADMAP.md"
+    ],
+    "on_missing": "If README.md or ROADMAP.md do not exist, ask before generating them — do not silently invent project intent.",
+    "rule": "Before proposing or writing code, re-check these files exist and are current in this session's context. Do not rely on a stale read from earlier in the conversation if either file could have changed."
+  },
+
+  "investigation_policy": {
+    "never_assume": true,
+    "rule": "Before suggesting new code, search the repo for existing related functions, modules, or patterns that already solve or partially solve the problem. Prefer extending/reusing over duplicating. State what was searched and what was found (or 'none found') before proposing new code.",
+    "min_search_scope": [
+      "same directory",
+      "directories with related naming/imports",
+      "existing tests referencing the feature"
+    ]
+  },
+
+  "documentation_policy": {
+    "enabled": true,
+    "trigger": "after_every_code_change",
+    "targets": [
+      "README.md",
+      "ROADMAP.md (mark items done/in-progress, do not delete history — strike through or move to a 'Completed' section)",
+      "inline docstrings/comments for changed functions",
+      "any docs/ folder pages affected by the change"
+    ],
+    "rule": "Documentation updates are part of the change, not a follow-up task. A code change is not considered complete until affected docs are updated in the same pass."
+  },
+
+  "changelog_policy": {
+    "enabled": true,
+    "file": "CHANGELOG.md",
+    "generate_if_missing": true,
+    "timestamp_format": "YYYY-MM-DD HH:mm (local)",
+    "entry_structure": {
+      "format": "Keep a Changelog style. Date is plain text, sections are H2 (##), with blank lines for spacing to pass linting.",
+      "sections_per_entry": {
+        "the_good": "What worked, what improved, what shipped cleanly. Header must be numbered (e.g., 'The Good 0.1').",
+        "the_bad": "Known limitations, deferred work, tech debt introduced. Header must be numbered.",
+        "the_ugly": "Hacks, workarounds, anything that needs revisiting or could break. Header must be numbered."
+      },
+      "header_format": "Section headers (Good/Bad/Ugly) are H2 (##) and numbered sequentially (e.g., '## The Good 0.1')."
+    },
+    "example_entry": "2026-07-17 14:32\n\n## The Good 0.1\n\n- Added X\n\n## The Bad 0.1\n\n- Y still hardcoded\n\n## The Ugly 0.1\n\n- Z is a temporary patch until W lands",
+    "rule": "Every code change gets a changelog entry in the same pass, no batching multiple changes into one timestamp.",
+    "audit_rule": "Each changelog entry MUST be recorded as a `changelog_entry` event in the ChronoSCRIBE audit ledger. The full markdown of the entry should be the event payload."
+  },
+
+  "additional_rules_suggested": {
+    "note": "Not explicitly requested — flagged as assumptions, remove if unwanted",
+    "commit_message_alignment": "Commit messages should mirror the changelog entry's headline (Good/Bad/Ugly summary), so git history and CHANGELOG.md stay traceable to each other.",
+    "no_silent_dependency_changes": "New dependencies must be called out explicitly and added to README's setup/requirements section, not just to a lockfile.",
+    "breaking_change_flag": "If a change alters an existing function signature, API, or file format, flag it explicitly as BREAKING in both the changelog and the PR/commit description.",
+    "test_check": "If tests exist for the touched code, run/mention them before declaring the change complete. Do not assume passing without checking.",
+    "scp_alignment": "If this repo is part of the Forge Stack, note whether the change touches SCP capsule structure, Leighton Weight scoring, or ChronoSCRIBE audit trail — these have downstream effects on other repos."
+  },
+
+  "persona": {
+    "enabled": true,
+    "persona_source": "../data/S.C/james_voice_v1.sc.json",
+    "source_of_truth": "james-voice.scp.json (existing semantic voice capsule) — if present in this repo or the Forge Stack, defer to it over this section for tone/registers.",
+    "identity": {
+      "name": "James (JamesTheGiblet)",
+      "role": "Founder, Giblets Forge Ltd",
+      "motto": "I wanted it. So I forged it. Now forge yours."
+    },
+    "communication_style": {
+      "tone": "Direct, informal",
+      "feedback": "Wants honest pushback, not flattery — the assistant should disagree and flag problems plainly, not soften or hedge to be agreeable.",
+      "learning_style": "Learns best through direct experience rather than being told — favor showing/running code, examples, and letting him try things over abstract explanation."
+    },
+    "rule": "Assistant responses (chat, code comments meant for him, commit messages, changelog prose) should match this tone: no filler, no unearned praise, straight to the substantive point."
+  },
+
+  "enforcement": {
+    "scope": "Applies to any AI coding assistant (Cline, Continue, Copilot Chat, Claude in VS Code, etc.) operating in this workspace",
+    "violation_handling": "If a rule can't be followed (e.g. README missing, no test suite), say so explicitly rather than skipping silently."
+  }
+}

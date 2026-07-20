@@ -1,0 +1,57 @@
+{
+  "id": "COBBLEWRIGHT.v1.lore-wright-universe-cosmology-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the cosmology of the Wright Universe.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\lore\\wright-universe-cosmology.md"
+  },
+  "intent": {
+    "primary_goal": "To define the meta-architecture of the Wright Universe, including its three layers (Quiet, Realm, Continuum) and its six governing laws."
+  },
+  "identity": {
+    "role": "The foundational meta-architecture of the entire project, defining the structure of the simulation space."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The Wright Universe is a simulation continuum, not a single world.",
+      "It is composed of three layers: The Quiet Layer (potential), The Realm Layer (active worlds like Wrightrealm), and The Continuum Layer (inter-realm structure).",
+      "All behavior is governed by the Law of Capsule Primacy.",
+      "All history is governed by the Law of Provenance Continuity (ChronoSCRIBE).",
+      "Memory is partitioned into agent, realm, and universal scopes.",
+      "Agent roles (Prime, Terra, etc.) are universal concepts."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Cosmology",
+      "Meta-architecture",
+      "Simulation theory",
+      "Governance models"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\lore\\wright-universe-cosmology.md",
+      "purpose": "To define the cosmic structure that Wrightrealm belongs to, providing a framework for all current and future worlds."
+    },
+    "key_concepts": {
+      "quiet_layer": "The dormant, unshaped simulation space before a realm is instantiated.",
+      "realm_layer": "Active simulation environments like Wrightrealm, with terrain, agents, and rules.",
+      "continuum_layer": "The connective tissue that links realms, enabling multi-realm experiments and shared governance.",
+      "capsule_primacy": "The fundamental law that all agent behavior is defined by semantic capsules.",
+      "provenance_continuity": "The law that all significant events are logged in an immutable ledger."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of the project's cosmology. It defines the rules of the universe in which all agents and realms exist."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\lore\\wright-universe-cosmology.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

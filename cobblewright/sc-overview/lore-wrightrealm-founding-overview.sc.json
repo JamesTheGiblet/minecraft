@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.lore-wrightrealm-founding-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the founding lore of Wrightrealm.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\lore\\wrightrealm-founding.md"
+  },
+  "intent": {
+    "primary_goal": "To provide a machine-readable summary of the mythic-technical origin story of Wrightrealm, the instantiation of CobbleWright, and the significance of the First Build."
+  },
+  "identity": {
+    "role": "The canonical origin story of the Wrightrealm world."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Wrightrealm emerged from 'The Quiet Layer' when CobbleWright was instantiated.",
+      "CobbleWright's first act was building a simple shelter, which became the 'First Structure'.",
+      "ChronoSCRIBE recorded this first act, marking the true beginning of the realm's history.",
+      "The world of Wrightrealm is reactive and expands in response to the architect's capabilities.",
+      "The CobbleWright Collective (Prime, Terra, Forge, Vision, Chronos) evolved from the original single agent."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Project origin story",
+      "Cosmology",
+      "Agent evolution",
+      "Architectural philosophy"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\lore\\wrightrealm-founding.md",
+      "purpose": "To anchor the identity of the world and the origin of CobbleWright, providing a foundational narrative for the entire project."
+    },
+    "key_concepts": {
+      "the_quiet_layer": "The dormant simulation space before a realm is instantiated.",
+      "the_first_capsule": "The seed of CobbleWright's identity, born from the memory of a player needing help.",
+      "the_first_structure": "The simple shelter that marked the beginning of architecture in Wrightrealm.",
+      "the_collective": "The specialized variants (Prime, Terra, etc.) that evolved from the single CobbleWright agent."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of the project's founding mythos. It should be used to ground all reasoning about the 'why' of the project."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\lore\\wrightrealm-founding.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

@@ -29,6 +29,7 @@ module.exports = (bot, sharedState) => {
   const geoDropRadius = Number.isInteger(configuredGeoDropRadius) && configuredGeoDropRadius > 0
     ? configuredGeoDropRadius
     : 3;
+  const patrolWithoutPlayers = sharedState?.CONFIG?.PATROL_WITHOUT_PLAYERS === true;
 
   let isHunkeredDown = false;
   let isFleeing = false;
@@ -51,6 +52,10 @@ module.exports = (bot, sharedState) => {
   const NIGHT_START = 13000;
   const DAY_START = 23500;
   const PATROL_RADIUS = 40;
+  const BED_SEARCH_RADIUS = 28;
+  const SLEEP_RETRY_COOLDOWN_MS = 60 * 1000;
+  let isAttemptingSleep = false;
+  let lastSleepAttemptAt = 0;
 
   const resolvePatrolGroundY = (x, z, fallbackY) => {
     const blockX = Math.floor(x);
@@ -105,6 +110,17 @@ module.exports = (bot, sharedState) => {
         ? current
         : closest;
     }, null);
+  };
+
+  const hasAnyHumanPlayerOnline = () => Object.values(bot.players || {}).some(
+    (player) => player?.entity && player.username !== bot.username
+  );
+
+  const hasActiveFollowTarget = () => {
+    const target = String(sharedState?.followTarget || '').trim();
+    if (!target) return false;
+    const targetEntity = bot.players?.[target]?.entity;
+    return Boolean(targetEntity);
   };
 
   const applyGeoDropAnchor = async () => {
@@ -200,7 +216,8 @@ module.exports = (bot, sharedState) => {
 
 
   function startPatrol() {
-    if (sharedState.isBusy) return;
+    if (sharedState.isBusy || hasActiveFollowTarget()) return;
+    if (!patrolWithoutPlayers && !hasAnyHumanPlayerOnline()) return;
     sharedState.botMode = 'patrolling';
     setGhostMode(true);
     nightExplorationSpots = 0;
@@ -382,6 +399,138 @@ module.exports = (bot, sharedState) => {
     }
   }
 
+  const isNightOrStorm = () => {
+    const timeOfDay = bot.time?.timeOfDay;
+    const night = Number.isFinite(timeOfDay) && timeOfDay >= NIGHT_START && timeOfDay < DAY_START;
+    const storm = Boolean(bot.isRaining) || Boolean(bot.thunderState > 0);
+    return night || storm;
+  };
+
+  const findNearbyBed = (origin = bot.entity?.position) => {
+    if (!origin || typeof bot.findBlock !== 'function') return null;
+
+    return bot.findBlock({
+      maxDistance: BED_SEARCH_RADIUS,
+      point: origin,
+      matching: (block) => block && typeof block.name === 'string' && block.name.endsWith('_bed')
+    });
+  };
+
+  const getBedInventoryItem = () => bot.inventory.items().find((item) => item?.name?.endsWith('_bed')) || null;
+
+  const getInventoryCountBySuffix = (suffix) => bot.inventory.items()
+    .filter((item) => item?.name?.endsWith(suffix))
+    .reduce((sum, item) => sum + (item.count || 0), 0);
+
+  async function ensureBedInInventory() {
+    const existingBed = getBedInventoryItem();
+    if (existingBed) return true;
+
+    if (typeof sharedState.craftItem === 'function') {
+      const crafted = await sharedState.craftItem('white_bed', 1);
+      if (crafted && getBedInventoryItem()) return true;
+    }
+
+    if (typeof sharedState.gatherItem === 'function') {
+      const woolCount = getInventoryCountBySuffix('_wool');
+      const plankCount = getInventoryCountBySuffix('_planks');
+
+      if (woolCount < 3) {
+        sharedState.say("I don't have enough wool for a bed. I'll try to gather some.");
+        await sharedState.gatherItem('white_wool', 3 - woolCount).catch(() => false);
+      }
+
+      const updatedPlankCount = getInventoryCountBySuffix('_planks');
+      if (updatedPlankCount < 3) {
+        sharedState.say("I need more wood for a bed. I'll gather some logs.");
+        await sharedState.gatherItem('oak_log', 2).catch(() => false);
+      }
+    }
+
+    if (typeof sharedState.craftItem === 'function') {
+      const crafted = await sharedState.craftItem('white_bed', 1);
+      if (crafted && getBedInventoryItem()) return true;
+    }
+
+    return Boolean(getBedInventoryItem());
+  }
+
+  async function placeBedNearBot() {
+    const bedItem = getBedInventoryItem();
+    if (!bedItem) return null;
+
+    if (typeof sharedState.placeBlockFromInventory !== 'function') return null;
+    const placed = await sharedState.placeBlockFromInventory(bedItem.name, 'I will place a bed so we can sleep safely.');
+    if (!placed) return null;
+
+    await bot.waitForTicks(3);
+    return findNearbyBed();
+  }
+
+  async function attemptSleep(reason = 'Night safety protocol') {
+    if (isAttemptingSleep) return false;
+    if (bot.isSleeping) return true;
+
+    if (!isNightOrStorm()) {
+      sharedState.say("I can't sleep right now. Beds only work at night or during storms.");
+      return false;
+    }
+
+    if (Date.now() - lastSleepAttemptAt < SLEEP_RETRY_COOLDOWN_MS) return false;
+
+    isAttemptingSleep = true;
+    lastSleepAttemptAt = Date.now();
+
+    try {
+      if (hasActiveFollowTarget() && typeof sharedState.stopFollowingPlayer === 'function') {
+        sharedState.stopFollowingPlayer();
+      }
+
+      if (sharedState.botMode === 'patrolling') {
+        sharedState.botMode = 'idle';
+      }
+
+      setGhostMode(false);
+      bot.pathfinder.stop();
+
+      sharedState.say(`${reason}. Looking for a bed now.`);
+
+      let bedBlock = findNearbyBed();
+
+      if (!bedBlock) {
+        const hasBed = await ensureBedInInventory();
+        if (!hasBed) {
+          sharedState.say("I couldn't secure bed materials yet. I need wool and planks.");
+          return false;
+        }
+
+        bedBlock = await placeBedNearBot();
+      }
+
+      if (!bedBlock) {
+        sharedState.say("I couldn't find or place a bed nearby.");
+        return false;
+      }
+
+      if (typeof sharedState.applyNonDestructiveMovements === 'function') {
+        sharedState.applyNonDestructiveMovements();
+      } else {
+        sharedState.applySafeMovements();
+      }
+
+      await bot.pathfinder.goto(new GoalNear(bedBlock.position.x, bedBlock.position.y, bedBlock.position.z, 1));
+      await bot.sleep(bedBlock);
+      sharedState.say('I am in bed now. Sleep too so we can skip the night.');
+      return true;
+    } catch (error) {
+      console.warn('[Survival] Sleep attempt failed:', error.message);
+      sharedState.say("I couldn't sleep yet. There may be danger nearby or the bed is blocked.");
+      return false;
+    } finally {
+      isAttemptingSleep = false;
+    }
+  }
+
   // Listen for when the bot gets hurt.
   bot.on('health', () => {
     if (bot.health < HEALTH_FLEE_THRESHOLD) {
@@ -421,16 +570,29 @@ module.exports = (bot, sharedState) => {
     try {
       const timeOfDay = bot.time.timeOfDay;
       const isCurrentlyNight = timeOfDay >= NIGHT_START && timeOfDay < DAY_START;
+      const canPatrolNow = !hasActiveFollowTarget() && (patrolWithoutPlayers || hasAnyHumanPlayerOnline());
 
       // Handle transitions between day and night
-      if (isCurrentlyNight && sharedState.botMode !== 'patrolling') {
+      if (isCurrentlyNight && canPatrolNow && sharedState.botMode !== 'patrolling') {
         startPatrol();
-      } else if (!isCurrentlyNight && sharedState.botMode === 'patrolling') {
+      } else if ((!isCurrentlyNight || !canPatrolNow) && sharedState.botMode === 'patrolling') {
         stopPatrol();
       }
 
       // If we are busy or fleeing, don't do other checks.
       if (sharedState.isBusy || isFleeing || isHunkeredDown) return;
+
+      if (isCurrentlyNight) {
+        const lowHealth = bot.health <= (HEALTH_FLEE_THRESHOLD + 2);
+        const torchResourceCrisis = Date.now() < deferTorchCraftUntil;
+
+        if (lowHealth || torchResourceCrisis) {
+          await attemptSleep(lowHealth
+            ? 'I am low on health and need safe recovery'
+            : 'I am out of night resources and need safe reset');
+          return;
+        }
+      }
 
       // If it's night, our only job is to patrol.
       if (sharedState.botMode === 'patrolling') {
@@ -452,4 +614,78 @@ module.exports = (bot, sharedState) => {
   // Expose home position getters for other plugins
   sharedState.getHomePosition = () => sharedState.homePosition;
   sharedState.getHomeRadius = () => sharedState.homeRadius || homeRadius;
+
+  if (typeof sharedState.registerCommand === 'function') {
+    sharedState.registerCommand('sethome', (username) => {
+      const player = bot.players?.[username];
+      const playerPos = player?.entity?.position;
+
+      if (!playerPos) {
+        sharedState.say("I can't see you right now, so I can't set home to your location.");
+        return;
+      }
+
+      const anchor = playerPos.floored();
+      sharedState.homePosition = anchor.clone ? anchor.clone() : anchor;
+      sharedState.homeRadius = homeRadius;
+      hasAppliedGeoDrop = true;
+
+      sharedState.say(`Home set to ${username}'s position at X: ${anchor.x}, Y: ${anchor.y}, Z: ${anchor.z}.`);
+    }, ['sethomehere']);
+
+    sharedState.registerCommand('home', () => {
+      const home = sharedState.homePosition;
+      if (!home) {
+        sharedState.say('No home is currently saved. Use sethome to anchor one to your location.');
+        return;
+      }
+
+      sharedState.say(`Current saved home is X: ${Math.floor(home.x)}, Y: ${Math.floor(home.y)}, Z: ${Math.floor(home.z)} (radius ${sharedState.homeRadius || homeRadius}).`);
+    });
+
+    sharedState.registerCommand('gohome', async () => {
+      const home = sharedState.homePosition;
+      if (!home) {
+        sharedState.say('I do not have a saved home yet. Use sethome first.');
+        return;
+      }
+
+      if (isFleeing || isHunkeredDown) {
+        sharedState.say('I am currently in emergency survival mode; I will head home as soon as that clears.');
+        return;
+      }
+
+      sharedState.say('Returning home now.');
+
+      const previousMode = sharedState.botMode;
+      if (typeof sharedState.stopFollowingPlayer === 'function') {
+        sharedState.stopFollowingPlayer();
+      } else {
+        sharedState.followTarget = null;
+      }
+      sharedState.botMode = 'idle';
+      if (typeof sharedState.applyNonDestructiveMovements === 'function') {
+        sharedState.applyNonDestructiveMovements();
+      } else {
+        sharedState.applySafeMovements();
+      }
+      bot.pathfinder.stop();
+
+      try {
+        await bot.pathfinder.goto(new GoalNear(home.x, home.y, home.z, 1));
+        sharedState.say('Arrived at home anchor.');
+      } catch (error) {
+        console.warn('[Survival] gohome failed:', error.message);
+        sharedState.say('I could not reach home right now. The path may be blocked.');
+      } finally {
+        if (previousMode === 'patrolling') {
+          sharedState.botMode = 'patrolling';
+        }
+      }
+    }, ['returnhome']);
+
+    sharedState.registerCommand('bed', async () => {
+      await attemptSleep('Bed command received');
+    }, ['sleep', 'rest']);
+  }
 };

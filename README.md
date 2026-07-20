@@ -7,13 +7,19 @@ It supports multiple players on a server, offering personalized advice to each o
 
 Powered by a local Large Language Model (LLM) via Ollama, CobbleWright is designed to be a lighthearted and encouraging muse, helping players overcome creative blocks and build structures they can be proud of.
 
-## The Vision
+## The Vision: The Wright Universe
 
-CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe coder" with a clear vision can build powerful, user-centric products that solve real problems. It's a companion designed to make Minecraft more creative and less lonely.
+CobbleWright is the first citizen of the **Wright Universe**, a simulation continuum where synthetic architects coexist, create, and evolve. The project's vision extends beyond a single bot to a **CobbleWright Collective**—a society of specialized AI agents (Terra, Forge, Vision, Chronos) who collaborate on complex architectural and civil engineering projects.
 
-- To understand the philosophy and "why" behind the project, read the **[INTENT.md](doc/INTENT.md)**.
-- To understand the strategic vision and business plan, read the **[PLAYBOOK.md](doc/PLAYBOOK.md)**.
-- For technical details on extending the bot, see the **[DEVELOPER_GUIDE.md](doc/DEVELOPER_GUIDE.md)**.
+This project is an exploration into emergent creativity, multi-agent collaboration, and the creation of a persistent, synthetic culture within the canvas of Minecraft.
+
+### Core Documentation
+
+The entire project is governed by a machine-readable control plane of semantic capsules. To understand its deep lore and structure:
+
+- **[Project Roadmap](doc/ROADMAP.md):** The strategic vision, from current priorities to the long-range "CobbleWright Civilization."
+- **[Core Canon Overview](doc/lore/README.md):** The entry point into the foundational lore, cosmology, and agent specifications of the Wright Universe.
+- **[Developer Guide](doc/DEVELOPER_GUIDE.md):** Technical details on extending the bot and its plugin architecture.
 
 ## Features
 
@@ -21,6 +27,8 @@ CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe 
 - **Multi-Step Project Guidance:** CobbleWright analyzes your inventory and crafting capabilities to suggest logical, multi-step projects (e.g., "First craft a furnace, then smelt your ore").
 - **In-Game Communication:** All advice and communication happens directly through Minecraft's chat.
 - **Adaptive Learning:** Using a "Leighton Weight" self-correction loop, CobbleWright reflects on the outcomes of its advice and adapts its future suggestions to be more helpful over time.
+- **Multi-Agent Architecture:** The system is designed around a future of specialized agents (Prime, Terra, Forge, Vision, Chronos) who will collaborate on large-scale projects.
+- **ChronoSCRIBE Audit Ledger:** Key runtime events are append-only, hash-chained, and Ed25519-signed for tamper-evident provenance.
 - **Advanced Player Activity Detection:** The bot is smart enough to detect when you're paused or AFK, and its critique loop intelligently analyzes changes in specific materials to accurately judge if its advice was followed.
 - **Comprehensive Mob Knowledge:** Utilizes a detailed knowledge base of mob behaviors, threats, and utilities to provide advanced tactical and strategic advice.
 - **Command Integration:** Suggests useful in-game commands (like `/fill` or `/time set day`) to help facilitate large projects.
@@ -28,6 +36,8 @@ CobbleWright is more than just a mod; it's a statement. It's proof that a "vibe 
 - **Geographic Awareness:** Identifies and incorporates nearby geographical features like cliffs, caves, and bodies of water into its building suggestions.
 - **Deep Biome Knowledge:** Utilizes a knowledge base of biome-specific characteristics to provide highly tailored and thematic architectural ideas.
 - **Context-Aware Memory:** The bot uses "Semantic Capsules" to maintain a structured memory of events, allowing it to provide more relevant advice based on past interactions.
+- **Canonical Semantic Capsules:** The repo now includes explicit grounding capsules for Minecraft gameplay (`data/S.C/minecraft_gameplay_core.sc.json`) and Leighton Weight / trust scoring (`data/S.C/leighton_weight_core.sc.json`).
+- **Capsule-First Knowledge Loading:** Startup ingests `*.sc.json` semantic capsules plus only the explicitly approved JSON knowledge files listed in config; runtime/state artifacts in `data/` are ignored unless allowlisted.
 - **Interactive Commands:** Players can ask for help, check their materials, and get inspiration using simple chat commands (`build`, `materials`, `help`).
 - **Blueprint Builder:** Can generate a JSON blueprint for a simple structure and build it in the world on command.
 - **Blueprint Safety Guardrails:** AI blueprints are now validated with strict limits (dimensions, block count, coordinate bounds, and clear volume) before any build action runs.
@@ -69,8 +79,12 @@ See the `doc/ROADMAP.md` file for the full project history and future vision.
 | `weather` | Check or clear the current weather |
 | `critique` | Aesthetic feedback on latest screenshot |
 | `status` | Diagnostic check (uptime, Ollama status, memory) |
+| `audit` (or `verify`) | Verify ChronoSCRIBE chain integrity/signatures |
 | `style <name>` | Set architectural style |
 | `sethome` | Save bot safety-home position for flee behavior |
+| `home` | Show the currently saved home anchor |
+| `gohome` (or `returnhome`) | Force immediate return to saved home |
+| `bed` (or `sleep`, `rest`) | Find/place bed and sleep when conditions allow |
 
 ## Support Behavior
 
@@ -88,4 +102,18 @@ If the server grants the bot command permissions, night patrol also enables a gh
 - **Memory retention policy:** Configure retention with `MEMORY_RETENTION_ENABLED`, `MEMORY_MAX_ENTRIES`, and `MEMORY_MAX_AGE_DAYS` in `config.json`.
 - **Night ghost mode:** Configure with `GHOST_MODE_AT_NIGHT` in `config.json`. This requires the bot account to have permission to run `/gamemode` and `/effect`.
 - **Embedding dimensions:** Configure `EMBEDDING_DIMENSIONS` when you use a non-default embedding model so pgvector indexes can be created with the correct width.
+- **ChronoSCRIBE audit controls:** Configure with `CHRONOSCRIBE_ENABLED`, `CHRONOSCRIBE_KEY_ID`, and `CHRONOSCRIBE_MAX_PAYLOAD_CHARS` in `config.json`.
+- **Knowledge loading allowlist:** Configure `APPROVED_KNOWLEDGE_JSON` in `config.json` to explicitly approve additional plain JSON knowledge files.
+- **Semantic capsule grounding:** `data/S.C/*.sc.json` capsules are loaded automatically; keep core gameplay and trust-model capsules there so prompt grounding stays consistent.
 - **Building-protection config:** Configure with `PROTECT_BUILDINGS_FOR_GATHERING` and `BUILDING_DETECTOR_RADIUS` in `config.json`.
+
+See `doc/CHRONOSCRIBE.md` for the full audit-ledger details.
+
+## Testing
+
+- **Current baseline:** 8 suites, 112 tests.
+- **Run all tests:** `npm test`
+- **Detect open handles:** `npm test -- --detectOpenHandles`
+
+See `cobblewright/doc/TEST_SUITE.md` for test layout, troubleshooting flow, and maintenance rules.
+See `cobblewright/sc-overview/test-suite-overview.sc.json` for the semantic capsule summary of the test suite contract.

@@ -166,6 +166,7 @@ ${awarenessContext ? `\n${awarenessContext}` : ''}
       ? await sharedState.buildAwarenessPromptContext({
         username,
         purpose: `project planning for the ${phase} phase`,
+        voiceMode: 'technical_docs',
         includeProject: false,
         includeMemories: true,
         includeTerrain: true

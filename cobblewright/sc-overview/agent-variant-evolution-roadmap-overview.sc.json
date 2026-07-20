@@ -1,0 +1,54 @@
+{
+  "id": "COBBLEWRIGHT.v1.agent-variant-evolution-roadmap-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_agent",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the evolution roadmap for CobbleWright variants.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\variant-evolution-roadmap.md"
+  },
+  "intent": {
+    "primary_goal": "To outline the planned development path for the specialized agent variants (Terra, Forge, Vision, Chronos), detailing their future capabilities and increasing autonomy."
+  },
+  "identity": {
+    "role": "The strategic product roadmap for the members of the CobbleWright Collective."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The roadmap is divided into phases, from initial specialization to full collaborative autonomy.",
+      "Phase 1 focuses on distinct role execution (e.g., Forge builds a furnace).",
+      "Phase 2 focuses on inter-agent negotiation (e.g., Forge asks Terra to flatten an area).",
+      "Phase 3 focuses on proactive, goal-driven collaboration (e.g., The Collective decides to build a new outpost and divides the labor).",
+      "Each phase has defined acceptance criteria for agent capabilities."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Product roadmap",
+      "AI development",
+      "Multi-agent systems",
+      "Strategic planning"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\variant-evolution-roadmap.md",
+      "purpose": "To provide a clear, long-term vision for how the specialized agents will grow in intelligence and capability."
+    },
+    "key_concepts": {
+      "phase_1_specialization": "Agents performing their core tasks independently.",
+      "phase_2_negotiation": "Agents communicating and making requests of one another.",
+      "phase_3_collaboration": "Agents working together on complex, emergent goals without direct player instruction."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "This capsule summarizes the future development plan for the agent variants. It is authoritative for long-range planning."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\variant-evolution-roadmap.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

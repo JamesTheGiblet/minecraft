@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Semantic Capsule Behavior Contract Schema",
+  "description": "Defines the structure for sc.json, the behavior contract for AI assistants operating in the CobbleWright repository.",
+  "type": "object",
+  "properties": {
+    "sc_meta": {
+      "type": "object",
+      "description": "Metadata about the semantic capsule itself.",
+      "properties": {
+        "purpose": { "type": "string" },
+        "location": { "type": "string" },
+        "parent_capsule": { "type": "string" },
+        "root_capsule": { "type": "string" },
+        "obedience_order": { "type": "array", "items": { "type": "string" } },
+        "inheritance_note": { "type": "string" },
+        "self_maintaining": { "type": "boolean" },
+        "last_updated": { "type": "string", "format": "date-time" },
+        "update_rule": { "type": "string" }
+      },
+      "required": ["purpose", "location"]
+    },
+    "always_reference": {
+      "type": "object",
+      "description": "Rules for files that must always be referenced before acting.",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "required_reads_before_acting": { "type": "array", "items": { "type": "string" } },
+        "on_missing": { "type": "string" },
+        "rule": { "type": "string" }
+      },
+      "required": ["enabled", "rule"]
+    },
+    "investigation_policy": {
+      "type": "object",
+      "description": "Policy for investigating the codebase before writing new code.",
+      "properties": {
+        "never_assume": { "type": "boolean" },
+        "rule": { "type": "string" },
+        "min_search_scope": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["rule"]
+    },
+    "documentation_policy": {
+      "type": "object",
+      "description": "Policy for updating documentation after code changes.",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "trigger": { "type": "string" },
+        "targets": { "type": "array", "items": { "type": "string" } },
+        "rule": { "type": "string" }
+      },
+      "required": ["enabled", "rule"]
+    },
+    "changelog_policy": {
+      "type": "object",
+      "description": "Policy for maintaining the project changelog.",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "file": { "type": "string" },
+        "generate_if_missing": { "type": "boolean" },
+        "timestamp_format": { "type": "string" },
+        "entry_structure": {
+          "type": "object",
+          "properties": {
+            "format": { "type": "string" },
+            "sections_per_entry": { "type": "object" },
+            "header_format": { "type": "string" }
+          }
+        },
+        "example_entry": { "type": "string" },
+        "rule": { "type": "string" },
+        "audit_rule": { "type": "string" }
+      },
+      "required": ["enabled", "file", "rule"]
+    },
+    "additional_rules_suggested": {
+      "type": "object",
+      "description": "Suggested best practices not explicitly enforced as hard rules."
+    },
+    "persona": {
+      "type": "object",
+      "description": "Defines the persona and communication style for the AI assistant.",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "persona_source": { "type": "string" },
+        "source_of_truth": { "type": "string" },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "role": { "type": "string" },
+            "motto": { "type": "string" }
+          }
+        },
+        "communication_style": {
+          "type": "object",
+          "properties": {
+            "tone": { "type": "string" },
+            "feedback": { "type": "string" },
+            "learning_style": { "type": "string" }
+          }
+        },
+        "rule": { "type": "string" }
+      },
+      "required": ["enabled", "identity"]
+    },
+    "enforcement": {
+      "type": "object",
+      "description": "Rules for how the contract is enforced.",
+      "properties": {
+        "scope": { "type": "string" },
+        "violation_handling": { "type": "string" }
+      },
+      "required": ["scope", "violation_handling"]
+    }
+  },
+  "required": [
+    "sc_meta",
+    "always_reference",
+    "investigation_policy",
+    "documentation_policy",
+    "changelog_policy",
+    "persona",
+    "enforcement"
+  ]
+}

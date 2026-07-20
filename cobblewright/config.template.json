@@ -9,11 +9,36 @@
   "MEMORY_MAX_ENTRIES": 200,
   "MEMORY_MAX_AGE_DAYS": 30,
   "EMBEDDING_DIMENSIONS": 768,
+  "APPROVED_KNOWLEDGE_JSON": [
+    "biome_data.json",
+    "commands_data.json",
+    "entity_data.json",
+    "minecraft_history.json",
+    "redstone_circuits.json",
+    "structures.json",
+    "styles_data.json"
+  ],
+  "PATHFIND_CAN_DIG": true,
+  "FOLLOW_DISTANCE": 2,
   "PROTECT_BUILDINGS_FOR_GATHERING": true,
   "BUILDING_DETECTOR_RADIUS": 2,
   "GHOST_MODE_AT_NIGHT": true,
+  "COORD_HUD_ENABLED": false,
+  "COORD_HUD_INTERVAL_MS": 10000,
+  "AUTO_COME_ON_PLAYER_JOIN": true,
+  "AUTO_COME_DELAY_MS": 1500,
+  "AUTO_COME_ONLY_FOR": "",
+  "PATROL_WITHOUT_PLAYERS": false,
+  "STARTER_KIT": [
+    { "item": "map", "count": 1 },
+    { "item": "bread", "count": 8 },
+    { "item": "torch", "count": 16 }
+  ],
   "VISION_MODEL": "llava:latest",
   "EMBEDDING_MODEL": "nomic-embed-text",
+  "CHRONOSCRIBE_ENABLED": true,
+  "CHRONOSCRIBE_KEY_ID": "cobblewright-ed25519-v1",
+  "CHRONOSCRIBE_MAX_PAYLOAD_CHARS": 5000,
   "SCREENSHOTS_PATH": "%APPDATA%/.minecraft/screenshots",
   "POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/cobblewright"
 }

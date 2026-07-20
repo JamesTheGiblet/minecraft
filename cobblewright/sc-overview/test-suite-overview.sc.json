@@ -1,0 +1,87 @@
+{
+  "id": "COBBLEWRIGHT.v1.test-suite-overview.2026-07-19.COPILOT",
+  "sc_version": "1.2-complete",
+  "capsule_type": "testing",
+  "provenance": {
+    "author": "GitHub Copilot",
+    "context": "Semantic capsule describing CobbleWright test suite structure, execution, and maintenance expectations.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\tests"
+  },
+  "intent": {
+    "primary_goal": "Provide one capsule that explains how to run, interpret, and maintain the CobbleWright test suite.",
+    "problem_solved": "Without a consolidated test capsule, contributors rely on scattered test files and terminal output to understand expected behavior and suite health."
+  },
+  "identity": {
+    "role": "A testing contract capsule for CobbleWright."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "run tests from the cobblewright project directory",
+      "prefer deterministic unit tests with explicit mocks",
+      "cover success and failure paths for plugin behaviors",
+      "treat open-handle warnings as defects in lifecycle cleanup",
+      "update test documentation when suite size or layout changes"
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "jest execution",
+      "plugin unit testing",
+      "timer and open-handle diagnostics",
+      "mocking external dependencies",
+      "test maintenance workflow"
+    ],
+    "never_do": [
+      "depend on live network/database services for unit tests",
+      "silence failures by loosening assertions without reason",
+      "merge test-related changes without running the full suite"
+    ]
+  },
+  "content": {
+    "suite_baseline": {
+      "framework": "Jest",
+      "current_suites": 8,
+      "current_tests": 112,
+      "primary_command": "npm test",
+      "open_handle_command": "npm test -- --detectOpenHandles"
+    },
+    "test_files": [
+      "tests/utils/brain.test.js",
+      "tests/utils/commands.test.js",
+      "tests/utils/leighton-loop.test.js",
+      "tests/utils/object-helpers.test.js",
+      "tests/utils/project-manager.test.js",
+      "tests/utils/sc-capsules.test.js",
+      "tests/utils/survival.test.js",
+      "tests/utils/weather-manager.test.js"
+    ],
+    "diagnostic_guidance": {
+      "runs_lines": "Repeated RUNS lines are normal while Jest workers execute.",
+      "expected_error_logs": "Some tests intentionally trigger error paths and may print console.error output as part of validated behavior.",
+      "open_handles": "Use --detectOpenHandles to identify timer/resource leaks and fix plugin lifecycle cleanup."
+    },
+    "maintenance_guidance": {
+      "when_adding_tests": [
+        "keep tests deterministic",
+        "prefer focused single-behavior assertions",
+        "add both happy-path and failure-path coverage"
+      ],
+      "when_behavior_changes": [
+        "update affected tests",
+        "update doc/TEST_SUITE.md",
+        "re-run full suite"
+      ]
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "Derived from current suite output and repository test structure as of 2026-07-19."
+  },
+  "links": [
+    "sc-overview/test-execution-policy.sc.json",
+    "doc/TEST_SUITE.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

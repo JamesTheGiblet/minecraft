@@ -1,5 +1,9 @@
 # CobbleWright Changelog
 
+> **Note:** This file contains narrative-style release notes and build timelines for major versions. For a granular, per-change log, please see the root `CHANGELOG.md` file.
+
+---
+
 ## Build Timeline
 
 ### 2026-07-10 - Friday: Idea Day
@@ -97,6 +101,12 @@
 - **Coal fallback roaming:** If coal for torches is unavailable, CobbleWright keeps roaming and retries later instead of looping or stalling.
 - **Night ghost mode:** Patrol can now enable a real ghost-mode safety profile with `/gamemode` and `/effect` when server permissions allow it.
 - **Flee fallback during patrol:** If ghost mode is unavailable or fails, the bot can still flee home during night patrol rather than remaining exposed.
+
+### 📚 Knowledge Loading Cleanup
+
+- **Capsule-first ingestion:** The architect loader now ingests all `data/S.C/*.sc.json` capsules, but only loads plain JSON files that are explicitly approved in `APPROVED_KNOWLEDGE_JSON`.
+- **Runtime artifact isolation:** Runtime/state JSON under `data/` is ignored by default so ChronoSCRIBE and other live state files no longer pollute startup knowledge loading.
+- **Canonical grounding capsules:** Added `minecraft_gameplay_core.sc.json` and `leighton_weight_core.sc.json` as the primary gameplay and trust references.
 
 ### 📦 Dependencies and Setup
 

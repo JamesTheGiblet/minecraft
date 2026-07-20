@@ -1,0 +1,79 @@
+{
+  "id": "COBBLEWRIGHT.v1.project-overview.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "project_architecture",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A root-level semantic capsule describing the entire CobbleWright project structure and purpose.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright"
+  },
+  "intent": {
+    "primary_goal": "Provide a comprehensive, top-level overview of the CobbleWright project, its core components, architectural philosophy, and the roles of its main directories, so that AI agents and developers can understand the entire system at a glance."
+  },
+  "identity": {
+    "role": "The master blueprint for the CobbleWright AI architect project."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The system is composed of a core runtime (`architect.js`), a modular `plugins` directory for features, a `data` directory for knowledge and state, and a `utils` directory for shared helpers.",
+      "Core orchestration logic resides in `architect.js`, which is kept intentionally thin.",
+      "New features, commands, and complex behaviors should be implemented as self-contained modules in the `plugins` directory.",
+      "All persistent knowledge and state is managed within the `data` directory, with a strict separation between static knowledge (`data/S.C`) and runtime artifacts (`data/chronoscribe`).",
+      "The project's vision, setup, and development guidelines are maintained in the `doc` directory."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Project architecture and component interaction",
+      "Plugin-based modularity",
+      "Data management (knowledge vs. state)",
+      "AI persona and core mission",
+      "Runtime lifecycle and event flow"
+    ],
+    "never_do": [
+      "Add feature logic directly to `architect.js` that belongs in a plugin.",
+      "Store runtime state files in the `data/S.C` knowledge directory.",
+      "Place one-off scripts or temporary files in the root directory."
+    ]
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright",
+      "purpose": "The root directory for the CobbleWright project, an AI-powered companion bot for Minecraft that provides architectural advice and assistance.",
+      "document_types": [
+        "Core application logic (`architect.js`)",
+        "Configuration files (`config.json`, `package.json`)",
+        "Subdirectories for plugins, data, utils, and documentation."
+      ]
+    },
+    "architecture": {
+      "entry_point": "`architect.js` is the main application entry point. It initializes the bot, loads configuration, loads all semantic capsules from `data/S.C`, loads all plugins from `plugins`, and connects to the Minecraft server.",
+      "plugins_directory": "The `plugins` folder contains modular JavaScript files that extend the bot's functionality. This is where all commands, event handlers, and complex behaviors are defined. See `plugins-overview.sc.json` for details.",
+      "data_directory": "The `data` folder is for all persistent data. It contains the `S.C` subdirectory for the AI's core knowledge base (semantic capsules) and the `chronoscribe` subdirectory for the immutable audit log. See `data-overview.sc.json` for details.",
+      "utils_directory": "The `utils` folder contains shared, reusable helper functions (e.g., for math, data structures) that are stateless and used by multiple parts of the application. See `utils-overview.sc.json` for details.",
+      "sc_overview_directory": "The `sc-overview` folder contains human-readable, agent-generated semantic capsules that describe the structure and purpose of other project directories. These are for documentation and developer reference, and are not loaded by the runtime.",
+      "doc_directory": "The `doc` folder contains all project documentation, including setup guides (`SETUP.md`), the project's philosophical intent (`INTENT.md`), and the strategic playbook (`PLAYBOOK.md`).",
+      "MinecraftServer_directory": "A self-contained, pre-configured Minecraft server for local development and testing. It is configured for `online-mode=false` to allow the bot to connect."
+    },
+    "runtime_guidance": {
+      "for_prompts": "Start with this capsule to get a high-level understanding of the project. From here, navigate to the more specific overview capsules for the relevant subdirectories (`plugins`, `data`, etc.).",
+      "for_drafting": "When adding a new file, use this capsule to decide which directory it belongs in based on its function (e.g., a new command goes in `plugins`, a new helper function goes in `utils`).",
+      "for_maintenance": "Keep the `architecture` section of this capsule updated if major new directories are added or the core structure of the project changes."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.99,
+    "note": "This is the root capsule for the entire project, synthesized from all other sub-capsules and documentation. It should be considered the most authoritative source for the overall project structure."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\readme-overview.sc.json",
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\cobblewright-plugin-overview-sc.json",
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\data-overview.sc.json",
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\utils-overview.sc.json",
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\file-tree-overview.sc.json",
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\roadmap-overview.sc.json"
+  ],
+  "signature": null,
+  "extensions": {}
+}

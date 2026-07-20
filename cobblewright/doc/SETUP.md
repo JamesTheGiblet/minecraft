@@ -82,6 +82,9 @@ Before you begin, ensure you have the following software installed:
     - Night ghost mode is controlled with `"GHOST_MODE_AT_NIGHT"` and is enabled by default.
     - To enable long-term memory, add `"POSTGRES_URL": "postgresql://postgres:postgres@localhost:5432/cobblewright"` (or set `DATABASE_URL` in your environment).
     - S.C semantic capsules are loaded automatically from `data/S.C/*.sc.json`.
+    - The canonical grounding capsules are `minecraft_gameplay_core.sc.json` and `leighton_weight_core.sc.json`.
+    - Plain `.json` knowledge files are only loaded when they are explicitly listed in `APPROVED_KNOWLEDGE_JSON` in `config.json`.
+    - Runtime/state JSON artifacts under `data/` (for example ChronoSCRIBE state files) are ignored unless you explicitly approve them.
     - For NPC persona styling, place a voice/persona capsule in `data/S.C` (for example, `persona-voice.sc.json`).
     - Legacy fallback is still supported at `cobblewright-npc/persona.sc.json`.
     - **IMPORTANT:** You must replace `YourUser` with your actual Windows username.

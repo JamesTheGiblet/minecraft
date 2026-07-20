@@ -33,17 +33,52 @@ async function loadConfig() {
  */
 async function loadKnowledgeBases() {
   const dataDir = path.join(__dirname, 'data');
-  await processDirectory(dataDir);
+  const defaultApprovedJsonFiles = new Set([
+    'biome_data.json',
+    'commands_data.json',
+    'entity_data.json',
+    'minecraft_history.json',
+    'redstone_circuits.json',
+    'structures.json',
+    'styles_data.json'
+  ]);
+
+  const configuredApproved = Array.isArray(CONFIG?.APPROVED_KNOWLEDGE_JSON)
+    ? CONFIG.APPROVED_KNOWLEDGE_JSON
+      .map((entry) => String(entry || '').trim().replace(/\\/g, '/'))
+      .filter(Boolean)
+    : [];
+
+  const approvedJsonFiles = new Set([
+    ...defaultApprovedJsonFiles,
+    ...configuredApproved
+  ]);
+
+  await processDirectory(dataDir, dataDir, approvedJsonFiles);
 }
 
-async function processDirectory(directory) {
+function shouldIngestKnowledgeFile(fullPath, dataDir, approvedJsonFiles) {
+  const normalizedPath = String(fullPath).replace(/\\/g, '/');
+  const fileName = path.basename(fullPath);
+
+  // Semantic capsules are first-class and always allowed.
+  if (normalizedPath.endsWith('.sc.json')) return true;
+
+  // Plain JSON requires explicit approval by filename or relative path.
+  if (!normalizedPath.endsWith('.json')) return false;
+
+  const relativePath = path.relative(dataDir, fullPath).replace(/\\/g, '/');
+  return approvedJsonFiles.has(fileName) || approvedJsonFiles.has(relativePath);
+}
+
+async function processDirectory(directory, dataDir, approvedJsonFiles) {
   try {
     const dirents = await fs.readdir(directory, { withFileTypes: true });
     for (const dirent of dirents) {
       const fullPath = path.join(directory, dirent.name);
       if (dirent.isDirectory()) {
-        await processDirectory(fullPath); // Recurse into subdirectories
-      } else if (dirent.isFile() && (dirent.name.endsWith('.json') || dirent.name.endsWith('.sc.json'))) {
+        await processDirectory(fullPath, dataDir, approvedJsonFiles); // Recurse into subdirectories
+      } else if (dirent.isFile() && shouldIngestKnowledgeFile(fullPath, dataDir, approvedJsonFiles)) {
         await loadAndCacheFile(fullPath);
       }
     }
@@ -155,6 +190,10 @@ async function main() {
   await loadKnowledgeBases();
 
   const mineflayer = require('mineflayer'); // Move require here to avoid circular dependency issues
+  const configuredFollowDistance = Number.parseInt(CONFIG?.FOLLOW_DISTANCE, 10);
+  const followDistance = Number.isInteger(configuredFollowDistance) && configuredFollowDistance >= 1
+    ? configuredFollowDistance
+    : 2;
 
   const host = CONFIG?.bot?.host || 'localhost';
   const port = CONFIG?.bot?.port || 25565;
@@ -186,6 +225,7 @@ async function main() {
     playerStates: new Map(),
     say,
     safeMovements: null,
+    nonDestructiveMovements: null,
     getArchitectAdvice: async () => {}, // Will be overridden by brain.js
     getInspiration: async () => {}, // Will be overridden by brain.js
     callOllama: async () => {}, // Will be overridden by brain.js
@@ -193,6 +233,8 @@ async function main() {
     pointsOfInterest: new Map(), // Stores named locations discovered by the bot.
     isBusy: false, // Global flag for long-running tasks like gather/blueprint
     isCancelled: false, // Flag to signal task cancellation
+    followTarget: null,
+    followNoDigActive: false,
     analyzeBuildArea: () => null, // Will be overridden by build-logic.js
     getActiveProject: async () => null, // Will be overridden by project-manager.js
     updateProjectFromAdvice: async () => {}, // Will be overridden by project-manager.js
@@ -202,6 +244,13 @@ async function main() {
     getInventorySummary: () => ({}), // Will be overridden by inventory-manager.js
     applySafeMovements: () => {
       if (sharedState.safeMovements) {
+        bot.pathfinder.setMovements(sharedState.safeMovements);
+      }
+    },
+    applyNonDestructiveMovements: () => {
+      if (sharedState.nonDestructiveMovements) {
+        bot.pathfinder.setMovements(sharedState.nonDestructiveMovements);
+      } else if (sharedState.safeMovements) {
         bot.pathfinder.setMovements(sharedState.safeMovements);
       }
     },
@@ -217,18 +266,91 @@ async function main() {
       if (sharedState.playerStates.has(username)) {
         sharedState.playerStates.get(username).lastActivityTime = Date.now();
       }
+    },
+    startFollowingPlayer: (username, options = {}) => {
+      const player = bot.players?.[username];
+      if (!player?.entity || !bot.pathfinder) return false;
+
+      sharedState.isCancelled = true;
+      sharedState.isBusy = false;
+      bot.stopDigging();
+      bot.clearControlStates();
+
+      if (typeof sharedState.applyNonDestructiveMovements === 'function') {
+        sharedState.applyNonDestructiveMovements();
+      } else {
+        sharedState.applySafeMovements();
+      }
+
+      const { GoalFollow } = require('mineflayer-pathfinder').goals;
+
+      // Follow mode must never break player builds while navigating indoors.
+      sharedState.followNoDigActive = true;
+      if (sharedState.safeMovements) sharedState.safeMovements.canDig = false;
+      if (sharedState.nonDestructiveMovements) sharedState.nonDestructiveMovements.canDig = false;
+
+      bot.pathfinder.setGoal(new GoalFollow(player.entity, followDistance), true);
+
+      sharedState.followTarget = username;
+      sharedState.botMode = 'assisting';
+
+      const message = typeof options.message === 'string' ? options.message.trim() : '';
+      if (message) {
+        sharedState.say(message);
+      }
+
+      setTimeout(() => {
+        sharedState.isCancelled = false;
+      }, 1000);
+
+      return true;
+    },
+    stopFollowingPlayer: () => {
+      sharedState.followTarget = null;
+      sharedState.followNoDigActive = false;
+
+      const canDigConfigured = sharedState?.CONFIG?.PATHFIND_CAN_DIG;
+      const canDig = typeof canDigConfigured === 'boolean' ? canDigConfigured : true;
+      if (sharedState.safeMovements) sharedState.safeMovements.canDig = canDig;
+      if (sharedState.nonDestructiveMovements) sharedState.nonDestructiveMovements.canDig = false;
+
+      if (bot.pathfinder && typeof bot.pathfinder.stop === 'function') {
+        bot.pathfinder.stop();
+      }
     }
   };
 
   // Pass the fully constructed sharedState to the plugin loader.
   loadPlugins(sharedState);
 
+  // --- KNOWLEDGE GATE ---
+  // After all plugins are loaded, run the knowledge verification check.
+  // This ensures the AI is properly grounded before it's allowed to operate.
+  if (typeof sharedState.runKnowledgeGate === 'function') {
+    const isVerified = await sharedState.runKnowledgeGate();
+    if (!isVerified) {
+      console.error('[Architect] Knowledge Gate verification failed. Halting application to prevent ungrounded operation.');
+      process.exit(1); // Exit with an error code.
+    }
+  } else {
+    console.warn('[Architect] WARNING: Knowledge Gate plugin not found. The AI\'s core knowledge has not been verified.');
+  }
+  // --- END KNOWLEDGE GATE ---
+
   bot.once('login', () => {
     const { Movements } = require('mineflayer-pathfinder');
     const mcData = require('minecraft-data')(bot.version);
+    const canDigConfigured = sharedState?.CONFIG?.PATHFIND_CAN_DIG;
+    const canDig = typeof canDigConfigured === 'boolean' ? canDigConfigured : true;
     sharedState.safeMovements = new Movements(bot, mcData);
-    sharedState.safeMovements.canDig = false;
+    sharedState.safeMovements.canDig = canDig;
     sharedState.safeMovements.canOpenDoors = true;
+
+    sharedState.nonDestructiveMovements = new Movements(bot, mcData);
+    sharedState.nonDestructiveMovements.canDig = false;
+    sharedState.nonDestructiveMovements.canOpenDoors = true;
+
+    console.log(`[Movement] Pathfinder canDig=${sharedState.safeMovements.canDig}, followCanDig=${sharedState.nonDestructiveMovements.canDig}, followDistance=${followDistance}.`);
 
     setTimeout(() => {
       if (CONFIG.USE_TTS) {

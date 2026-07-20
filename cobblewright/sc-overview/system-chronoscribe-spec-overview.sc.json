@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.system-chronoscribe-spec-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the technical specification for ChronoSCRIBE.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\systems\\chronoscribe-spec.md"
+  },
+  "intent": {
+    "primary_goal": "To provide the detailed technical specification for the ChronoSCRIBE audit ledger, including its data structures, cryptographic methods, and verification process."
+  },
+  "identity": {
+    "role": "The canonical technical specification for the project's provenance and audit system."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The ledger is an append-only NDJSON file.",
+      "Each record contains a header (ID, timestamp, eventType, prev_hash) and a signed payload.",
+      "Signatures use the Ed25519 algorithm.",
+      "The hash chain is constructed using SHA-256 on the canonical JSON representation of the previous record.",
+      "Verification involves re-calculating the hash chain and validating every signature from genesis to head."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Cryptography",
+      "Data structures",
+      "System architecture",
+      "Auditing"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\systems\\chronoscribe-spec.md",
+      "purpose": "To serve as the definitive technical reference for implementing, maintaining, and verifying the ChronoSCRIBE ledger."
+    },
+    "key_concepts": {
+      "ndjson": "The newline-delimited JSON format used for the append-only ledger file.",
+      "ed25519": "The digital signature algorithm used to ensure authenticity.",
+      "sha256": "The hashing algorithm used to create the tamper-evident chain.",
+      "canonical_json": "A strict, deterministic JSON serialization format required for consistent hashing."
+    }
+  },
+  "trust": {
+    "leighton_weight": 1.0,
+    "note": "This capsule is the authoritative technical specification for the ChronoSCRIBE system. It defines the core of the project's trust model."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\systems\\chronoscribe-spec.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

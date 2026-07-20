@@ -1,0 +1,72 @@
+{
+  "id": "COBBLEWRIGHT.v1.minecraftserver-overview.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "project_infrastructure",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the local Minecraft development server.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\MinecraftServer"
+  },
+  "intent": {
+    "primary_goal": "Describe the `MinecraftServer` directory, its role as a pre-configured local testing environment, and its key configuration details so that developers and AI agents understand how the bot's runtime environment is set up."
+  },
+  "identity": {
+    "role": "An overview capsule for the local development and testing Minecraft server."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "This directory provides a self-contained, ready-to-run Minecraft server for local development.",
+      "The server MUST be configured with `online-mode=false` in `server.properties` to allow the bot to connect without authentication.",
+      "The server is launched using the `start.bat` script.",
+      "For the bot to use commands like `/gamemode`, it must be granted operator status via the server console (`op CobbleWright`)."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Minecraft server configuration (`server.properties`)",
+      "Server startup and lifecycle (`start.bat`)",
+      "Local development environment setup",
+      "Player and bot operator permissions (`/op`)",
+      "Server performance tuning"
+    ],
+    "never_do": [
+      "Use this server configuration for a public-facing production environment.",
+      "Change `online-mode` to `true` during local development.",
+      "Store critical or persistent world saves here without backups, as it is primarily a testing environment."
+    ]
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\MinecraftServer",
+      "purpose": "To provide a consistent, pre-configured Minecraft Java Edition server environment for developing and testing the CobbleWright bot locally.",
+      "document_types": [
+        "Server executable (`server.jar`)",
+        "Server configuration (`server.properties`, `eula.txt`)",
+        "Startup script (`start.bat`)",
+        "World data and player logs."
+      ]
+    },
+    "architecture": {
+      "startup_process": "The server is launched by running the `start.bat` script, which executes the `server.jar` file with specific Java arguments.",
+      "key_configuration": "The most critical setting is `online-mode=false` in `server.properties`, which is required for the bot to join the game.",
+      "operator_status": "To enable features like night ghost mode or `/fill` commands, both the player and the bot need operator permissions, granted via the `op <username>` command in the server console.",
+      "performance_tuning": "The `SETUP.md` document contains recommended Java flags for the `start.bat` script and `server.properties` adjustments (e.g., `view-distance`) to improve performance on development machines."
+    },
+    "runtime_guidance": {
+      "for_prompts": "Use this capsule to understand the context of the bot's testing environment, especially when generating setup instructions or debugging connection issues.",
+      "for_drafting": "When creating or modifying setup documentation, refer to the key configuration points in this capsule to ensure accuracy.",
+      "for_maintenance": "If the server version is updated or `start.bat` changes, this capsule should be updated to reflect the new environment."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "This capsule is authoritative for understanding the local development server setup, as it is synthesized directly from the project's setup and architecture documentation."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\README.md",
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\ROADMAP.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

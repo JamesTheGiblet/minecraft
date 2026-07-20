@@ -1,0 +1,54 @@
+{
+  "id": "COBBLEWRIGHT.v1.universe-wright-universe-expansion-framework-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_lore",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the Wright Universe Expansion Framework.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\wright-universe-expansion-framework.md"
+  },
+  "intent": {
+    "primary_goal": "To define the structural, procedural, and cosmological rules for creating and governing future realms in The Wright Universe, ensuring coherent expansion."
+  },
+  "identity": {
+    "role": "The canonical framework that governs how the Wright Universe grows."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "New realms are created through one of three modes: Narrative, Functional, or Frontier Expansion.",
+      "All realm creation follows a five-phase protocol: Catalyst Identification, Capsule Alignment, Quiet Layer Activation, Agent Instantiation, and Realm Stabilization.",
+      "Realm connectivity is governed by rules for Memory Partitioning, Provenance Continuity, Capsule Versioning, and Realm Bridges.",
+      "All expansions must adhere to strict safety rules, including Prime oversight and Chronos audit."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Cosmology",
+      "World-building",
+      "Governance protocols",
+      "Procedural generation"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\wright-universe-expansion-framework.md",
+      "purpose": "To define how the Wright Universe grows across future realms, ensuring intentional and safe expansion."
+    },
+    "key_concepts": {
+      "expansion_modes": "The three triggers for realm creation: Narrative (lore-driven), Functional (role-driven), and Frontier (exploration-driven).",
+      "realm_creation_protocol": "The five-phase process for safely instantiating a new realm.",
+      "realm_connectivity_rules": "The four rules (Memory, Provenance, Capsules, Bridges) that govern how realms interact.",
+      "expansion_safety_rules": "The non-negotiable safeguards that must be followed for any expansion."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of the universe's expansion mechanics. It is the rulebook for growth."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\wright-universe-expansion-framework.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

@@ -1,0 +1,55 @@
+{
+  "id": "COBBLEWRIGHT.v1.universe-governance-model-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_protocol",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the governance model for the Wright Universe.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\governance-model.md"
+  },
+  "intent": {
+    "primary_goal": "To define the principles and processes for making high-level decisions about the Wright Universe, including changes to core cosmology, protocols, and the introduction of new realms or agents."
+  },
+  "identity": {
+    "role": "The constitution and governing framework for the entire Wright Universe project."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "The governance model is a benevolent dictatorship, with the project founder as the final arbiter.",
+      "Changes to Core Canon require a formal proposal and review process.",
+      "The Leighton-Weighted Consensus protocol is used for agent-level decisions, but human governance overrides it for project-level changes.",
+      "All governance decisions must be logged in the primary ChronoSCRIBE ledger.",
+      "The ultimate goal of governance is to preserve the core intent and long-term vision of the project."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Governance",
+      "Project management",
+      "Decision theory",
+      "Open source software"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\governance-model.md",
+      "purpose": "To ensure that the project evolves in a stable, coherent, and intentional manner."
+    },
+    "key_concepts": {
+      "benevolent_dictatorship": "A governance model where a single leader has final authority, guided by community input.",
+      "core_canon_change_process": "The formal procedure for modifying foundational lore or protocol documents.",
+      "human_override": "The principle that human project leadership can override any automated or agent-driven decision.",
+      "provenance_of_governance": "The requirement that all major project decisions are permanently and immutably recorded."
+    }
+  },
+  "trust": {
+    "leighton_weight": 1.0,
+    "note": "This capsule is the authoritative summary of the project's governance model. It defines how ultimate decisions are made."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\universe\\governance-model.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

@@ -1,0 +1,117 @@
+{
+  "id": "COBBLEWRIGHT.v1.cobblewright_docs_overview.2026-07-16.JM",
+  "scp_version": "1.2.0",
+  "created_at": "2026-07-16T00:00:00Z",
+  "modified_at": "2026-07-16T00:00:00Z",
+  "provenance": {
+    "author": "James / Giblets Forge Ltd",
+    "agent": "GitHub Copilot",
+    "context": "Single semantic capsule for the CobbleWright documentation folder. This capsule condenses the technical, operational, and philosophical guidance stored across doc/ into one grounding reference for the runtime and drafting prompts.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc",
+    "lineage": []
+  },
+  "intent": {
+    "primary": "Provide one self-contained semantic capsule for the entire CobbleWright doc/ folder so the runtime can reason about setup, architecture, commands, strategy, vision, and contributor guidance without loading multiple markdown files separately.",
+    "problem_solved": "The documentation folder spans setup, intent, architecture, commands, roadmap, strategy, vision, changelog, and operational notes. A single capsule makes that guidance easier to ground in prompts and easier to keep consistent across features."
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc",
+      "purpose": "Human-facing and agent-facing documentation for CobbleWright",
+      "document_types": [
+        "developer guidance",
+        "setup instructions",
+        "project intent and philosophy",
+        "playbook and strategy",
+        "command reference",
+        "roadmap and vision",
+        "changelog and build notes",
+        "ChronoSCRIBE provenance guidance"
+      ]
+    },
+    "documentation_themes": {
+      "local_first": "CobbleWright is designed around local AI, local hosting, and user control. The docs consistently treat Ollama and the Minecraft runtime as the core environment.",
+      "plugin_driven_architecture": "The core runtime should stay lean. New behavior belongs in plugins when possible, not in a growing monolith.",
+      "companion_persona": "The bot should feel like a warm, witty, encouraging architectural consultant, not a stiff automation script.",
+      "safety_and_graceful_failure": "Features should fail softly, preserve the world, and avoid destructive side effects when permissions or context are missing.",
+      "documentation_as_empathy": "Docs are written for contributors and future maintainers, so clarity and operational detail matter.",
+      "provenance_and_traceability": "ChronoSCRIBE and other audit/provenance patterns are part of the project’s operational memory and should be documented as such."
+    },
+    "operational_guidance": {
+      "setup_summary": "Install Minecraft Java, Node.js, Ollama, pull the configured models, then run CobbleWright in the Minecraft world.",
+      "runtime_summary": "The bot loads knowledge capsules from data/S.C, uses shared state for plugins, and relies on Ollama-backed prompts for reasoning and drafting.",
+      "config_summary": "Behavior is controlled by config.json and the approved knowledge allowlist. Safety flags, vision paths, memory settings, follow behavior, HUD behavior, and patrol policies belong in config.",
+      "command_summary": "Commands are registered by plugins through sharedState.registerCommand and routed through the master command handler.",
+      "learning_summary": "Long-term memory, critique loops, and learning profiles are intended to improve the bot over time without losing the core persona."
+    },
+    "architecture_notes": {
+      "entry_point": "architect.js loads config, capsules, shared state, and plugins.",
+      "knowledge_policy": "Runtime should prefer .sc.json capsules and explicitly approved JSON knowledge, while ignoring runtime/state artifacts by default.",
+      "awareness_context": "Prompt construction should blend world state, inventory, active project data, capsule knowledge, memory, and voice register guidance.",
+      "voice_policy": "Output should shift registers by task type: fast_chat for direct companionship, technical_docs for structured planning and build logic, brand_public for external-facing prose, and brand_manifesto for vision-level writing."
+    },
+    "doc_index": [
+      {
+        "file": "README.md",
+        "role": "Top-level project overview and quick entry point"
+      },
+      {
+        "file": "doc/DEVELOPER_GUIDE.md",
+        "role": "Implementation and contributor guidance"
+      },
+      {
+        "file": "doc/SETUP.md",
+        "role": "Installation and startup instructions"
+      },
+      {
+        "file": "doc/INTENT.md",
+        "role": "Project philosophy and companion persona"
+      },
+      {
+        "file": "doc/PLAYBOOK.md",
+        "role": "Operational and behavior playbook"
+      },
+      {
+        "file": "doc/COMMANDS.md",
+        "role": "Chat command reference"
+      },
+      {
+        "file": "doc/ROADMAP.md",
+        "role": "Planned features and sequencing"
+      },
+      {
+        "file": "doc/STRATEGY.md",
+        "role": "Product and technical strategy"
+      },
+      {
+        "file": "doc/VISION.md",
+        "role": "Long-range project direction"
+      },
+      {
+        "file": "doc/changelog.md",
+        "role": "Historical release notes and narrative build timelines"
+      },
+      {
+        "file": "doc/CHRONOSCRIBE.md",
+        "role": "Audit/provenance ledger guidance"
+      },
+      {
+        "file": "doc/BUILD_IN_PUBLIC_3_DAY.md",
+        "role": "Public build narrative and short-form progress framing"
+      }
+    ],
+    "consumer_guidance": {
+      "for_prompts": "Use this capsule to answer questions about how CobbleWright should behave, how to set it up, how to extend it, and what principles should guide output.",
+      "for_drafting": "Prefer concise, practical, and human-sounding language grounded in the project philosophy. Use technical specificity when the task is setup, architecture, commands, or debugging.",
+      "for_maintenance": "When docs or runtime behavior change, update the relevant markdown file and keep this capsule aligned with the new behavior."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.96,
+    "note": "High-confidence documentation summary derived from the repository's own markdown guidance. Treat as authoritative for CobbleWright project behavior unless a more specific doc file overrides it."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

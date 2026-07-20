@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "architect.js",
-  "bin": "architect.js",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node architect.js",
-    "build": "pkg . --targets node18-win-x64 --output cobblewright.exe"
+    "build": "pkg . --targets node18-win-x64 --output cobblewright.exe",
+    "changelog": "node scripts/add-changelog.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "inquirer": "^8.2.4",
     "chokidar": "^3.6.0",
     "mineflayer": "4.37.1",
     "mineflayer-pathfinder": "^2.4.5",
@@ -24,6 +29,7 @@
     "vec3": "^0.1.8"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "pkg": "^5.8.1"
   },
   "pkg": {

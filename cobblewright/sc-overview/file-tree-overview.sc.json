@@ -1,0 +1,90 @@
+{
+  "id": "COBBLEWRIGHT.v1.file-tree-overview.2026-07-17.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "project_structure",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule that maps the hierarchical file tree of the CobbleWright project.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright"
+  },
+  "intent": {
+    "primary_goal": "Provide a structured, hierarchical representation of the CobbleWright project's file and directory layout, so that agents and developers have a quick-reference map of the entire codebase."
+  },
+  "identity": {
+    "role": "A structural map of the CobbleWright project."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "This capsule represents the physical layout of files and folders.",
+      "It should be used for understanding 'where' things are located.",
+      "For understanding the 'why' or 'purpose' of a directory, refer to the specific overview capsule for that directory (e.g., `plugins-overview.sc.json`).",
+      "This file should be updated when major files or directories are added, moved, or removed."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "File and directory structure",
+      "Codebase organization",
+      "Location of key files and entry points"
+    ],
+    "never_do": [
+      "Include temporary files, build artifacts, or user-specific data.",
+      "Duplicate the detailed purpose descriptions found in other overview capsules."
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright",
+      "purpose": "To provide a JSON-based representation of the project's file tree."
+    },
+    "file_tree": {
+      "cobblewright/": {
+        "description": "Project Root",
+        "files": [
+          "architect.js (Main application entry point)",
+          "config.json (Core configuration)",
+          "package.json (Node.js dependencies)",
+          "README.md (Project summary)"
+        ],
+        "directories": {
+          "data/": {
+            "description": "Persistent knowledge and runtime data.",
+            "directories": {
+              "S.C/": "Runtime-loaded semantic capsules.",
+              "chronoscribe/": "Append-only audit logs."
+            }
+          },
+          "doc/": {
+            "description": "Human-readable documentation.",
+            "files": [
+              "INTENT.md",
+              "ROADMAP.md",
+              "SETUP.md",
+              "DEVELOPER_GUIDE.md",
+              "..."
+            ]
+          },
+          "MinecraftServer/": "Self-contained local Minecraft server for testing.",
+          "plugins/": "Modular features, commands, and behaviors.",
+          "sc-overview/": "Agent-generated overview capsules for documentation.",
+          "utils/": "Shared, low-level helper functions."
+        }
+      }
+    },
+    "runtime_guidance": {
+      "for_prompts": "Use this capsule to quickly locate files or understand the nesting of directories within the project.",
+      "for_drafting": "When generating file paths or describing where a file should be created, use this structure as a reference.",
+      "for_maintenance": "Update the `file_tree` object to reflect significant changes to the project's structure."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "This capsule provides a structural map of the project. It is authoritative for file locations but relies on other capsules for purpose and intent."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\sc-overview\\project-overview.sc.json"
+  ],
+  "signature": null,
+  "extensions": {}
+}

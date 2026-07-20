@@ -99,6 +99,7 @@ module.exports = (bot, sharedState) => {
       ? await sharedState.buildAwarenessPromptContext({
         username,
         purpose: `generate a safe and practical blueprint for ${structureName}`,
+        voiceMode: 'technical_docs',
         includeProject: true,
         includeMemories: true,
         includeTerrain: true

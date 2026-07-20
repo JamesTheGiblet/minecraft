@@ -4,26 +4,64 @@
  */
 
 module.exports = (bot, sharedState) => {
-  const givenMaps = new Set(); // Keep track of players who have received a map
+  const givenStarterKits = new Set(); // Keep track of players who have received a starter kit
+  const starterKitCommandDelayMs = 350;
+  const configuredStarterKit = Array.isArray(sharedState?.CONFIG?.STARTER_KIT)
+    ? sharedState.CONFIG.STARTER_KIT
+    : [{ item: 'map', count: 1 }];
+
+  const starterKitEntries = configuredStarterKit
+    .map((entry) => {
+      if (!entry) return null;
+
+      if (typeof entry === 'string') {
+        const item = entry.trim();
+        if (!item) return null;
+        return { item, count: 1 };
+      }
+
+      if (typeof entry !== 'object') return null;
+
+      const item = String(entry.item || '').trim();
+      if (!item) return null;
+
+      const parsedCount = Number.parseInt(entry.count, 10);
+      const count = Number.isInteger(parsedCount) && parsedCount > 0 ? parsedCount : 1;
+      return { item, count };
+    })
+    .filter(Boolean);
 
   /**
    * Gives a player a map when they join for the first time.
    * @param {import('mineflayer').Player} player - The player who joined.
    */
   function giveStarterMap(player) {
-    if (!player || !player.username || givenMaps.has(player.username)) {
+    if (!player || !player.username || player.username === bot.username || givenStarterKits.has(player.username)) {
       return;
     }
 
     // The bot needs operator permissions to use /give.
     // The setup guide already recommends this for other features.
-    console.log(`[WorldHelper] Giving starter map to new player: ${player.username}`);
-    bot.chat(`/give ${player.username} map 1`);
-    givenMaps.add(player.username);
+    console.log(`[WorldHelper] Giving starter kit to new player: ${player.username}`);
+
+    if (starterKitEntries.length > 0) {
+      for (const [index, entry] of starterKitEntries.entries()) {
+        setTimeout(() => {
+          bot.chat(`/give ${player.username} ${entry.item} ${entry.count}`);
+        }, index * starterKitCommandDelayMs);
+      }
+    }
+
+    givenStarterKits.add(player.username);
 
     // Let the player know about the new location commands.
     setTimeout(() => {
-      sharedState.say(`Welcome, ${player.username}! I've given you a map to get started. You can also ask me "whereami" or "whereareyou" to get coordinates.`);
+      if (starterKitEntries.length > 0) {
+        const summary = starterKitEntries.map((entry) => `${entry.count}x ${entry.item}`).join(', ');
+        sharedState.say(`Welcome, ${player.username}! I've given you your starter kit (${summary}). You can also ask me "whereami" or "whereareyou" to get coordinates.`);
+      } else {
+        sharedState.say(`Welcome, ${player.username}! Your starter kit is currently empty. You can also ask me "whereami" or "whereareyou" to get coordinates.`);
+      }
     }, 2000);
   }
 
@@ -56,11 +94,11 @@ module.exports = (bot, sharedState) => {
   if (sharedState.registerCommand) {
     sharedState.registerCommand('whereami', (username, args) => {
       reportPlayerLocation(username);
-    }, 'whereami', 'Tells you your current coordinates.');
+    });
 
     sharedState.registerCommand('whereareyou', (username, args) => {
       reportBotLocation();
-    }, 'whereareyou', 'Tells you my current coordinates.');
+    });
   }
 
   // On startup, also listen for players who are already online

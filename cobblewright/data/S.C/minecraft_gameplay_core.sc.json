@@ -1,0 +1,146 @@
+{
+  "id": "COBBLEWRIGHT.v1.minecraft_gameplay_core.2026-07-16.JM",
+  "scp_version": "1.2.0",
+  "created_at": "2026-07-16T00:00:00Z",
+  "modified_at": "2026-07-16T00:00:00Z",
+  "provenance": {
+    "author": "James / Giblets Forge Ltd",
+    "agent": "Claude Sonnet 5",
+    "context": "Core gameplay knowledge capsule for CobbleWright - captures full Minecraft gameplay loop so an AI companion bot can reason about aims, survival, building, mob threat, and time cycles.",
+    "capture_mode": "agent_generated",
+    "source_ref": null,
+    "lineage": []
+  },
+  "intent": {
+    "primary": "Give CobbleWright (or any consuming agent) a self-contained, structured model of what Minecraft is, how it's played, and how to survive and progress in it - usable as grounding knowledge without needing external lookups.",
+    "problem_solved": "CobbleWright needs a single reference capsule to reason about player state, threat level, time of day, and build/survive priorities instead of scattered or partial game knowledge."
+  },
+  "content": {
+    "game_summary": {
+      "genre": "Open-world sandbox survival / creative building game",
+      "core_aim": "There is no single mandated win condition. The implicit long-arc goal is: survive, gather resources, build shelter and infrastructure, progress through tool/armor tiers, explore dimensions, and optionally defeat the Ender Dragon (The End) and Wither as the game's two major boss end-game milestones. Most play is open-ended - survival, building, and exploration are goals in themselves.",
+      "modes": {
+        "survival": "Health, hunger, resource-gathering, and mob threat are all active. This is the real gameplay loop.",
+        "creative": "Unlimited resources, flight, no damage/hunger. Pure building/design mode, not survival.",
+        "hardcore": "Survival rules, but death is permanent (world locks).",
+        "adventure": "Restricted block interaction, used for custom maps."
+      }
+    },
+    "day_night_cycle": {
+      "full_cycle_length": "20 real-world minutes = 1 in-game day",
+      "breakdown": {
+        "day": "~10 minutes - safer period, hostile mobs mostly don't spawn in lit areas, best time to gather resources, farm, explore",
+        "dusk": "Sky reddens, a warning phase - get to shelter, light up your base",
+        "night": "~7 minutes - hostile mobs spawn freely in darkness; most dangerous period unless area is well-lit and enclosed",
+        "dawn": "Sky lightens, hostile mobs (except some, e.g. drowned, phantoms) start burning in sunlight or despawning"
+      },
+      "practical_rule": "Light level matters more than clock time - hostile mobs spawn on any block with light level 0 (in older/vanilla logic, <=7 in some versions) regardless of day or night, so a dark cave at noon is just as dangerous as an unlit surface at midnight. Torches, lanterns, and glowstone are the core defense against spawns, not walls alone."
+    },
+    "survival_priorities": {
+      "core_stats": {
+        "health": "10 hearts (20 HP) by default. Regenerates slowly if hunger is high enough; damaged by mobs, falls, fire, drowning, lava, starvation.",
+        "hunger": "20 points (10 drumstick icons). Depletes via movement/actions. At 0, starts draining health on higher difficulties. Must eat food to refill.",
+        "armor": "Reduces incoming damage. Tiered: leather < gold < chainmail < iron < diamond < netherite."
+      },
+      "first_hour_checklist": [
+        "Punch trees for wood - first and most urgent resource",
+        "Craft a crafting table, wooden tools (pickaxe first - unlocks stone tier)",
+        "Mine stone with wooden pickaxe, upgrade tools to stone",
+        "Find/kill food source early (animals, or gather food from grass/berries)",
+        "Build or find basic shelter before first nightfall - even a dirt hole with a placed block over the entrance works",
+        "Get a furnace + basic light source (torches need coal or charcoal + stick)",
+        "Progress toward iron: iron ore needs a stone pickaxe to mine, then smelt in furnace"
+      ],
+      "tool_tiers_ascending": [
+        "wood",
+        "stone",
+        "iron",
+        "diamond",
+        "netherite"
+      ],
+      "key_early_goal": "Reach iron tier ASAP - iron unlocks armor, better weapons, and (critically) a shield and access to enchanting-adjacent progression."
+    },
+    "building": {
+      "why_build": "Shelter is the #1 survival requirement (blocks mob spawns/attacks), but building is also a core creative pillar of the game independent of survival need.",
+      "basic_shelter_rules": [
+        "Fully enclose the space - no gaps >=1 block for mobs to walk/spawn in",
+        "Light the interior to spawn-proof it (torches every ~7 blocks or so)",
+        "A door or trapdoor for entry keeps most mobs out (zombies can break wooden doors on higher difficulties in some versions - solid block entrances are safer)",
+        "Dig into a hillside or go underground for the fastest safe first shelter"
+      ],
+      "progression_builds": [
+        "Basic dirt/wood shelter (day 1)",
+        "Fenced farm + animal pen for renewable food",
+        "Proper base with storage (chests), furnace bank, bed",
+        "Mine entrance/staircase down to resource-rich layers",
+        "Nether portal (obsidian frame + flint & steel) for Nether access",
+        "End portal (found in strongholds, needs Eyes of Ender) for The End"
+      ],
+      "materials_note": "Almost any solid block can be used to build; stone/cobblestone is the reliable early structural material since it's abundant and not flammable (unlike wood, which creepers/lava can ignite)."
+    },
+    "resource_gathering": {
+      "core_loop": "Chop wood -> mine stone -> mine coal/iron -> smelt -> mine deeper for diamonds/redstone/gold -> (optional) Nether for blaze rods/netherite -> (optional) End for elytra/dragon egg.",
+      "key_ores": {
+        "coal": "Fuel + torches, found near surface",
+        "iron": "Tools/armor tier 3, needs stone pickaxe, needs smelting",
+        "gold": "Weakest tool tier but useful for specific items (powered rails, some enchant/trade uses), needs iron pickaxe",
+        "redstone": "Powers mechanisms/circuits, needs iron pickaxe",
+        "diamond": "Tool tier 4, needs iron pickaxe, found deep",
+        "netherite": "Best tier, found only in the Nether, upgrades diamond gear via smithing table"
+      },
+      "food_sources": "Farming (wheat/carrots/potatoes/etc.), animal husbandry (cows, pigs, chickens, sheep), fishing, foraging (berries, apples)."
+    },
+    "hostile_mobs_baddies": {
+      "zombie": "Common night spawn, melee attacker, burns in sunlight (unless in shade/water), moderate threat alone, dangerous in groups/hordes.",
+      "skeleton": "Ranged bow attacker, burns in sunlight, dangerous at range especially near ledges (can knock player off).",
+      "creeper": "Silent approach, explodes near player - no ranged warning besides a hiss sound, primary threat to builds since it destroys terrain/structures. Does NOT burn in sunlight, so it's a threat day or night.",
+      "spider": "Can climb walls, neutral in daylight (only attacks if provoked) but hostile at night regardless of provocation.",
+      "enderman": "Tall, teleporting, neutral unless you look directly at it or attack it - then very dangerous. Picks up/places blocks. Avoid eye contact to stay safe.",
+      "witch": "Throws harmful potions (poison, weakness) and drinks healing/buff potions on itself. Found in swamp huts.",
+      "drowned": "Underwater zombie variant, can carry a trident, dangerous in/near water.",
+      "phantom": "Flying mob that spawns if the player hasn't slept in several in-game days - direct mechanical punishment for avoiding sleep.",
+      "slime": "Splits into smaller slimes when killed, found in swamps/specific underground conditions, low individual threat.",
+      "guardian_elder_guardian": "Ocean monument dwellers, ranged laser attack, elder guardians inflict mining fatigue - gatekeepers to ocean monument loot.",
+      "blaze": "Nether mob, ranged fireballs, drops blaze rods (required for brewing stands and to make Eyes of Ender for The End).",
+      "wither_skeleton": "Nether fortress mob, melee, causes Wither status effect on hit.",
+      "piglin": "Nether mob, neutral if player wears gold armor, hostile otherwise, can be bartered with using gold ingots.",
+      "boss_wither": "Player-summoned boss (soul sand/soul soil + 3 wither skulls), highly dangerous area-damage fight, mid/late-game challenge, drops the Nether Star.",
+      "boss_ender_dragon": "Found in The End, the game's traditional final boss - defeating it triggers the end-game credits sequence, considered the closest thing Minecraft has to a canonical win condition."
+    },
+    "passive_neutral_mobs_goodies": {
+      "cow": "Passive, provides leather and beef, milk from bucket",
+      "pig": "Passive, provides porkchop, can be ridden with saddle + carrot on a stick",
+      "sheep": "Passive, provides wool (shearable, renewable) and mutton",
+      "chicken": "Passive, provides feathers, eggs, chicken meat",
+      "horse_donkey": "Tameable rideable mounts, horses can be bred/equipped with armor",
+      "wolf": "Neutral, tameable into a loyal fighting companion dog with bones",
+      "cat": "Neutral, tameable with fish, repels phantoms and creepers when nearby",
+      "villager": "Neutral, lives in villages, trades goods/emeralds for items, has professions (farmer, librarian, blacksmith etc.) tied to workstation blocks",
+      "iron_golem": "Neutral, defends villages against hostile mobs, very strong melee",
+      "allay": "Passive helper mob, collects matching items and can be used with jukeboxes for note block farms",
+      "bee": "Neutral, provides honey, pollinates crops, stings if provoked/hive disturbed"
+    },
+    "dimensions": {
+      "overworld": "Default starting dimension, day/night cycle, most biomes and resources",
+      "nether": "Reached via obsidian portal, hostile fire/lava dimension, source of blaze rods, netherite, and a faster travel shortcut (1 Nether block ~= 8 Overworld blocks)",
+      "the_end": "Reached via End portal (found in strongholds using Eyes of Ender to locate), home of the Ender Dragon boss and, after defeat, End cities with elytra (flight item) loot"
+    },
+    "progression_summary": [
+      "1. Punch wood, craft basic tools",
+      "2. Stone tools, basic shelter, survive first night",
+      "3. Iron tools/armor, stable base, farming",
+      "4. Diamond tools/armor, enchanting, mine deep",
+      "5. Nether access - blaze rods, netherite upgrade, Wither fight (optional)",
+      "6. Eyes of Ender -> locate stronghold -> End portal",
+      "7. Defeat Ender Dragon -> access The End cities -> elytra",
+      "8. Open-ended post-game: mega-builds, redstone engineering, full survival mastery, or just continued exploration/creativity"
+    ]
+  },
+  "trust": {
+    "leighton_weight": 1.0,
+    "note": "Static reference knowledge, not time-decaying - general game mechanics don't go stale the way project-state facts do. Re-verify against current game version if used for a specific up-to-date Minecraft release, as mob behaviour/mechanics have changed across major updates."
+  },
+  "links": [],
+  "signature": null,
+  "extensions": {}
+}

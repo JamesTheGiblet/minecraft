@@ -1,0 +1,109 @@
+{
+  "id": "COBBLEWRIGHT.v1.test-execution-policy.2026-07-19.COPILOT",
+  "sc_version": "1.2-complete",
+  "capsule_type": "testing_policy",
+  "provenance": {
+    "author": "GitHub Copilot",
+    "context": "Strict machine-readable testing policy for CI execution, pass/fail gates, and merge readiness.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\tests"
+  },
+  "intent": {
+    "primary_goal": "Define hard test execution policy and CI quality gates for CobbleWright.",
+    "problem_solved": "Without explicit policy, contributors can interpret failures inconsistently and merge with unclear quality gates."
+  },
+  "identity": {
+    "role": "A strict test execution and CI gate contract capsule."
+  },
+  "policy": {
+    "scope": {
+      "applies_to": [
+        "local validation before merge",
+        "pull request CI runs",
+        "main branch protection checks"
+      ],
+      "test_framework": "Jest",
+      "working_directory": "cobblewright"
+    },
+    "commands": {
+      "full_suite": "npm test",
+      "open_handles": "npm test -- --detectOpenHandles",
+      "single_file": "npx jest <path>",
+      "single_test_name": "npx jest -t <name>"
+    },
+    "required_gates": {
+      "gate_1_full_suite_pass": {
+        "required": true,
+        "rule": "All test suites must pass with exit code 0.",
+        "pass_condition": "Test Suites: X passed, 0 failed",
+        "fail_condition": "Any failed suite or non-zero exit code"
+      },
+      "gate_2_open_handles_clean": {
+        "required": true,
+        "rule": "Open handle diagnostics must not report unexpected leaks.",
+        "pass_condition": "No unresolved handles after npm test -- --detectOpenHandles",
+        "fail_condition": "Jest reports Timeout/handle leaks not explicitly allowlisted"
+      },
+      "gate_3_no_skipped_or_only": {
+        "required": true,
+        "rule": "Do not merge with focused tests or skipped critical coverage.",
+        "pass_condition": "No .only usage and no newly introduced critical skips",
+        "fail_condition": "Any .only usage or unexplained skip in touched areas"
+      },
+      "gate_4_regression_protection": {
+        "required": true,
+        "rule": "Changed behavior must include updated or added tests.",
+        "pass_condition": "Code changes in behavior modules are paired with test changes when needed",
+        "fail_condition": "Behavior changed without corresponding coverage updates"
+      }
+    },
+    "severity_and_blocking": {
+      "block_merge_on": [
+        "failed test suite",
+        "non-zero test command exit code",
+        "unexpected open-handle leak",
+        "detected .only in repository"
+      ],
+      "warn_only_on": [
+        "expected console.error output validated by assertions",
+        "normal repeated RUNS lines during Jest worker execution"
+      ]
+    },
+    "minimum_reporting": {
+      "required_fields": [
+        "total_test_suites",
+        "total_tests",
+        "exit_code",
+        "whether_open_handle_check_was_run",
+        "whether_open_handle_check_passed"
+      ],
+      "example": {
+        "total_test_suites": 8,
+        "total_tests": 112,
+        "exit_code": 0,
+        "open_handle_check_run": true,
+        "open_handle_check_passed": true
+      }
+    },
+    "change_management": {
+      "when_tests_added": [
+        "update doc/TEST_SUITE.md baseline counts",
+        "verify this policy still reflects active gates"
+      ],
+      "when_policy_changes": [
+        "update this capsule id timestamp and modified fields",
+        "record rationale in project changelog"
+      ]
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.96,
+    "note": "Authoritative CI policy capsule for test execution and merge gating."
+  },
+  "links": [
+    "sc-overview/test-suite-overview.sc.json",
+    "doc/TEST_SUITE.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}

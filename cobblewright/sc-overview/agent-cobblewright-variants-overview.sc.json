@@ -1,0 +1,56 @@
+{
+  "id": "COBBLEWRIGHT.v1.agent-cobblewright-variants-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "documentation_agent",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule describing the CobbleWright agent variants.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\cobblewright-variants.md"
+  },
+  "intent": {
+    "primary_goal": "To describe the four primary CobbleWright variants (Terra, Forge, Vision, Chronos), their specialized roles, and the structure of their unique capsule sets."
+  },
+  "identity": {
+    "role": "The specification for the specialized architectural agents that form the CobbleWright Collective."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Variants are architectural specializations, not distinct personalities.",
+      "Each variant inherits baseline behavior from Prime and layers its own capsule set on top.",
+      "Terra is the land architect, specializing in terrain shaping and biome intelligence.",
+      "Forge is the industrial architect, specializing in resource pipelines and automation.",
+      "Vision is the creative analyst, specializing in structural critique and aesthetic improvement.",
+      "Chronos is the historian and planner, specializing in provenance and long-range planning."
+    ]
+  },
+  "knowledge_focus": {
+    "domains": [
+      "Multi-agent systems",
+      "Role specialization",
+      "Capsule-based governance",
+      "Architectural roles"
+    ]
+  },
+  "content": {
+    "file_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\cobblewright-variants.md",
+      "purpose": "To define the capsule sets and behavioral identities of Terra, Forge, Vision, and Chronos."
+    },
+    "key_concepts": {
+      "terra": "The Shaper of Land, focused on terrain and biome integration.",
+      "forge": "The Builder of Systems, focused on resources and automation.",
+      "vision": "The Critic & Analyst, focused on aesthetics and structural integrity.",
+      "chronos": "The Keeper of Time, focused on audit, provenance, and history."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.98,
+    "note": "This capsule is the authoritative summary of the specialized agent roles within the CobbleWright Collective."
+  },
+  "links": [
+    "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\doc\\agents\\cobblewright-variants.md"
+  ],
+  "signature": null,
+  "extensions": {}
+}
