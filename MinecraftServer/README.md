@@ -1,6 +1,6 @@
-# CobbleWright Development Server
+# Wrightrealm Development Server
 
-This directory contains the dedicated Minecraft server environment for developing and testing the CobbleWright AI companion.
+This directory contains the dedicated Minecraft server environment for developing and testing The Architectum in the world of Wrightrealm.
 
 ## Configuration
 

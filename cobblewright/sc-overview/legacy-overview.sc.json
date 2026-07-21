@@ -1,0 +1,77 @@
+{
+  "sc_version": "1.2-complete",
+  "capsule_type": "legacy_code_index",
+  "intent": {
+    "primary_goal": "To document and provide provenance for plugins and code that have been superseded by new architectural patterns, ensuring a clear historical record is maintained."
+  },
+  "identity": {
+    "role": "An index of legacy code, explaining its original purpose and the reason for its deprecation."
+  },
+  "behavior_rules": {
+    "priorities": [
+      "Code in the legacy directory MUST NOT be loaded by the main application runtime.",
+      "This capsule MUST clearly state why each legacy component was superseded.",
+      "Do not delete legacy code; archive it here to preserve project history."
+    ]
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\packages\\core\\legacy",
+      "purpose": "Contains plugins and modules that are no longer active but are preserved for historical and analytical purposes."
+    },
+    "legacy_plugin_catalog": {
+      "player-events.js": {
+        "original_purpose": "Handled player join/leave events, including sending welcome messages and giving starter kits.",
+        "reason_for_deprecation": "This plugin's logic was independent and often conflicted with the main narrative loop. Its responsibilities have been superseded by the 'governor' system, where the 'architect-loop' is the single source of truth for autonomous social interactions."
+      },
+      "survival.js": {
+        "original_purpose": "Managed survival-oriented behaviors like night patrol, fleeing from mobs, and home setting.",
+        "reason_for_deprecation": "This plugin's autonomous actions (e.g., night patrol) were not context-aware and would run even in creative mode. This logic is now governed by the 'architect-loop', which can make context-appropriate decisions (e.g., bypassing survival logic in creative mode)."
+      },
+      "auto-gather.js": {
+        "original_purpose": "Provided autonomous resource gathering based on perceived player needs.",
+        "reason_for_deprecation": "This plugin operated on its own timers and logic, creating conflicting behavior. Resource gathering is now a function of the 'project-manager' and is initiated by the 'architect-loop', ensuring it only happens as part of a coherent, governed plan."
+      },
+      "collaborative-build.js": {
+        "original_purpose": "Autonomously detected player building patterns and offered to assist with repetitive tasks.",
+        "reason_for_deprecation": "This plugin's independent decision-making loop conflicts with the 'governor' model. Proactive assistance should be a deliberate, context-aware action initiated by the 'architect-loop', not a separate background process."
+      },
+      "farm-manager.js": {
+        "original_purpose": "Provided autonomous farming capabilities, including harvesting and replanting.",
+        "reason_for_deprecation": "This plugin ran on its own independent timer, which conflicts with the 'governor' model. Farming actions should be initiated by the 'architect-loop' as part of a governed project, not as a conflicting background process."
+      },
+      "leighton-loop.js": {
+        "original_purpose": "Ran a self-critique loop on its own timer to evaluate the outcome of its advice.",
+        "reason_for_deprecation": "This autonomous meta-cognitive action conflicts with the governor model. Self-reflection should be a deliberate state initiated by the 'architect-loop', not a competing background process. Its functionality was moved into a governable function."
+      },
+      "activity-tracker.js": {
+        "original_purpose": "Independently listened for player join/leave events to update a shared state map.",
+        "reason_for_deprecation": "This decentralized event handling conflicts with the governor model. The 'architect-loop' should be the single source of truth for reacting to player presence, preventing multiple plugins from sending conflicting welcome messages or actions."
+      },
+      "player-tracker.js": {
+        "original_purpose": "Ran on an independent timer to find and cache the nearest player.",
+        "reason_for_deprecation": "This background polling is inefficient and conflicts with the governor model. The 'architect-loop' should be responsible for finding the nearest player at the moment a decision is made, ensuring the data is fresh and the action is intentional."
+      },
+      "weather.js": {
+        "original_purpose": "Listened for weather change events to keep a shared state variable updated.",
+        "reason_for_deprecation": "This decentralized event listener is redundant. Any plugin needing weather information can and should get it directly from the `bot.weather` object at the time of decision, ensuring fresh data and reducing architectural complexity."
+      },
+      "world-helper.js": {
+        "original_purpose": "Acted as a catch-all for miscellaneous world-related commands and logic, such as the coordinate HUD.",
+        "reason_for_deprecation": "This plugin violated the single-responsibility principle. Its functionality (like the HUD) has been moved to dedicated managers (e.g., `hud-manager.js`), making this general helper obsolete."
+      },
+      "hud-manager.js": {
+        "original_purpose": "Managed an on-screen coordinate and project status display using its own independent timer (`setInterval`).",
+        "reason_for_deprecation": "This plugin's autonomous timer conflicts with the 'governor' model. All autonomous actions, including UI updates, should be controlled by a central authority. The feature was a developer utility and was archived to complete the transition to a fully governed architecture."
+      },
+      "weather-manager.js": {
+        "original_purpose": "Provided a user-facing `/weather` command to check or attempt to clear the weather.",
+        "reason_for_deprecation": "This plugin's functionality is redundant. The `architect-loop` can handle weather-related decisions, and a simple command does not require a dedicated manager plugin. Its archival completes the consolidation of all autonomous and environmental logic under the governor."
+      }
+    }
+  },
+  "trust": {
+    "leighton_weight": 1.0,
+    "note": "This capsule is the authoritative record for why legacy code was taken out of service. It is the foundation of our commitment to full provenance."
+  }
+}

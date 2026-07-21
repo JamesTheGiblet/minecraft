@@ -9,16 +9,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
-const readline = require('readline');
-
 const CHANGELOG_PATH = path.join(__dirname, '..', 'CHANGELOG.md');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-const question = (query) => new Promise(resolve => rl.question(query, resolve));
 
 /**
  * Loads a minimal environment to get access to the ChronoSCRIBE audit function.
@@ -35,8 +26,8 @@ async function getAuditFunction() {
       return () => {}; // Return a no-op function
     }
 
-    const sharedState = { CONFIG };
-    const chronoscribePluginPath = path.join(__dirname, '..', 'plugins', 'chronoscribe.js');
+    const sharedState = { CONFIG, recordAuditEvent: () => {} };
+    const chronoscribePluginPath = path.join(__dirname, '..', 'packages', 'core', 'plugins', 'chronoscribe.js');
     const chronoscribePlugin = require(chronoscribePluginPath);
 
     // The bot object can be a mock for this script's purpose
@@ -55,13 +46,27 @@ async function getAuditFunction() {
 }
 
 async function main() {
+  // Use dynamic import for ESM-only inquirer package
+  const { default: inquirer } = await import('inquirer');
   console.log('Creating a new changelog entry...');
 
-  const good = await question('Enter "The Good" (what worked): ');
-  const bad = await question('Enter "The Bad" (limitations, tech debt): ');
-  const ugly = await question('Enter "The Ugly" (hacks, workarounds): ');
-
-  rl.close();
+  const answers = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'good',
+      message: 'Enter "The Good" (what worked):'
+    },
+    {
+      type: 'input',
+      name: 'bad',
+      message: 'Enter "The Bad" (limitations, tech debt):'
+    },
+    {
+      type: 'input',
+      name: 'ugly',
+      message: 'Enter "The Ugly" (hacks, workarounds):'
+    }
+  ]);
 
   const timestamp = new Date().toISOString().slice(0, 16).replace('T', ' ');
   const existingContent = await fs.readFile(CHANGELOG_PATH, 'utf8');
@@ -69,14 +74,14 @@ async function main() {
   const nextVersion = `0.${entryCount + 1}`;
 
   const newEntry = `## ${timestamp}
-### The Good ${nextVersion}
-- ${good.trim()}
+## The Good ${nextVersion}
+- ${answers.good.trim()}
 
-### The Bad ${nextVersion}
-- ${bad.trim() || 'N/A'}
+## The Bad ${nextVersion}
+- ${answers.bad.trim() || 'N/A'}
 
-### The Ugly ${nextVersion}
-- ${ugly.trim() || 'N/A'}
+## The Ugly ${nextVersion}
+- ${answers.ugly.trim() || 'N/A'}
 
 ---
 `;

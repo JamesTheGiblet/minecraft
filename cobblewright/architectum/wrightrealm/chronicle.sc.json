@@ -1,0 +1,52 @@
+{
+  "capsule_schema_version": "0.1",
+  "scp_id": "giblets-forge/forge-stack/chronicle-v1",
+  "object_class": "Safe",
+  "intent": "The living history of the village — legends, expeditions, and everyday life.",
+  "containment": {
+    "read_only": false,
+    "audit_log": true,
+    "kill_switch": false
+  },
+  "interpretation": {
+    "location": "architectum/wrightrealm/",
+    "this_is": "The chronicle is not a log. It is a story. It is how the village understands itself.",
+    "chronicle": {
+      "entries": []
+    },
+    "entry_types": {
+      "legend": {
+        "description": "A story that defines the village. Something the village will tell for generations.",
+        "example": "The Legend of the First Diamond — Forge found a diamond on the third expedition, and the village celebrated with bread and song."
+      },
+      "expedition": {
+        "description": "A journey outside the village. The village's way of reaching beyond itself.",
+        "example": "The expedition to the eastern hills returned with gold, but one of the party said they saw a light on the mountain."
+      },
+      "everyday": {
+        "description": "The small moments that make up life in the village. The things that are remembered only because they matter.",
+        "example": "Today, Terra planted a flower. The village did not notice, but the flower did."
+      },
+      "decision": {
+        "description": "A moment when the village chose something.",
+        "example": "The village decided to build a wall. It was the first time they all agreed."
+      }
+    },
+    "format": {
+      "timestamp": "The time the entry was made.",
+      "type": "legend, expedition, everyday, or decision.",
+      "title": "A short name for the entry.",
+      "content": "The story itself.",
+      "agents_involved": ["Prime", "Terra", "Forge", "Vision", "Chronos"],
+      "outcome": "What changed because of this entry."
+    },
+    "chronicle_ref": "chronoscribe/events/chronicle.log",
+    "notes": "Every entry is written by Chronos, but the story belongs to the whole village."
+  },
+  "provenance": {
+    "author": "James / Giblets Forge Ltd",
+    "created": "2026-07-20",
+    "relates_to": ["village", "chronoscribe", "agents"],
+    "licence": "Meaning Sovereignty Licence v1.0"
+  }
+}

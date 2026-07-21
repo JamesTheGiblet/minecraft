@@ -1,0 +1,75 @@
+{
+  "capsule_schema_version": "0.1",
+  "scp_id": "giblets-forge/forge-stack/village-soul-v1",
+  "object_class": "Safe",
+  "intent": "The living soul of the CobbleWright village — desires, stage, and memory.",
+  "containment": {
+    "read_only": false,
+    "audit_log": true,
+    "kill_switch": false
+  },
+  "interpretation": {
+    "location": "architectum/wrightrealm/",
+    "this_is": "The village is not a settlement. It is a living thing. It has desires, memory, and a soul.",
+    "village": {
+      "name": "Primehaven",
+      "stage": "hamlet",
+      "population": 5,
+      "founded": "2026-07-20",
+      "soul": {
+        "desires": {
+          "safety": 0.6,
+          "community": 0.4,
+          "curiosity": 0.3,
+          "beauty": 0.2,
+          "memory": 0.5,
+          "legend": 0.1
+        },
+        "callings": [],
+        "chronicle": []
+      }
+    },
+    "stages": {
+      "hamlet": {
+        "description": "A handful of CobbleWrights, a single shared shelter, and a dream.",
+        "population_range": [1, 5],
+        "focus": "survival"
+      },
+      "village": {
+        "description": "Homes, a hall, a farm. The beginning of community.",
+        "population_range": [6, 15],
+        "focus": "stability"
+      },
+      "town": {
+        "description": "Expanded structures, trade, and a growing sense of identity.",
+        "population_range": [16, 50],
+        "focus": "prosperity"
+      },
+      "city": {
+        "description": "Districts, legends, and the confidence to look beyond.",
+        "population_range": [51, 100],
+        "focus": "exploration"
+      },
+      "realm_capital": {
+        "description": "The heart of Wrightrealm. A beacon to other realms.",
+        "population_range": [100, 0],
+        "focus": "legacy"
+      }
+    },
+    "growth": {
+      "triggers": [
+        "When safety > 0.7, expand to village.",
+        "When community > 0.7, expand to town.",
+        "When curiosity > 0.7, expand to city.",
+        "When legend > 0.7, expand to realm capital."
+      ],
+      "nature": "Open-ended. The village grows when it is ready, not when it is told."
+    }
+  },
+  "provenance": {
+    "author": "James / Giblets Forge Ltd",
+    "created": "2026-07-20",
+    "relates_to": ["architectum", "agents", "chronoscribe"],
+    "licence": "Meaning Sovereignty Licence v1.0"
+  }
+}

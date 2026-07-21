@@ -82,7 +82,7 @@
       "core_loop": "Chop wood -> mine stone -> mine coal/iron -> smelt -> mine deeper for diamonds/redstone/gold -> (optional) Nether for blaze rods/netherite -> (optional) End for elytra/dragon egg.",
       "key_ores": {
         "coal": "Fuel + torches, found near surface",
-        "iron": "Tools/armor tier 3, needs stone pickaxe, needs smelting",
+        "iron": "Tools/armor tier 3, needs stone pickaxe, needs smelting. Commonly found underground in caves and mountainsides.",
         "gold": "Weakest tool tier but useful for specific items (powered rails, some enchant/trade uses), needs iron pickaxe",
         "redstone": "Powers mechanisms/circuits, needs iron pickaxe",
         "diamond": "Tool tier 4, needs iron pickaxe, found deep",

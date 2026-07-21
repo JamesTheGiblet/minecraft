@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # Dependencies
 node_modules/
 
@@ -8,12 +6,17 @@ node_modules/
 dashboard/
 
 # Local configuration
-# DO NOT commit your personal config.json. Use the template.
 config.json
+
+# Local semantic capsules
+*.local.sc.json
+
+# Legacy directories after refactor
+plugins/
+utils/
 
 # Logs
 logs/
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*

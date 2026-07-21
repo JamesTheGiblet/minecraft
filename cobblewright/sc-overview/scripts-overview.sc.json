@@ -1,0 +1,30 @@
+{
+  "id": "COBBLEWRIGHT.v1.scripts-overview.2026-07-19.GEMINI",
+  "sc_version": "1.2-complete",
+  "capsule_type": "scripts",
+  "provenance": {
+    "author": "Gemini Code Assist",
+    "context": "A semantic capsule summarizing the project's development and utility scripts.",
+    "capture_mode": "agent_generated",
+    "source_ref": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\scripts"
+  },
+  "intent": {
+    "primary_goal": "Describe the `scripts/` directory and its contents, so that developers can understand the available tooling for automating development workflows."
+  },
+  "identity": {
+    "role": "An overview of the project's utility scripts for development automation."
+  },
+  "content": {
+    "folder_scope": {
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\scripts",
+      "purpose": "Contains Node.js scripts for automating development tasks like creating changelog entries."
+    },
+    "script_catalog": {
+      "add-changelog.js": "An interactive CLI script (`npm run changelog`) that prompts for 'Good/Bad/Ugly' sections and prepends a formatted entry to the root CHANGELOG.md. It also records the change in the ChronoSCRIBE audit ledger."
+    }
+  },
+  "trust": {
+    "leighton_weight": 0.95,
+    "note": "High-confidence summary of the scripts directory. This capsule should be updated if new scripts are added."
+  }
+}

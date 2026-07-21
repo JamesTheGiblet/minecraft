@@ -1,0 +1,6 @@
+{
+  "keyId": "cobblewright-ed25519-v1",
+  "createdAt": 1784573981806,
+  "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAdF+RSCHGrgVWnVP3LiCv+Wx6zKXI93mYNjiYOWyrKwg=\n-----END PUBLIC KEY-----\n",
+  "privateKeyPem": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEICFhspPuUo5G4PdgfkL6MVsPk7IfyYJ05er8ABw0PU3f\n-----END PRIVATE KEY-----\n"
+}

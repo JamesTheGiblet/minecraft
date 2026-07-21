@@ -31,7 +31,7 @@
   },
   "content": {
     "folder_scope": {
-      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\utils",
+      "path": "c:\\Users\\gilbe\\OneDrive\\Desktop\\minecraft\\cobblewright\\packages\\core\\utils",
       "purpose": "Shared, reusable helper functions for the CobbleWright runtime and plugins.",
       "document_types": [
         "math and geometry helpers",
@@ -45,10 +45,11 @@
       "extension_style": "The folder is designed for adding new, self-contained helper modules."
     },
     "utility_catalog": {
-      "vector-helpers.js": "Provides pure functions for vector mathematics, such as distance calculations, normalization, and other geometric operations. Essential for pathfinding and spatial reasoning.",
-      "block-helpers.js": "Contains utilities for working with Minecraft blocks, including ID lookups, checking block properties (e.g., is it solid, transparent), and other data transformations.",
-      "text-helpers.js": "A collection of stateless functions for text formatting, such as escaping characters for use in Minecraft commands.",
-      "player-helpers.js": "Provides helper functions for working with player objects, such as finding the most recently active player."
+      "object-helpers.js": "Provides safe object property access utilities, like a `get` function to prevent errors from nested property lookups on null/undefined objects.",
+      "player-helpers.js": "Provides helper functions for working with player objects, such as finding the most recently active player.",
+      "sc-capsules.js": "Contains helper functions for loading, parsing, merging, and normalizing Semantic Capsules (.sc.json files).",
+      "schematic-importer.js": "A utility for importing and converting `.schematic` files into a blueprint format the bot can understand.",
+      "text-helpers.js": "A collection of stateless functions for text formatting, such as escaping characters for use in Minecraft commands."
     },
     "runtime_guidance": {
       "for_prompts": "Use this capsule when reasoning about where to find or create low-level, reusable helper functions.",
@@ -57,8 +58,8 @@
     }
   },
   "trust": {
-    "leighton_weight": 0.90,
-    "note": "Initial capsule structure. Confidence will increase as the utility catalog is populated with real file descriptions."
+    "leighton_weight": 0.98,
+    "note": "High-confidence summary. The catalog has been reconciled with the actual files in the directory."
   },
   "links": [],
   "signature": null,

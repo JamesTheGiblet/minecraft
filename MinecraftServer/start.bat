@@ -28,24 +28,45 @@ if not errorlevel 1 (
 				set "PG_STATUS=container created"
 			)
 		) else (
-			docker inspect -f "{{.State.Running}}" "%PG_CONTAINER%" | findstr /I "true" >nul
-			if not errorlevel 1 (
-				echo [Startup] PostgreSQL container "%PG_CONTAINER%" is already running.
-				set "PG_STATUS=already running"
-			) else (
-				echo [Startup] Starting existing PostgreSQL container "%PG_CONTAINER%"...
-				docker start "%PG_CONTAINER%" >nul
+			set "PG_PORT_MAPPING="
+			for /f "delims=" %%P in ('docker port "%PG_CONTAINER%" 5432 2^>nul') do set "PG_PORT_MAPPING=%%P"
+			if not defined PG_PORT_MAPPING (
+				echo [Startup] PostgreSQL container "%PG_CONTAINER%" is missing host port mapping 5432.
+				echo [Startup] Recreating container with "-p 5432:5432"...
+				docker rm -f "%PG_CONTAINER%" >nul
 				if errorlevel 1 (
-					echo [Startup] Failed to start PostgreSQL container.
-					set "PG_STATUS=start failed"
+					echo [Startup] Failed to remove misconfigured PostgreSQL container.
+					set "PG_STATUS=remove failed"
 				) else (
-					set "PG_STATUS=container started"
+					docker run -d --name "%PG_CONTAINER%" -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=cobblewright -p 5432:5432 pgvector/pgvector:pg16 >nul
+					if errorlevel 1 (
+						echo [Startup] Failed to recreate PostgreSQL container.
+						set "PG_STATUS=recreate failed"
+					) else (
+						echo [Startup] PostgreSQL container recreated with host port mapping.
+						set "PG_STATUS=container recreated"
+					)
+				)
+			) else (
+				docker inspect -f "{{.State.Running}}" "%PG_CONTAINER%" | findstr /I "true" >nul
+				if not errorlevel 1 (
+					echo [Startup] PostgreSQL container "%PG_CONTAINER%" is already running.
+					set "PG_STATUS=already running"
+				) else (
+					echo [Startup] Starting existing PostgreSQL container "%PG_CONTAINER%"...
+					docker start "%PG_CONTAINER%" >nul
+					if errorlevel 1 (
+						echo [Startup] Failed to start PostgreSQL container.
+						set "PG_STATUS=start failed"
+					) else (
+						set "PG_STATUS=container started"
+					)
 				)
 			)
 		)
 
 		echo [Startup] Waiting for PostgreSQL to accept connections on 5432...
-		powershell -NoProfile -Command "$ready=$false; 1..60 | ForEach-Object { if ((Test-NetConnection -ComputerName 127.0.0.1 -Port 5432 -WarningAction SilentlyContinue).TcpTestSucceeded) { $ready=$true; break }; Start-Sleep -Seconds 1 }; if ($ready) { exit 0 } else { exit 1 }" >nul 2>nul
+		powershell -NoProfile -Command "$ProgressPreference='SilentlyContinue'; $ready=$false; 1..60 | ForEach-Object { try { $result = Test-NetConnection -ComputerName 127.0.0.1 -Port 5432 -WarningAction SilentlyContinue; if ($result.TcpTestSucceeded) { $ready=$true; break } } catch {}; Start-Sleep -Seconds 1 }; if ($ready) { exit 0 } else { exit 1 }" >nul 2>nul
 		if not errorlevel 1 (
 			echo [Startup] PostgreSQL is ready.
 			set "PG_STATUS=ready"
@@ -64,6 +85,10 @@ if not errorlevel 1 (
 	echo [Startup] Minecraft server appears to already be running on port 25565. Skipping duplicate launch.
 	set "MC_STATUS=already running"
 ) else (
+	if exist "%ROOT_DIR%server.properties" (
+		echo [Startup] Enforcing creative/peaceful mode in server.properties...
+		powershell -NoProfile -Command "(Get-Content -Path '%ROOT_DIR%server.properties') -replace '^gamemode=.*', 'gamemode=creative' -replace '^difficulty=.*', 'difficulty=peaceful' | Set-Content -Path '%ROOT_DIR%server.properties'"
+	)
 	echo [Startup] Launching Minecraft server in a new terminal...
 	start "Minecraft Server" cmd /k "cd /d ""%ROOT_DIR%"" && java -Xmx4G -Xms4G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:MaxTenuringThreshold=1 -Daikars.new.flags=true -jar server.jar nogui"
 	set "MC_STATUS=started"
@@ -73,7 +98,7 @@ echo [Startup] Waiting 30 seconds for server boot...
 timeout /t 30 /nobreak >nul
 
 if exist "%BOT_DIR%\package.json" (
-	powershell -NoProfile -Command "$running = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^(node|node\.exe)$' -and $_.CommandLine -like '*architect.js*' }; if ($running) { exit 0 } else { exit 1 }" >nul 2>nul
+	powershell -NoProfile -Command "$botPath = Join-Path -Path '%BOT_DIR%' -ChildPath 'architect.js'; $botPath = $botPath.Replace('\', '\\'); $running = Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^(node|node\.exe)$' -and $_.CommandLine -like ('*' + $botPath + '*') }; if ($running) { exit 0 } else { exit 1 }" >nul 2>nul
 	if not errorlevel 1 (
 		echo [Startup] CobbleWright bot already appears to be running. Skipping duplicate launch.
 		set "BOT_STATUS=already running"

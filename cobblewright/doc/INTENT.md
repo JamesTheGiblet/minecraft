@@ -77,19 +77,19 @@ if (capsule.context.mentionedMaterials && capsule.context.mentionedMaterials.len
 ### Case Study 2: Refactoring to a Plugin Architecture
 
 ***The Problem (The Monolith):** As features like Vision, Voice, and Multiplayer support were added, the main `architect.js` file became a "monolith." It was over 700 lines long, and a change in one feature (e.g., the chat command parser) could easily break another unrelated feature (e.g., the vision system). This slowed down development and increased the risk of bugs.
-***The Solution (Decoupling via Plugins):** The entire project was refactored. `architect.js` was stripped down to its core responsibilities: loading, creating the bot instance, and providing a `sharedState` object. All distinct features were moved into their own files in a `/plugins` directory.
+***The Solution (Decoupling via Plugins):** The entire project was refactored. `architect.js` was stripped down to its core responsibilities: loading, creating the bot instance, and providing a `sharedState` object. All distinct features were moved into their own files in the `packages/core/plugins/` directory.
 
 **Why This Way vs. Another?** We could have simply split the code into multiple files that were all required at the top of `architect.js`. However, a true plugin architecture offers superior benefits:
 ***True Decoupling:** Plugins do not know about each other directly. They only know about the `bot` instance and the `sharedState` they are given. This prevents spaghetti code where one plugin calls another directly.
-***Single Responsibility Principle:** Each file now does one thing and does it well. `player-tracker.js` only tracks players. `vision.js` only handles the `/critique` command. This makes the code vastly easier to debug and understand.
-***Future-Proofing:** Adding a new feature, like the `/gather` command, is now as simple as creating a new `auto-gather.js` file. The core `architect.js` doesn't need to be touched, adhering to the Open/Closed Principle and proving the architecture's success.
+***Single Responsibility Principle:** Each file now does one thing and does it well. `project-manager.js` only manages projects. `vision.js` only handles computer vision. This makes the code vastly easier to debug and understand.
+***Future-Proofing:** Adding a new feature is now as simple as creating a new plugin file. The core `architect.js` doesn't need to be touched, adhering to the Open/Closed Principle and proving the architecture's success.
 
 ```javascript
 // Snippet from architect.js, the heart of the plugin system.
 // This simple loop is the foundation of the project's extensibility.
-function loadPlugins() {
-  const pluginsDir = path.join(__dirname, 'plugins');
-  fs.readdir(pluginsDir, (err, files) => {
+async function loadPlugins(sharedState) {
+  const pluginsDir = path.join(__dirname, 'packages', 'core', 'plugins');
+  const files = await fs.promises.readdir(pluginsDir);
     files.forEach(file => {
       if (file.endsWith('.js')) {
         const plugin = require(path.join(pluginsDir, file));

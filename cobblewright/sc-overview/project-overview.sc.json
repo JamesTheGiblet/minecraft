@@ -17,8 +17,8 @@
   "behavior_rules": {
     "priorities": [
       "The system is composed of a core runtime (`architect.js`), a modular `plugins` directory for features, a `data` directory for knowledge and state, and a `utils` directory for shared helpers.",
-      "Core orchestration logic resides in `architect.js`, which is kept intentionally thin.",
-      "New features, commands, and complex behaviors should be implemented as self-contained modules in the `plugins` directory.",
+      "Core orchestration logic resides in `architect.js`, which is kept intentionally thin. Its main job is to load packages.",
+      "Code is organized into `packages/`, with `packages/core` containing shared plugins/utils and `packages/agents/*` containing agent-specific logic.",
       "All persistent knowledge and state is managed within the `data` directory, with a strict separation between static knowledge (`data/S.C`) and runtime artifacts (`data/chronoscribe`).",
       "The project's vision, setup, and development guidelines are maintained in the `doc` directory."
     ]
@@ -49,12 +49,14 @@
     },
     "architecture": {
       "entry_point": "`architect.js` is the main application entry point. It initializes the bot, loads configuration, loads all semantic capsules from `data/S.C`, loads all plugins from `plugins`, and connects to the Minecraft server.",
-      "plugins_directory": "The `plugins` folder contains modular JavaScript files that extend the bot's functionality. This is where all commands, event handlers, and complex behaviors are defined. See `plugins-overview.sc.json` for details.",
+      "packages_directory": "The `packages/` folder contains all source code, organized into a `core` package for shared logic and an `agents` package for specialized agent behaviors (e.g., `agents/prime`).",
       "data_directory": "The `data` folder is for all persistent data. It contains the `S.C` subdirectory for the AI's core knowledge base (semantic capsules) and the `chronoscribe` subdirectory for the immutable audit log. See `data-overview.sc.json` for details.",
-      "utils_directory": "The `utils` folder contains shared, reusable helper functions (e.g., for math, data structures) that are stateless and used by multiple parts of the application. See `utils-overview.sc.json` for details.",
+      "utils_directory": "Shared, reusable helper functions are located in `packages/core/utils/`. See `utils-overview.sc.json` for details.",
       "sc_overview_directory": "The `sc-overview` folder contains human-readable, agent-generated semantic capsules that describe the structure and purpose of other project directories. These are for documentation and developer reference, and are not loaded by the runtime.",
       "doc_directory": "The `doc` folder contains all project documentation, including setup guides (`SETUP.md`), the project's philosophical intent (`INTENT.md`), and the strategic playbook (`PLAYBOOK.md`).",
-      "MinecraftServer_directory": "A self-contained, pre-configured Minecraft server for local development and testing. It is configured for `online-mode=false` to allow the bot to connect."
+      "MinecraftServer_directory": "A self-contained, pre-configured Minecraft server for local development and testing. It is configured for `online-mode=false` to allow the bot to connect.",
+      "tests_directory": "Contains the Jest test suite for the project, with tests organized to mirror the `plugins` and `utils` directories.",
+      "dashboard_directory": "A placeholder for a potential future web-based dashboard for monitoring the bot's status and performance."
     },
     "runtime_guidance": {
       "for_prompts": "Start with this capsule to get a high-level understanding of the project. From here, navigate to the more specific overview capsules for the relevant subdirectories (`plugins`, `data`, etc.).",

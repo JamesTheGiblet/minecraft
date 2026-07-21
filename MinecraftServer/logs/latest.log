@@ -1,23 +1,29 @@
-[14:33:35] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[14:33:41] [ServerMain/INFO]: Loaded 1290 recipes
-[14:33:42] [ServerMain/INFO]: Loaded 1399 advancements
-[14:33:43] [Server thread/INFO]: Starting minecraft server version 1.21.1
-[14:33:43] [Server thread/INFO]: Loading properties
-[14:33:43] [Server thread/INFO]: Default game type: SURVIVAL
-[14:33:43] [Server thread/INFO]: Generating keypair
-[14:33:43] [Server thread/INFO]: Starting Minecraft server on *:25565
-[14:33:44] [Server thread/INFO]: Using default channel type
-[14:33:44] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
-[14:33:44] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
-[14:33:44] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
-[14:33:44] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
-[14:33:44] [Server thread/INFO]: Preparing level "world"
-[14:33:48] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
-[14:33:49] [Worker-Main-6/INFO]: Preparing spawn area: 0%
-[14:33:49] [Worker-Main-6/INFO]: Preparing spawn area: 0%
-[14:33:49] [Server thread/INFO]: Time elapsed: 1117 ms
-[14:33:49] [Server thread/INFO]: Done (5.100s)! For help, type "help"
-[14:33:59] [Server thread/INFO]: Cobblewright[/127.0.0.1:57718] logged in with entity id 44 at (367.5, 71.0, 657.4611672120244)
-[14:33:59] [Server thread/INFO]: Cobblewright joined the game
-[14:34:49] [Server thread/INFO]: Cobblewright lost connection: Disconnected
-[14:34:49] [Server thread/INFO]: Cobblewright left the game
+[22:22:34] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[22:22:38] [ServerMain/INFO]: Loaded 1290 recipes
+[22:22:38] [ServerMain/INFO]: Loaded 1399 advancements
+[22:22:39] [Server thread/INFO]: Starting minecraft server version 1.21.1
+[22:22:39] [Server thread/INFO]: Loading properties
+[22:22:39] [Server thread/INFO]: Default game type: CREATIVE
+[22:22:39] [Server thread/INFO]: Generating keypair
+[22:22:39] [Server thread/INFO]: Starting Minecraft server on *:25565
+[22:22:40] [Server thread/INFO]: Using default channel type
+[22:22:40] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[22:22:40] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[22:22:40] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[22:22:40] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[22:22:40] [Server thread/INFO]: Preparing level "world"
+[22:22:42] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[22:22:43] [Worker-Main-1/INFO]: Preparing spawn area: 0%
+[22:22:43] [Worker-Main-1/INFO]: Preparing spawn area: 0%
+[22:22:43] [Server thread/INFO]: Time elapsed: 1057 ms
+[22:22:43] [Server thread/INFO]: Done (3.569s)! For help, type "help"
+[22:22:54] [Server thread/INFO]: Cobblewright[/127.0.0.1:58246] logged in with entity id 48 at (346.89548552863016, 66.0, 604.1045144713696)
+[22:22:54] [Server thread/INFO]: Cobblewright joined the game
+[22:23:26] [Server thread/INFO]: DramaticSage[/127.0.0.1:58313] logged in with entity id 120 at (347.87200179870274, 64.0, 627.7666757525701)
+[22:23:26] [Server thread/INFO]: DramaticSage joined the game
+[22:23:28] [Server thread/INFO]: [Not Secure] <Cobblewright> Welcome back, DramaticSage. I am on my way to you.
+[22:23:28] [Server thread/INFO]: [Not Secure] <Cobblewright> Welcome, DramaticSage! I've given you your starter kit (1x map, 8x bread, 16x torch). You can also ask me "whereami" or "whereareyou" to get coordinates.
+[22:23:29] [Server thread/INFO]: [Not Secure] <Cobblewright> Welcome to the server, DramaticSage! Let me know if you need any building advice.
+[22:23:53] [Server thread/INFO]: [Not Secure] <Cobblewright> I noticed you are low on stone. I can collect 100 for you. Where should I leave it: chest or inventory?
+[22:49:02] [Server thread/INFO]: DramaticSage lost connection: Disconnected
+[22:49:02] [Server thread/INFO]: DramaticSage left the game

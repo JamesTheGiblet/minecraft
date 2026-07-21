@@ -32,16 +32,16 @@ CobbleWright follows a clean, modular architecture designed for extensibility. Y
 
 ```bash
 cobblewright/
-├── architect.js           # Main application entry point. Thin and simple.
-├── config.json            # Core configuration for the bot.
-├── data/                  # All persistent data.
-│   ├── S.C/               # Runtime-loaded Semantic Capsules (AI's core knowledge).
-│   └── chronoscribe/      # Append-only, signed audit logs.
-├── doc/                   # Human-readable documentation (like this file).
-├── plugins/               # The heart of the bot's functionality.
-├── sc-overview/           # Agent-generated documentation capsules.
-├── utils/                 # Shared, stateless helper functions.
-└── MinecraftServer/       # Pre-configured local server for testing.
+├── architect.js          # Main application entry point.
+├── packages/
+│   ├── core/
+│   │   ├── plugins/      # Shared plugins.
+│   │   └── utils/        # Shared helper functions.
+│   └── agents/
+│       └── prime/        # Agent-specific logic.
+├── legacy/               # Deprecated code, preserved for history.
+├── data/                 # Persistent data and knowledge.
+└── ...
 ```
 
 ### The `architect.js` Entry Point
@@ -68,10 +68,10 @@ The plugin system is the most important concept for a CobbleWright developer.
 ### Creating a New Plugin
 
 1. Create a new JavaScript file in the `plugins/` directory (e.g., `my-new-feature.js`).
-2. The file must export a single function that accepts the `bot` and `sharedState` objects.
+2. The file must export a single function that accepts the `bot` and `sharedState` objects. All core plugins belong in `packages/core/plugins/`.
 
 ```javascript
-// plugins/my-new-feature.js
+// packages/core/plugins/my-new-feature.js
 
 module.exports = (bot, sharedState) => {
   // Your plugin's logic goes here.
@@ -97,7 +97,7 @@ That's it! The `architect.js` loader will automatically find and initialize your
 ### Registering a New Chat Command
 
 The `commands.js` plugin exposes a command registration system via `sharedState`. This is the standard way to add new user-facing commands.
-
+ 
 ```javascript
 // plugins/my-command-plugin.js
 
@@ -126,9 +126,9 @@ CobbleWright makes a critical distinction between **knowledge** and **data**.
 
 If you have a piece of reusable, stateless logic (e.g., a math function), it belongs in the `utils/` directory.
 
-1. Create a file like `utils/my-helpers.js`.
+1. Create a file like `packages/core/utils/my-helpers.js`.
 2. Export your functions: `module.exports = { myFunction };`.
-3. Require it in any plugin where it's needed: `const { myFunction } = require('../utils/my-helpers.js');`.
+3. Require it in any plugin where it's needed: `const { myFunction } = require('../../core/utils/my-helpers.js');`.
 4. Update `sc-overview/utils-overview.sc.json` to document your new utility file.
 
 ### Creating a New Semantic Capsule
@@ -141,13 +141,6 @@ Semantic Capsules (`.sc.json`) are used for two distinct purposes: providing run
 A good capsule should have a clear `intent` and `content` section that describes its purpose and scope. Use the existing files in `sc-overview/` as a template.
 
 ## 6. The Audit Ledger (ChronoSCRIBE)
-
-If you have a piece of reusable, stateless logic (e.g., a math function), it belongs in the `utils/` directory.
-
-1. Create a file like `utils/my-helpers.js`.
-2. Export your functions: `module.exports = { myFunction };`.
-3. Require it in any plugin where it's needed: `const { myFunction } = require('../utils/my-helpers.js');`.
-4. Update `sc-overview/utils-overview.sc.json` to document your new utility file.
 
 To maintain trust and traceability, significant events must be recorded in the audit ledger. The `chronoscribe.js` plugin provides the interface for this.
 

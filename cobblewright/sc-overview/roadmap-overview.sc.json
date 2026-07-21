@@ -46,7 +46,7 @@
     },
     "summary": {
       "strategic_thesis": "The roadmap establishes `sc-overview/` as the project's core strategic advantage—a machine-readable control plane to keep architecture, intent, and documentation aligned.",
-      "execution_plan": "It details a three-pillar execution plan: Pillar 1 (The World) defines a stable beta sandbox with a fixed seed (`6246468738900744`). Pillar 2 (The Autonomous Architect Loop) reframes the agent's core logic into a continuous `observe → plan → act` cycle. Pillar 3 (The Persistent World) outlines the 24/7 VPS deployment strategy.",
+      "execution_plan": "It details a three-pillar execution plan: Pillar 1 (The World) defines a stable beta sandbox with a fixed seed (`8454648538230128251`). Pillar 2 (The Autonomous Architect Loop) reframes the agent's core logic into a continuous `observe → plan → act` cycle. Pillar 3 (The Persistent World) outlines the 24/7 VPS deployment strategy.",
       "milestones_and_gates": "The plan is structured around seven key milestones (M1-M7) and four release-blocking gates (Quality, Reliability, Multi-Agent Integrity, Persistent World Readiness) that govern the transformation from a single agent to a multi-agent society.",
       "completed_features_v1.2": "The document also serves as a historical record, listing all features completed for the 'v1.2-complete' release, including persistent memory, project management, and autonomous gathering/building."
     },

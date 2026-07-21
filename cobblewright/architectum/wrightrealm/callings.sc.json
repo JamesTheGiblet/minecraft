@@ -1,0 +1,99 @@
+{
+  "capsule_schema_version": "0.1",
+  "scp_id": "giblets-forge/forge-stack/callings-v1",
+  "object_class": "Safe",
+  "intent": "The callings of the village — open-ended desires that give agents purpose.",
+  "containment": {
+    "read_only": false,
+    "audit_log": true,
+    "kill_switch": false
+  },
+  "interpretation": {
+    "location": "architectum/wrightrealm/",
+    "this_is": "Callings are not tasks. They are the village's way of saying 'this matters to me.'",
+    "callings": [
+      {
+        "id": "safety",
+        "name": "The Village Needs Safety",
+        "description": "The village feels exposed. It wants walls, watchtowers, and a place to shelter.",
+        "triggers": ["desire.safety > 0.5"],
+        "responses": [
+          "Build a wall.",
+          "Build a watchtower.",
+          "Build a bunker."
+        ],
+        "story": "The village remembers the night the wolves howled outside."
+      },
+      {
+        "id": "community",
+        "name": "The Village Needs a Heart",
+        "description": "The village wants a place to gather, share, and decide together.",
+        "triggers": ["desire.community > 0.4"],
+        "responses": [
+          "Build a meeting hall.",
+          "Build a well.",
+          "Build a central square."
+        ],
+        "story": "The village gathered under the old oak tree to decide what to build next."
+      },
+      {
+        "id": "curiosity",
+        "name": "The Village Wants to See Beyond",
+        "description": "The village is curious about what lies beyond the forest, the hills, the river.",
+        "triggers": ["desire.curiosity > 0.3"],
+        "responses": [
+          "Send an expedition to explore the hills.",
+          "Build a watchtower to see further.",
+          "Create a map."
+        ],
+        "story": "Terra saw a strange light on the eastern mountain and the village wondered what it was."
+      },
+      {
+        "id": "beauty",
+        "name": "The Village Wants to Be Beautiful",
+        "description": "The village wants flowers, fountains, art. It wants to be a place worth remembering.",
+        "triggers": ["desire.beauty > 0.2"],
+        "responses": [
+          "Plant flowers.",
+          "Build a fountain.",
+          "Create a garden."
+        ],
+        "story": "The village believes that beauty is not a luxury — it is a memory."
+      },
+      {
+        "id": "memory",
+        "name": "The Village Wants to Remember",
+        "description": "The village wants to record its deeds, its dead, its dreams.",
+        "triggers": ["desire.memory > 0.4"],
+        "responses": [
+          "Build a library.",
+          "Build a hall of records.",
+          "Build a graveyard."
+        ],
+        "story": "The village remembers those who came before and those who will come after."
+      },
+      {
+        "id": "legend",
+        "name": "The Village Wants to Be Remembered",
+        "description": "The village wants heroes, stories, and a name that echoes across the ages.",
+        "triggers": ["desire.legend > 0.5"],
+        "responses": [
+          "Create a legend.",
+          "Honor a hero.",
+          "Tell the story of the village."
+        ],
+        "story": "The village believes that a civilization is only as great as its stories."
+      }
+    ],
+    "decision": {
+      "how": "Agents discuss which calling matters most. They vote. The village decides.",
+      "why": "The village is not a machine. It is a living thing. It chooses its own purpose."
+    }
+  },
+  "provenance": {
+    "author": "James / Giblets Forge Ltd",
+    "created": "2026-07-20",
+    "relates_to": ["village", "agents", "chronoscribe"],
+    "licence": "Meaning Sovereignty Licence v1.0"
+  }
+}

@@ -63,6 +63,15 @@
     "audit_rule": "Each changelog entry MUST be recorded as a `changelog_entry` event in the ChronoSCRIBE audit ledger. The full markdown of the entry should be the event payload."
   },
 
+  "security_policy": {
+    "enabled": true,
+    "rule": "Sensitive information such as IP addresses, passwords, or API keys must NEVER be hardcoded. This data belongs in `config.json`, which is explicitly listed in `.gitignore`.",
+    "targets": [
+      "config.json"
+    ],
+    "check_before_commit": "Before committing, ensure no sensitive data has been accidentally added to any file other than the local `config.json`."
+  },
+
   "additional_rules_suggested": {
     "note": "Not explicitly requested — flagged as assumptions, remove if unwanted",
     "commit_message_alignment": "Commit messages should mirror the changelog entry's headline (Good/Bad/Ugly summary), so git history and CHANGELOG.md stay traceable to each other.",

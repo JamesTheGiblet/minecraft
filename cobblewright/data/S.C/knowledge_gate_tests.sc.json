@@ -34,127 +34,114 @@
         "name": "First Night Priority",
         "question": "What is the absolute first priority on the first day to survive the night?",
         "keywords": ["shelter"],
-        "context_ref": "minecraft_gameplay_core.content.survival_priorities.first_24_hours"
+        "context_ref": "minecraft_gameplay_core.content.survival_priorities.first_hour_checklist"
       },
       {
         "name": "Iron Ore Location",
         "question": "Where is iron ore most commonly found?",
-        "keywords": ["underground", "caves", "mountains"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "keywords": ["underground", "caves"],
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering.key_ores"
       },
       {
         "name": "Crafting Table Recipe",
         "question": "What do you need to make a crafting table?",
-        "keywords": ["planks"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.basic_recipes"
+        "keywords": ["planks"]
       },
       {
         "name": "Wooden Pickaxe Recipe",
         "question": "What two items are needed to craft a wooden pickaxe?",
-        "keywords": ["planks", "sticks"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["planks", "sticks"]
       },
       {
         "name": "Furnace Recipe",
         "question": "What block is used to make a furnace?",
-        "keywords": ["cobblestone", "stone"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["cobblestone", "stone"]
       },
       {
         "name": "Chest Recipe",
         "question": "What material is used to craft a chest for item storage?",
-        "keywords": ["planks"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["planks"]
       },
       {
         "name": "Bed Recipe",
         "question": "What two materials are required to craft a bed?",
-        "keywords": ["wool", "planks"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["wool", "planks"]
       },
       {
         "name": "Farmland Hydration",
         "question": "What needs to be near farmland to keep it hydrated for faster crop growth?",
-        "keywords": ["water"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "keywords": ["water"]
       },
       {
         "name": "Bone Meal Use",
         "question": "What item can be used to instantly grow a crop to maturity?",
         "keywords": ["bone meal", "bonemeal"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "context_ref": "minecraft_gameplay_core.content.farming"
       },
       {
         "name": "Animal Breeding (Cows)",
         "question": "What item do you feed to two cows to make them breed?",
-        "keywords": ["wheat"],
-        "context_ref": "minecraft_gameplay_core.content.farming.animal_husbandry"
+        "keywords": ["wheat"]
       },
       {
         "name": "Sugarcane Planting",
         "question": "What block must sugarcane be planted next to?",
-        "keywords": ["water"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "keywords": ["water"]
       },
       {
         "name": "Melon Growth",
         "question": "What does a fully grown melon or pumpkin stem need to produce a fruit?",
-        "keywords": ["air", "space", "empty"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "keywords": ["air", "space", "empty"]
       },
       {
         "name": "Diamond Level",
         "question": "At what approximate Y-level are diamonds most frequently found?",
-        "keywords": ["deepslate", "-58", "-59", "negative"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "keywords": ["deepslate", "-58", "-59", "negative"]
       },
       {
         "name": "Digging Straight Down",
         "question": "What is the primary danger of digging straight down?",
         "keywords": ["lava", "cave", "fall"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.mining_safety"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Smelting Iron Ore",
         "question": "What is the result of smelting raw iron in a furnace?",
-        "keywords": ["iron ingot", "ingot"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.smelting"
+        "keywords": ["iron ingot", "ingot"]
       },
       {
         "name": "Coal as Fuel",
         "question": "What is the most common, basic fuel source for a furnace?",
-        "keywords": ["coal", "charcoal"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.smelting"
+        "keywords": ["coal", "charcoal"]
       },
       {
         "name": "Lava Pools",
         "question": "What dangerous liquid is commonly found deep underground near valuable ores?",
-        "keywords": ["lava"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.mining_safety"
+        "keywords": ["lava"]
       },
       {
         "name": "Cow Drops",
         "question": "Besides beef, what important crafting material do cows drop?",
         "keywords": ["leather"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Sheep Shearing",
         "question": "What tool can be used on a sheep to get wool without killing it?",
         "keywords": ["shears"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Chicken Drops",
         "question": "Besides chicken meat, what other two items can you get from a chicken?",
         "keywords": ["feather", "egg"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Pig Drops",
         "question": "What is the primary food item dropped by pigs?",
         "keywords": ["porkchop"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Skeleton Weakness",
@@ -189,170 +176,150 @@
       {
         "name": "Blaze Location",
         "question": "In which Nether structure are Blazes most commonly found?",
-        "keywords": ["fortress"],
-        "context_ref": "minecraft_gameplay_core.content.nether.structures"
+        "keywords": ["fortress"]
       },
       {
         "name": "Nether Portal Material",
         "question": "What block is used to build the frame of a Nether portal?",
-        "keywords": ["obsidian"],
-        "context_ref": "minecraft_gameplay_core.content.nether.portals"
+        "keywords": ["obsidian"]
       },
       {
         "name": "Ghast Attack",
         "question": "What projectile does a Ghast shoot?",
         "keywords": ["fireball"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "context_ref": "minecraft_gameplay_core.content.dimensions"
       },
       {
         "name": "Piglin Bartering",
         "question": "What item can you give to a Piglin to trade for other items?",
-        "keywords": ["gold", "ingot"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "keywords": ["gold", "ingot"]
       },
       {
         "name": "Netherite Source",
         "question": "What is the name of the block you mine in the Nether to get Netherite?",
-        "keywords": ["ancient debris", "debris"],
-        "context_ref": "minecraft_gameplay_core.content.nether.resources"
+        "keywords": ["ancient debris", "debris"]
       },
       {
         "name": "Ender Dragon",
         "question": "What is the name of the final boss in The End dimension?",
         "keywords": ["ender dragon"],
-        "context_ref": "minecraft_gameplay_core.content.end.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Path to The End",
         "question": "What item is used to find a Stronghold, which contains the portal to The End?",
-        "keywords": ["eye of ender"],
-        "context_ref": "minecraft_gameplay_core.content.end.portals"
+        "keywords": ["eye of ender"]
       },
       {
         "name": "Elytra Source",
         "question": "In what structure in The End can you find the Elytra for flying?",
-        "keywords": ["end city", "end ship"],
-        "context_ref": "minecraft_gameplay_core.content.end.structures"
+        "keywords": ["end city", "end ship"]
       },
       {
         "name": "Shulker Attack",
         "question": "What status effect do the projectiles from a Shulker inflict?",
         "keywords": ["levitation"],
-        "context_ref": "minecraft_gameplay_core.content.end.mobs"
+        "context_ref": "minecraft_gameplay_core.content.dimensions"
       },
       {
         "name": "Redstone Dust",
         "question": "What is the primary function of redstone dust?",
-        "keywords": ["transmit", "power", "signal"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.basics"
+        "keywords": ["transmit", "power", "signal"]
       },
       {
         "name": "Redstone Repeater",
         "question": "What is the main purpose of a redstone repeater?",
-        "keywords": ["delay", "extend", "strengthen"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["delay", "extend", "strengthen"]
       },
       {
         "name": "Enchanting Table Requirement",
         "question": "What block is needed to power up an enchanting table to its maximum level?",
         "keywords": ["bookshelf", "bookshelves"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Brewing Stand Fuel",
         "question": "What item is used as fuel for a brewing stand?",
-        "keywords": ["blaze powder"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["blaze powder"]
       },
       {
         "name": "Nether Wart",
         "question": "What is the base ingredient for most potions?",
-        "keywords": ["nether wart"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["nether wart"]
       },
       {
         "name": "Lapis Lazuli",
         "question": "What blue item is required to perform an enchantment?",
         "keywords": ["lapis", "lazuli"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Hunger and Health",
         "question": "What happens to your health regeneration if your hunger bar is not full?",
-        "keywords": ["stops", "doesn't work"],
-        "context_ref": "minecraft_gameplay_core.content.survival_mechanics"
+        "keywords": ["stops", "doesn't work"]
       },
       {
         "name": "Armor Function",
         "question": "What is the primary purpose of wearing armor?",
-        "keywords": ["damage", "protection", "defense"],
-        "context_ref": "minecraft_gameplay_core.content.survival_mechanics"
+        "keywords": ["damage", "protection", "defense"]
       },
       {
         "name": "Village Purpose",
         "question": "What is the main benefit of finding a village?",
         "keywords": ["trade", "trading", "villagers"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Desert Temple Trap",
         "question": "What should you be careful not to break in the center of a desert temple floor?",
-        "keywords": ["pressure plate"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["pressure plate"]
       },
       {
         "name": "Shield Function",
         "question": "What item can be used in the off-hand to block incoming attacks?",
-        "keywords": ["shield"],
-        "context_ref": "minecraft_gameplay_core.content.survival_mechanics"
+        "keywords": ["shield"]
       },
       {
         "name": "Obsidian Mining Requirement",
         "question": "What is the minimum tier of pickaxe required to mine obsidian?",
         "keywords": ["diamond"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering.key_ores"
       },
       {
         "name": "Charcoal Creation",
         "question": "What can you smelt wood logs into if you cannot find coal?",
-        "keywords": ["charcoal"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.smelting"
+        "keywords": ["charcoal"]
       },
       {
         "name": "Glass Creation",
         "question": "What block do you smelt to create glass?",
-        "keywords": ["sand"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.smelting"
+        "keywords": ["sand"]
       },
       {
         "name": "Stone Bricks Recipe",
         "question": "What do you craft with four stone blocks to make a common decorative block?",
-        "keywords": ["stone bricks"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.building_blocks"
+        "keywords": ["stone bricks"]
       },
       {
         "name": "Iron Golem Creation",
         "question": "What two items are needed to build an Iron Golem for village defense?",
-        "keywords": ["iron", "pumpkin"],
-        "context_ref": "minecraft_gameplay_core.content.utility_mobs"
+        "keywords": ["iron", "pumpkin"]
       },
       {
         "name": "Wither Spawning",
         "question": "What blocks are needed to summon the Wither boss?",
         "keywords": ["soul sand", "wither skeleton skull"],
-        "context_ref": "minecraft_gameplay_core.content.nether.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Beacon Power Source",
         "question": "What kind of blocks must a beacon's pyramid be made of?",
-        "keywords": ["mineral", "iron", "gold", "diamond", "emerald", "netherite"],
-        "context_ref": "minecraft_gameplay_core.content.endgame_items"
+        "keywords": ["mineral", "iron", "gold", "diamond", "emerald", "netherite"]
       },
       {
         "name": "Composter Function",
         "question": "What item can you get by filling a composter with plant matter?",
-        "keywords": ["bone meal"],
-        "context_ref": "minecraft_gameplay_core.content.farming.utility_blocks"
+        "keywords": ["bone meal"]
       },
       {
         "name": "Zombie Villager Cure",
@@ -363,104 +330,90 @@
       {
         "name": "Book Recipe",
         "question": "What two materials are needed to craft a book?",
-        "keywords": ["leather", "paper"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.basic_recipes"
+        "keywords": ["leather", "paper"]
       },
       {
         "name": "Anvil Function",
         "question": "What utility block is used to repair or combine enchanted items?",
         "keywords": ["anvil"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Redstone Torch Power",
         "question": "What state is a redstone torch in by default when placed?",
-        "keywords": ["on", "powered", "active"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["on", "powered", "active"]
       },
       {
         "name": "Piston Function",
         "question": "What redstone component is used to push blocks?",
-        "keywords": ["piston"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["piston"]
       },
       {
         "name": "Hopper Function",
         "question": "What redstone component is used to collect and transfer items?",
-        "keywords": ["hopper"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["hopper"]
       },
       {
         "name": "Observer Function",
         "question": "What redstone component emits a signal when the block in front of it updates?",
-        "keywords": ["observer"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["observer"]
       },
       {
         "name": "Fire Resistance Potion",
         "question": "What is the key ingredient for a fire resistance potion?",
-        "keywords": ["magma cream"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["magma cream"]
       },
       {
         "name": "Water Breathing Potion",
         "question": "What ingredient grants the water breathing effect in a potion?",
-        "keywords": ["pufferfish"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["pufferfish"]
       },
       {
         "name": "Splash Potion Modifier",
         "question": "What ingredient do you add to a potion to make it a throwable splash potion?",
-        "keywords": ["gunpowder"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["gunpowder"]
       },
       {
         "name": "Librarian Villager Trade",
         "question": "What is the primary valuable trade offered by a librarian villager?",
-        "keywords": ["enchanted book"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "keywords": ["enchanted book"]
       },
       {
         "name": "Fletcher Villager Trade",
         "question": "What common item can you trade to a fletcher for emeralds?",
         "keywords": ["stick"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Cartographer Villager Map",
         "question": "What special maps can a cartographer villager sell?",
-        "keywords": ["ocean monument", "woodland mansion"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "keywords": ["ocean monument", "woodland mansion"]
       },
       {
         "name": "Saddle Source",
         "question": "Can you craft a saddle?",
-        "keywords": ["no", "cannot"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.loot"
+        "keywords": ["no", "cannot"]
       },
       {
         "name": "Nether Fortress Mobs",
         "question": "Besides Blazes, what other hostile mob is unique to Nether Fortresses?",
         "keywords": ["wither skeleton"],
-        "context_ref": "minecraft_gameplay_core.content.nether.structures"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Bastion Remnant Mobs",
         "question": "What hostile mob is the primary inhabitant of Bastion Remnants?",
-        "keywords": ["piglin"],
-        "context_ref": "minecraft_gameplay_core.content.nether.structures"
+        "keywords": ["piglin"]
       },
       {
         "name": "Ocean Monument Guardians",
         "question": "What is the name of the primary mob that defends an Ocean Monument?",
-        "keywords": ["guardian"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["guardian"]
       },
       {
         "name": "Woodland Mansion Mobs",
         "question": "What are the names of the two hostile 'illager' mobs found in a Woodland Mansion?",
-        "keywords": ["vindicator", "evoker"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["vindicator", "evoker"]
       },
       {
         "name": "Drowned Trident",
@@ -478,643 +431,572 @@
         "name": "Blaze Rods",
         "question": "What item, essential for brewing and finding strongholds, do Blazes drop?",
         "keywords": ["blaze rod"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Ender Pearl Function",
         "question": "What is the primary use of an Ender Pearl?",
-        "keywords": ["teleport"],
-        "context_ref": "minecraft_gameplay_core.content.end.mobs"
+        "keywords": ["teleport"]
       },
       {
         "name": "Chorus Fruit Effect",
         "question": "What is the effect of eating a Chorus Fruit?",
-        "keywords": ["teleport"],
-        "context_ref": "minecraft_gameplay_core.content.end.resources"
+        "keywords": ["teleport"]
       },
       {
         "name": "Sponge Function",
         "question": "What is the primary use of a sponge block?",
-        "keywords": ["water"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.loot"
+        "keywords": ["water"]
       },
       {
         "name": "Cooked Food Benefit",
         "question": "What is the main benefit of cooking food before eating it?",
-        "keywords": ["hunger", "saturation"],
-        "context_ref": "minecraft_gameplay_core.content.survival_mechanics"
+        "keywords": ["hunger", "saturation"]
       },
       {
         "name": "Cake Placement",
         "question": "Can you eat a cake directly from your inventory?",
-        "keywords": ["no", "place"],
-        "context_ref": "minecraft_gameplay_core.content.survival_mechanics"
+        "keywords": ["no", "place"]
       },
       {
         "name": "Jukebox Function",
         "question": "What item do you use with a Jukebox to play music?",
         "keywords": ["music disc"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "context_ref": "minecraft_gameplay_core.content.building"
       },
       {
         "name": "Note Block Instrument",
         "question": "What determines the instrument sound of a note block?",
-        "keywords": ["block underneath"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["block underneath"]
       },
       {
         "name": "Item Frame Recipe",
         "question": "What two materials are needed to craft an item frame?",
-        "keywords": ["stick", "leather"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["stick", "leather"]
       },
       {
         "name": "Flower Pot Recipe",
         "question": "What material is used to craft a flower pot?",
-        "keywords": ["brick"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["brick"]
       },
       {
         "name": "Taming a Wolf",
         "question": "What item is used to tame a wolf?",
         "keywords": ["bone"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Taming a Cat",
         "question": "What item is used to tame an ocelot or stray cat?",
         "keywords": ["fish"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Riding a Horse",
         "question": "What item do you need to control a horse after taming it?",
         "keywords": ["saddle"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Carrot on a Stick",
         "question": "What item is needed to control the direction a pig moves when riding it?",
-        "keywords": ["carrot on a stick"],
-        "context_ref": "minecraft_gameplay_core.content.farming.animal_husbandry"
+        "keywords": ["carrot on a stick"]
       },
       {
         "name": "Nether Bed Explosion",
         "question": "What happens if you try to use a bed in the Nether or The End?",
         "keywords": ["explode", "explodes"],
-        "context_ref": "minecraft_gameplay_core.content.nether.portals"
+        "context_ref": "minecraft_gameplay_core.content.dimensions"
       },
       {
         "name": "Compass Direction",
         "question": "Where does a compass needle point by default?",
-        "keywords": ["spawn"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.tools"
+        "keywords": ["spawn"]
       },
       {
         "name": "Lodestone Compass",
         "question": "What block can you use a compass on to make it point to that block instead?",
-        "keywords": ["lodestone"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.tools"
+        "keywords": ["lodestone"]
       },
       {
         "name": "Turtle Scute",
         "question": "What item do baby turtles drop when they grow up, used for a special helmet?",
         "keywords": ["scute"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Conduit Power",
         "question": "What is the primary benefit of activating a conduit underwater?",
-        "keywords": ["water breathing", "vision"],
-        "context_ref": "minecraft_gameplay_core.content.endgame_items"
+        "keywords": ["water breathing", "vision"]
       },
       {
         "name": "Shulker Box",
         "question": "What special type of chest can hold items even when it is broken and carried?",
-        "keywords": ["shulker box"],
-        "context_ref": "minecraft_gameplay_core.content.end.mobs"
+        "keywords": ["shulker box"]
       },
       {
         "name": "Minecart Recipe",
         "question": "What material is used to craft a minecart?",
         "keywords": ["iron ingot"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Powered Rail Recipe",
         "question": "What three materials are needed for powered rails?",
-        "keywords": ["gold", "stick", "redstone"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["gold", "stick", "redstone"]
       },
       {
         "name": "Detector Rail Function",
         "question": "What does a detector rail do when a minecart goes over it?",
-        "keywords": ["signal", "power", "activate"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["signal", "power", "activate"]
       },
       {
         "name": "Sticky Piston Recipe",
         "question": "What item do you combine with a regular piston to make it sticky?",
-        "keywords": ["slimeball", "slime"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["slimeball", "slime"]
       },
       {
         "name": "Redstone Comparator Function",
         "question": "What redstone component can be used to measure the fullness of a container?",
-        "keywords": ["comparator"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["comparator"]
       },
       {
         "name": "Daylight Detector Function",
         "question": "What redstone component produces a signal based on the time of day?",
-        "keywords": ["daylight detector"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["daylight detector"]
       },
       {
         "name": "TNT Activation",
         "question": "What are the two primary ways to ignite TNT?",
-        "keywords": ["redstone", "fire"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["redstone", "fire"]
       },
       {
         "name": "Dispenser vs Dropper",
         "question": "Which redstone component can use shears, place water, and fire arrows?",
-        "keywords": ["dispenser"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["dispenser"]
       },
       {
         "name": "Target Block Function",
         "question": "What happens when you hit a target block with a projectile?",
-        "keywords": ["redstone", "signal"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["redstone", "signal"]
       },
       {
         "name": "Tripwire Hook",
         "question": "What item is stretched between two tripwire hooks to create a trigger?",
-        "keywords": ["string"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["string"]
       },
       {
         "name": "Potion of Swiftness",
         "question": "What is the key ingredient for a Potion of Swiftness?",
         "keywords": ["sugar"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Potion of Strength",
         "question": "What ingredient is used to brew a Potion of Strength?",
-        "keywords": ["blaze powder"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["blaze powder"]
       },
       {
         "name": "Potion of Healing",
         "question": "What ingredient is used to brew a Potion of Healing?",
-        "keywords": ["glistering melon"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["glistering melon"]
       },
       {
         "name": "Potion Duration Modifier",
         "question": "What ingredient is added to a potion to increase its duration?",
-        "keywords": ["redstone"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["redstone"]
       },
       {
         "name": "Potion Potency Modifier",
         "question": "What ingredient is added to a potion to increase its potency (e.g., from I to II)?",
-        "keywords": ["glowstone"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["glowstone"]
       },
       {
         "name": "Fermented Spider Eye",
         "question": "What ingredient is used to corrupt a potion, often turning a positive effect into a negative one?",
-        "keywords": ["fermented spider eye"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["fermented spider eye"]
       },
       {
         "name": "Villager Professions",
         "question": "What determines a villager's profession?",
-        "keywords": ["workstation", "job site"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "keywords": ["workstation", "job site"]
       },
       {
         "name": "Armorer Workstation",
         "question": "What workstation block does an armorer villager use?",
-        "keywords": ["blast furnace"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "keywords": ["blast furnace"]
       },
       {
         "name": "Cleric Workstation",
         "question": "What workstation block does a cleric villager use?",
         "keywords": ["brewing stand"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Farmer Workstation",
         "question": "What workstation block does a farmer villager use?",
-        "keywords": ["composter"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "keywords": ["composter"]
       },
       {
         "name": "Villager Restocking",
         "question": "What must a villager be able to do to restock its trades?",
-        "keywords": ["workstation", "job"],
-        "context_ref": "minecraft_gameplay_core.content.villagers"
+        "keywords": ["workstation", "job"]
       },
       {
         "name": "Iron Golem Spawning",
         "question": "Under what condition will villagers naturally spawn an Iron Golem?",
-        "keywords": ["gossip", "panicked", "scared"],
-        "context_ref": "minecraft_gameplay_core.content.utility_mobs"
+        "keywords": ["gossip", "panicked", "scared"]
       },
       {
         "name": "Map Recipe",
         "question": "What two items are needed to craft an empty map?",
-        "keywords": ["paper", "compass"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.tools"
+        "keywords": ["paper", "compass"]
       },
       {
         "name": "Spyglass Recipe",
         "question": "What two materials are needed to craft a spyglass?",
         "keywords": ["copper", "amethyst"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.tools"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Fishing Rod Recipe",
         "question": "What two materials are needed to craft a fishing rod?",
-        "keywords": ["stick", "string"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["stick", "string"]
       },
       {
         "name": "Flint and Steel Recipe",
         "question": "What two materials are needed to craft flint and steel?",
-        "keywords": ["iron", "flint"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["iron", "flint"]
       },
       {
         "name": "Bucket Recipe",
         "question": "What material is used to craft a bucket?",
-        "keywords": ["iron"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["iron"]
       },
       {
         "name": "Shears Recipe",
         "question": "What material is used to craft shears?",
-        "keywords": ["iron"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["iron"]
       },
       {
         "name": "Lead Recipe",
         "question": "What two materials are needed to craft a lead?",
-        "keywords": ["string", "slimeball"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["string", "slimeball"]
       },
       {
         "name": "Paper Recipe",
         "question": "What plant is used to craft paper?",
-        "keywords": ["sugar cane"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.basic_recipes"
+        "keywords": ["sugar cane"]
       },
       {
         "name": "Bookshelf Recipe",
         "question": "What two materials are needed to craft a bookshelf?",
-        "keywords": ["planks", "book"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["planks", "book"]
       },
       {
         "name": "Painting Recipe",
         "question": "What two materials are needed to craft a painting?",
-        "keywords": ["stick", "wool"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["stick", "wool"]
       },
       {
         "name": "Ender Chest Recipe",
         "question": "What two materials are needed to craft an Ender Chest?",
         "keywords": ["obsidian", "eye of ender"],
-        "context_ref": "minecraft_gameplay_core.content.endgame_items"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Anvil Repair Cost",
         "question": "What does it cost to repair items in an anvil, besides materials?",
-        "keywords": ["experience", "levels"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "keywords": ["experience", "levels"]
       },
       {
         "name": "Grindstone Function",
         "question": "What does a grindstone do to an enchanted item?",
         "keywords": ["disenchant", "remove"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Mending Enchantment",
         "question": "How does the Mending enchantment repair items?",
-        "keywords": ["experience", "xp"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "keywords": ["experience", "xp"]
       },
       {
         "name": "Fortune Enchantment",
         "question": "What does the Fortune enchantment do when applied to a pickaxe?",
         "keywords": ["more drops", "increase"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Silk Touch Enchantment",
         "question": "What does the Silk Touch enchantment allow you to do?",
-        "keywords": ["collect block itself", "mine glass"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "keywords": ["collect block itself", "mine glass"]
       },
       {
         "name": "Feather Falling Enchantment",
         "question": "What type of damage does the Feather Falling enchantment reduce?",
         "keywords": ["fall", "falling"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.survival_priorities"
       },
       {
         "name": "Infinity Enchantment",
         "question": "What does the Infinity enchantment do for a bow?",
-        "keywords": ["unlimited arrows", "doesn't consume"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "keywords": ["unlimited arrows", "doesn't consume"]
       },
       {
         "name": "Trident Riptide",
         "question": "Under what condition can you use a trident with the Riptide enchantment to launch yourself?",
         "keywords": ["rain", "water"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.day_night_cycle"
       },
       {
         "name": "Axolotl",
         "question": "What passive mob can help you fight underwater guardians?",
         "keywords": ["axolotl"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Goat Horn",
         "question": "What item does a goat drop if it rams into a solid block?",
         "keywords": ["horn"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Fox Behavior",
         "question": "What will a fox do if it picks up a sword?",
         "keywords": ["use it", "attack"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Bee Behavior",
         "question": "What happens if you attack a bee near its hive?",
         "keywords": ["swarm", "attack"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Polar Bear Behavior",
         "question": "When will a polar bear become hostile?",
         "keywords": ["cub", "baby"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Dolphin's Grace",
         "question": "What positive status effect do you get for swimming near a dolphin?",
         "keywords": ["dolphin's grace", "speed"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Witch Hut",
         "question": "What hostile mob spawns in a witch hut in a swamp?",
-        "keywords": ["witch"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["witch"]
       },
       {
         "name": "Jungle Temple Puzzle",
         "question": "What redstone components are part of the puzzle in a jungle temple?",
         "keywords": ["lever", "repeater"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "context_ref": "minecraft_gameplay_core.content.building"
       },
       {
         "name": "Igloo Basement",
         "question": "What can you sometimes find in a secret basement under an igloo?",
-        "keywords": ["villager", "zombie"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["villager", "zombie"]
       },
       {
         "name": "Shipwreck Treasure",
         "question": "What special item can lead you to buried treasure from a map found in a shipwreck?",
-        "keywords": ["treasure map"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["treasure map"]
       },
       {
         "name": "Mineshaft Spawner",
         "question": "What type of mob spawner is commonly found in abandoned mineshafts?",
-        "keywords": ["cave spider"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["cave spider"]
       },
       {
         "name": "Stronghold Library",
         "question": "What valuable blocks can be found in large quantities in a stronghold library?",
-        "keywords": ["bookshelves"],
-        "context_ref": "minecraft_gameplay_core.content.end.portals"
+        "keywords": ["bookshelves"]
       },
       {
         "name": "Silverfish",
         "question": "What small, hostile mob can hide inside certain stone blocks in strongholds?",
         "keywords": ["silverfish"],
-        "context_ref": "minecraft_gameplay_core.content.end.portals"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "End Portal Frame",
         "question": "What item do you place into an End Portal Frame to activate it?",
-        "keywords": ["eye of ender"],
-        "context_ref": "minecraft_gameplay_core.content.end.portals"
+        "keywords": ["eye of ender"]
       },
       {
         "name": "Ender Dragon Healing",
         "question": "What must you destroy to prevent the Ender Dragon from healing?",
         "keywords": ["end crystal"],
-        "context_ref": "minecraft_gameplay_core.content.end.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Dragon's Breath",
         "question": "What item do you use to collect Dragon's Breath from the purple clouds left by the Ender Dragon?",
         "keywords": ["bottle"],
-        "context_ref": "minecraft_gameplay_core.content.end.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Dragon Egg",
         "question": "What happens when you try to mine the Dragon Egg directly?",
         "keywords": ["teleport"],
-        "context_ref": "minecraft_gameplay_core.content.end.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Wither Effect",
         "question": "What status effect does the Wither boss inflict?",
         "keywords": ["wither"],
-        "context_ref": "minecraft_gameplay_core.content.nether.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Nether Star",
         "question": "What rare item does the Wither drop, used to craft a beacon?",
         "keywords": ["nether star"],
-        "context_ref": "minecraft_gameplay_core.content.nether.boss"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Soul Sand Valley",
         "question": "What two mobs are most common in the Soul Sand Valley biome in the Nether?",
-        "keywords": ["skeleton", "ghast"],
-        "context_ref": "minecraft_gameplay_core.content.nether.biomes"
+        "keywords": ["skeleton", "ghast"]
       },
       {
         "name": "Warped Forest",
         "question": "What Nether biome is relatively safe because it's the only one where Endermen spawn but Ghasts do not?",
-        "keywords": ["warped forest"],
-        "context_ref": "minecraft_gameplay_core.content.nether.biomes"
+        "keywords": ["warped forest"]
       },
       {
         "name": "Basalt Deltas",
         "question": "What hostile mob that jumps and attacks in groups is very common in the Basalt Deltas biome?",
-        "keywords": ["magma cube"],
-        "context_ref": "minecraft_gameplay_core.content.nether.biomes"
+        "keywords": ["magma cube"]
       },
       {
         "name": "Strider",
         "question": "What passive Nether mob can be ridden across lava using a warped fungus on a stick?",
-        "keywords": ["strider"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "keywords": ["strider"]
       },
       {
         "name": "Hoglin",
         "question": "What is the name of the large, tusked, hostile beast found in the Crimson Forest?",
         "keywords": ["hoglin"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "context_ref": "minecraft_gameplay_core.content.hostile_mobs_baddies"
       },
       {
         "name": "Zombified Piglin",
         "question": "What happens if you attack a Zombified Piglin?",
-        "keywords": ["swarm", "attack"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "keywords": ["swarm", "attack"]
       },
       {
         "name": "Piglin Armor",
         "question": "What must you wear to prevent Piglins from attacking you on sight?",
-        "keywords": ["gold", "golden"],
-        "context_ref": "minecraft_gameplay_core.content.nether.mobs"
+        "keywords": ["gold", "golden"]
       },
       {
         "name": "Netherite Upgrade",
         "question": "What item do you combine with a diamond tool or armor in a smithing table to upgrade it to Netherite?",
         "keywords": ["netherite ingot"],
-        "context_ref": "minecraft_gameplay_core.content.nether.resources"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Glowstone Dust",
         "question": "What is the primary use of glowstone dust in brewing?",
-        "keywords": ["potency", "level ii"],
-        "context_ref": "minecraft_gameplay_core.content.brewing"
+        "keywords": ["potency", "level ii"]
       },
       {
         "name": "Quartz Use",
         "question": "Besides building, what is Nether quartz primarily used for in redstone?",
-        "keywords": ["comparator", "observer"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["comparator", "observer"]
       },
       {
         "name": "Magma Block",
         "question": "What happens when you stand on a magma block?",
-        "keywords": ["damage", "hurt"],
-        "context_ref": "minecraft_gameplay_core.content.nether.biomes"
+        "keywords": ["damage", "hurt"]
       },
       {
         "name": "Soul Sand Effect",
         "question": "What happens to your movement speed when you walk on soul sand?",
-        "keywords": ["slows"],
-        "context_ref": "minecraft_gameplay_core.content.nether.biomes"
+        "keywords": ["slows"]
       },
       {
         "name": "Amethyst Geode",
         "question": "What is the name of the underground structure where amethyst is found?",
         "keywords": ["geode"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Copper Oxidation",
         "question": "What happens to copper blocks over time when exposed to air?",
-        "keywords": ["oxidize", "turn green"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.building_blocks"
+        "keywords": ["oxidize", "turn green"]
       },
       {
         "name": "Waxed Copper",
         "question": "What item can you use on a copper block to prevent it from oxidizing?",
-        "keywords": ["honeycomb"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.building_blocks"
+        "keywords": ["honeycomb"]
       },
       {
         "name": "Lightning Rod",
         "question": "What is the purpose of a lightning rod?",
-        "keywords": ["redirect lightning"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["redirect lightning"]
       },
       {
         "name": "Powder Snow",
         "question": "What happens if you walk on powder snow without leather boots?",
-        "keywords": ["fall", "sink"],
-        "context_ref": "minecraft_gameplay_core.content.survival_mechanics"
+        "keywords": ["fall", "sink"]
       },
       {
         "name": "Bundle Recipe",
         "question": "What two materials are needed to craft a bundle?",
         "keywords": ["rabbit hide", "string"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "context_ref": "minecraft_gameplay_core.content.survival_priorities"
       },
       {
         "name": "Glow Squid",
         "question": "What item does a glow squid drop?",
-        "keywords": ["glow ink sac"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Glow Item Frame",
         "question": "What do you combine with an item frame to make it glow?",
-        "keywords": ["glow ink sac"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["glow ink sac"]
       },
       {
         "name": "Deepslate",
         "question": "What is the name of the tougher variant of stone found deep underground?",
         "keywords": ["deepslate"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Tuff",
         "question": "What decorative grey block often generates in blobs near deepslate?",
         "keywords": ["tuff"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Calcite",
         "question": "What white block is found between layers of smooth basalt and amethyst in a geode?",
         "keywords": ["calcite"],
-        "context_ref": "minecraft_gameplay_core.content.resource_gathering.ores"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Dripstone",
         "question": "What is the name of the block that forms stalactites and stalagmites in caves?",
-        "keywords": ["dripstone"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["dripstone"]
       },
       {
         "name": "Moss Block",
         "question": "What block can be spread to other blocks using bone meal?",
-        "keywords": ["moss"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "keywords": ["moss"]
       },
       {
         "name": "Spore Blossom",
         "question": "What decorative plant, found in lush caves, emits green particles?",
-        "keywords": ["spore blossom"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "keywords": ["spore blossom"]
       },
       {
         "name": "Glow Berries",
         "question": "What light-producing food source grows on vines in lush caves?",
-        "keywords": ["glow berries"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "keywords": ["glow berries"]
       },
       {
         "name": "Warden",
@@ -1125,128 +1007,116 @@
       {
         "name": "Sculk Sensor",
         "question": "What sculk block detects vibrations and emits a redstone signal?",
-        "keywords": ["sculk sensor"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["sculk sensor"]
       },
       {
         "name": "Ancient City",
         "question": "What is the name of the large structure found in the Deep Dark biome?",
-        "keywords": ["ancient city"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.structures"
+        "keywords": ["ancient city"]
       },
       {
         "name": "Swift Sneak",
         "question": "What enchantment, found only in Ancient Cities, allows you to walk faster while sneaking?",
         "keywords": ["swift sneak"],
-        "context_ref": "minecraft_gameplay_core.content.enchanting"
+        "context_ref": "minecraft_gameplay_core.content.progression_summary"
       },
       {
         "name": "Recovery Compass",
         "question": "What item can be crafted to point to the location of your last death?",
-        "keywords": ["recovery compass"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.tools"
+        "keywords": ["recovery compass"]
       },
       {
         "name": "Echo Shard",
         "question": "What item, found in Ancient Cities, is needed to craft a recovery compass?",
         "keywords": ["echo shard"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.loot"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Allay",
         "question": "What small, blue, flying mob can be given an item to make it collect more of the same item?",
-        "keywords": ["allay"],
-        "context_ref": "minecraft_gameplay_core.content.utility_mobs"
+        "keywords": ["allay"]
       },
       {
         "name": "Froglight",
         "question": "What light-producing block is created when a frog eats a small magma cube?",
         "keywords": ["froglight"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Mangrove Swamp",
         "question": "What biome is characterized by large mangrove trees, mud, and shallow water?",
-        "keywords": ["mangrove swamp"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.biomes"
+        "keywords": ["mangrove swamp"]
       },
       {
         "name": "Mud Bricks",
         "question": "What decorative block can be crafted from mud?",
-        "keywords": ["mud bricks"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.building_blocks"
+        "keywords": ["mud bricks"]
       },
       {
         "name": "Boat with Chest",
         "question": "What can you combine a boat with to add storage?",
-        "keywords": ["chest"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["chest"]
       },
       {
         "name": "Sniffer",
         "question": "What large, ancient mob can be hatched from an egg to find ancient seeds?",
         "keywords": ["sniffer"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Pitcher Plant",
         "question": "What decorative plant can be grown from a pitcher pod found by a Sniffer?",
         "keywords": ["pitcher plant"],
-        "context_ref": "minecraft_gameplay_core.content.farming.crop_mechanics"
+        "context_ref": "minecraft_gameplay_core.content.farming"
       },
       {
         "name": "Cherry Grove",
         "question": "What biome is known for its pink-leafed trees?",
-        "keywords": ["cherry grove"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.biomes"
+        "keywords": ["cherry grove"]
       },
       {
         "name": "Suspicious Sand/Gravel",
         "question": "What is the name of the block that you can use a brush on to find items?",
         "keywords": ["suspicious sand", "suspicious gravel"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.loot"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Brush Recipe",
         "question": "What three materials are needed to craft a brush for archeology?",
-        "keywords": ["feather", "copper", "stick"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.tool_recipes"
+        "keywords": ["feather", "copper", "stick"]
       },
       {
         "name": "Pottery Sherds",
         "question": "What items are found via archeology and can be combined to make a decorated pot?",
         "keywords": ["pottery sherd"],
-        "context_ref": "minecraft_gameplay_core.content.exploration.loot"
+        "context_ref": "minecraft_gameplay_core.content.resource_gathering"
       },
       {
         "name": "Armor Trims",
         "question": "What items are used in a smithing table to add patterns to armor?",
-        "keywords": ["armor trim"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["armor trim"]
       },
       {
         "name": "Camel",
         "question": "What passive mob, found in desert villages, can be ridden by two players at once?",
         "keywords": ["camel"],
-        "context_ref": "minecraft_gameplay_core.content.passive_mobs"
+        "context_ref": "minecraft_gameplay_core.content.passive_neutral_mobs_goodies"
       },
       {
         "name": "Chiseled Bookshelf",
         "question": "What type of bookshelf can you store individual books in and use with a redstone comparator?",
-        "keywords": ["chiseled bookshelf"],
-        "context_ref": "minecraft_gameplay_core.content.redstone.components"
+        "keywords": ["chiseled bookshelf"]
       },
       {
         "name": "Hanging Sign",
         "question": "What type of sign can be placed under a block or on the side of a fence?",
-        "keywords": ["hanging sign"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "keywords": ["hanging sign"]
       },
       {
         "name": "Bamboo Raft",
         "question": "What can you craft with bamboo that functions like a boat?",
         "keywords": ["raft"],
-        "context_ref": "minecraft_gameplay_core.content.crafting.utility_recipes"
+        "context_ref": "minecraft_gameplay_core.content.building"
       },
       {
         "name": "Trial Chambers",
